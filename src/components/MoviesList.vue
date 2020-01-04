@@ -38,22 +38,34 @@
 
 <script>
 import axios from 'axios'
+import {API_KEY, API_URL} from '@/config'
 
 export default {
-    name: 'MoviesList',
-    data () {
-      return {
-        query: '',
-        results: ''
-      }
-    },
-    methods: {
-      getResult(query) {
-          axios.get('https://api.themoviedb.org/3/search/movie?api_key=5c533988cec88260e19c1a43a5711a67&query=' + query).then(response => { this.results = response.data.results })   
-        }
-      }
+  name: 'MoviesList',
+  data () {
+    return {
+      query: '',
+      results: ''
+    }
+  },
+  methods: {
 
+    fetch(query) {
+      axios.get(query)
+      .then(response => { 
+        this.results = response.data.results 
+      })  
+    },
     
+    getResult(query) {
+      this.fetch(API_URL+'/3/search/movie?api_key='+API_KEY+'&query=' + query);
+    }
+  },
+    
+  mounted: function mounted () {
+    this.fetch(API_URL+'/3/movie/popular?api_key='+API_KEY);
+  }
+      
 }
 </script>
 
@@ -68,7 +80,7 @@ export default {
     }
     img{
       width: 100%;
-      height: auto;
+      height: 330px;
       object-fit: cover;
       transition: all 0.3s ease 0s;
       border-radius: 20px;
