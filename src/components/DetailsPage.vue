@@ -1,0 +1,21 @@
+<template>
+  <div>
+    <div v-for='result in results' :key='result.id'>
+        <p>{{result.title}}</p>
+        <img v-bind:src="'http://image.tmdb.org/t/p/w500/' +    result.poster_path" width='100px'>
+    </div>
+  </div>
+</template>
+
+<script>
+export default {
+  name: 'HelloWorld',
+  props: {
+  }
+}
+</script>
+
+<!-- Add "scoped" attribute to limit CSS to this component only -->
+<style scoped>
+
+</style>
