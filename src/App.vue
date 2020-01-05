@@ -1,17 +1,16 @@
 <template>
 <div>
-  <Header /> <!-- HeaderComponent -->
-
+  <Header /><!-- HeaderComponent -->
+  
   <div id="app"><!-- Main Content  -->
 
-    <MovieBackground /><!-- Background of decoration and text  -->
+    <!-- <MovieBackground />
 
-    <MoviesList />
-    <p>
-      <router-link to="/foo">Go to Foo</router-link>
-      <router-link to="/bar">Go to Bar</router-link>
-    </p>
-    <router-view></router-view>
+    <MoviesList /> -->
+
+    <DetailsView />
+    
+
   </div>
 
 </div>
@@ -20,17 +19,17 @@
 <script>
 import 'bulma/css/bulma.css'
 import Header from './components/Header.vue'
-import MovieBackground from './components/informationDesk.vue'
-import MoviesList from './components/MoviesList.vue'
-
-
+// import MovieBackground from './components/informationDesk.vue'
+// import MoviesList from './components/MoviesList.vue'
+import DetailsView from './components/DetailsView.vue'
 
 export default {
   name: 'app',
   components: {
     Header,
-    MovieBackground,
-    MoviesList
+    // MovieBackground,
+    // MoviesList,
+    DetailsView
   }
 }
 </script>
