@@ -96,6 +96,9 @@ export default {
   .active{
     color: aqua
   }
+  input:focus{
+    box-shadow: none;
+  }
   .paddingAround{
     padding: 0 20px;
   }

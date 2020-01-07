@@ -314,5 +314,35 @@ export default {
         .grid {
         grid-template-columns: repeat(1, minmax(100px, 1fr));
         }
-    } 
+
+    @media screen and (max-width: 800px) {
+        .movie-image{
+            margin: 0 auto;
+            float: none;
+            width: 500px;
+        }
+    }
+    @media screen and (max-width: 550px) {
+        .actor-image{
+            margin: 0 auto;
+            float: none;
+            width: auto;
+        }
+        .informationSection h3{
+            font-size: 10px !important;
+            line-height: 0;
+            margin-top: 30px;
+        }
+        .navigation-bar{
+            height: auto;
+        }
+        .justify-content-between{
+            flex-direction: column;
+            padding: 20px;
+        }
+        .spacing{
+            margin: 10px;
+        }
+    }
+    }
 </style>
