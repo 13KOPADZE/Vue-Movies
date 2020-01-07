@@ -1,0 +1,318 @@
+<template>
+    <div>
+        <div class="navigation-bar">
+            <div class="container navigation-content">
+                <p>Home</p>
+                <p>|</p>
+                <p>{{results.name}}</p>
+            </div>
+        </div>
+        <div class="background" :style="{ backgroundImage: `url(${'http://image.tmdb.org/t/p/w1280'+results.profile_path})` }">
+            <div class="movieDetails">
+                <div class="actor-image">
+                    <img v-bind:src="'http://image.tmdb.org/t/p/w500' + results.profile_path">
+                </div>
+                <section class="informationSection">
+                    <div>
+                        <h1>{{results.name}}</h1>
+                        <h3>BIOGRAPHY</h3>
+                        <p>{{results.biography}}</p>
+                    </div>
+                    <div class="actor-info">
+                        <div>
+                            <h3>IMDB ID</h3>
+                            <div class="imdb_id">{{results.imdb_id}}</div>
+                        </div>
+                        
+                        <div class="release">
+                            <h3>PLEACE OF BIRTH</h3>
+                            <p>{{results.place_of_birth}}</p>
+                        </div>
+                        <div class="birthday">
+                            <!-- <p>{{result.birthday}}</p> -->
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+        <div class="navigation-bar">
+            <div class="container justify-content-between d-flex">
+                
+                <div class="actor-info">
+                    <div>
+                        <h3>GENDER</h3>
+                        <div class="score">{{results.gender}}</div>
+                    </div>
+                    
+                    <div class="release">
+                        <h3>PLEACE OF BIRTH</h3>
+                        <p>{{results.place_of_birth}}</p>
+                    </div>
+                    <div class="birthday">
+                        <h3>DATE OF BIRTH</h3>
+                        <p>{{results.birthday}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="container paddingAround">
+            <h1 class="actors-heading">Movies</h1>
+            
+            <div class="grid">
+                <div class="gridElement" v-for='movie in movies' :key='movie.id'> 
+                    <div class="actors-info">
+                        <img v-bind:src="'http://image.tmdb.org/t/p/w500/' + movie.poster_path">
+                        <span class="actor-name">{{movie.original_title}}</span>
+                    </div>
+                </div>
+            </div>
+
+            <nav class="pagination is-rounded is-centered" role="navigation" aria-label="pagination">
+            <a class="pagination-previous">Previous</a>
+            <a class="pagination-next">Next page</a>
+            <ul class="pagination-list">
+                <li><a class="pagination-link is-current" aria-label="Goto page 1">1</a></li>
+            </ul>
+            </nav>
+
+        </div>
+    </div>
+  
+</template>
+
+<script>
+import axios from 'axios'
+import {API_KEY, API_URL} from '@/config'
+
+export default {
+    name: 'ActorDetailsPage',
+    data () {
+        return {
+            results: '',
+            movies: ''
+        }
+    },
+
+    mounted() {
+        axios
+        .get(API_URL + '/3/person/4?api_key=' + API_KEY)
+        .then(response => { 
+            this.results = response.data 
+        });
+        axios
+        .get( API_URL +'/3/person/4/movie_credits?api_key='  + API_KEY)
+        .then(response => {
+            this.movies = response.data.cast;
+        });
+        
+    }
+}
+</script>
+
+<!-- Add "scoped" attribute to limit CSS to this component only -->
+<style scoped>
+    .background{
+        width: 100%;
+        min-height: 600px;
+        position: relative;
+        padding: 60px 20px;
+        background-size: cover;
+        background-position: center center, center center !important;
+    }
+    .movieDetails{
+        max-width: 1280px;
+        min-height: 450px;
+        position: relative;
+        margin: 0px auto;
+        background: rgba(0, 0, 0, 0.7);
+        border-radius: 20px;
+        align-items: center
+    }
+    .actor-image{
+        width: 300px;
+        float: left;
+    }
+    .actor-image img{
+        width: 100%;
+        height: auto;
+        object-fit: cover;
+        transition: all 0.3s ease 0s;
+        border-radius: 20px;
+    }
+    .informationSection{
+        font-family: Arial, Helvetica, sans-serif;
+        color: rgb(255, 255, 255);
+        padding: 40px;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+    }
+    .informationSection p{
+        font-family: Abel, sans-serif;
+        font-size: 18px;
+        line-height: 26px;
+        margin-top: 20px;
+    }
+    .actor-info{
+        display: flex;
+        -webkit-box-pack: start;
+        justify-content: space-between;
+        width: 100%;
+    }
+    .score{
+        display: flex;
+        -webkit-box-align: center;
+        align-items: center;
+        -webkit-box-pack: center;
+        justify-content: center;
+        width: 35px;
+        height: 35px;
+        color: rgb(0, 0, 0);
+        font-weight: 800;
+        background: rgb(255, 255, 255);
+        border-radius: 25px;
+    }
+    .imdb_id{
+        margin-top: 15px
+    }
+    .release{
+        margin: 0px 0px 0px 40px;
+    }
+    .svgStyle p{
+        margin-right: 10px;
+    }
+    .informationSection h1{
+        font-family: Abel, sans-serif;
+        font-size: 48px;
+        color: rgb(255, 255, 255);
+    }
+    .actors-heading{
+        margin-top: 20px;
+        font-family: Abel, sans-serif;
+        font-size: 48px;
+        color: rgb(0, 0, 0);
+    }
+    .informationSection h3{
+        font-size: 16px;
+        line-height: 0;
+        margin-top: 30px;
+    }
+    .actors-info{
+        display: block;
+        cursor: pointer;
+        font-family: Abel, sans-serif;
+        color: rgb(255, 255, 255);
+        text-align: center;
+        background: rgb(28, 28, 28);
+        border-radius: 20px;
+        padding: 5px;
+        height: 100%;
+    }
+    .actors-info img{
+        display: block;
+        width: 100%;
+        height: auto;
+        object-fit: cover;
+        border-radius: 15px;
+    }
+    .actor-name{
+        display: block;
+        font-size: 18px;
+        margin: 10px 0px 0px;
+    }
+    .actor-character{
+        display: block;
+        font-size: 16px;
+        margin: 0px 0px 10px;
+    }
+    .align-items-end{
+        align-items: flex-end;
+    }
+    .justify-content-between{
+        justify-content: space-between;
+    }
+    .d-flex{
+        display: flex;
+    }
+    .informationText{
+        height: 100%;
+        color: rgb(255, 255, 255);
+        background: rgba(0, 0, 0, 0);
+        margin-bottom: 0px;
+    }
+    .flex-direction-column{
+        max-width: 700px;
+        margin-bottom: 50px;
+        flex-direction: column;
+    }
+    .paddingAround{
+        padding: 0 20px;
+    }
+    .navigation-bar{
+        display: flex !important;
+        -webkit-box-align: center;
+        align-items: center;
+        width: 100%;
+        height: 70px;
+        color: rgb(255, 255, 255);
+        background: rgb(53, 53, 53);
+    }
+    .navigation-content{
+        display: flex;
+        width: 100%;
+        margin: 0px auto;
+        padding: 0px 20px;
+    }
+    img{
+        width: 100%;
+        height: auto;
+        object-fit: cover;
+        transition: all 0.3s ease 0s;
+        border-radius: 20px;
+    }
+    .pagination{
+        margin: 60px 0;
+    }
+
+    .grid{
+        position: relative;
+        display: grid;
+        grid-template-columns: repeat(5, minmax(100px, 1fr));
+        gap: 40px;
+    }
+    .gridElement{
+        animation: 0.5s ease 0s 1 normal none running animateGrid;
+    }
+
+    p{
+        font-family: Abel, sans-serif;
+        font-size: 22px;
+        float: left;
+        color: rgb(255, 255, 255);
+        padding-right: 10px;
+        text-decoration: none;
+    }
+
+    @media screen and (max-width: 1024px){
+        .grid {
+        grid-template-columns: repeat(4, minmax(100px, 1fr));
+        gap: 40px;
+        }
+    }
+    @media screen and (max-width: 768px){
+        .grid {
+        grid-template-columns: repeat(3, minmax(100px, 1fr));
+        }
+    }
+    @media screen and (max-width: 600px){
+        .grid {
+        grid-template-columns: repeat(2, minmax(100px, 1fr));
+        }
+    }
+    @media screen and (max-width: 375px){
+        .grid {
+        grid-template-columns: repeat(1, minmax(100px, 1fr));
+        }
+    } 
+</style>

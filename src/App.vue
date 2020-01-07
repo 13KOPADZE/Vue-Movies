@@ -8,10 +8,9 @@
 
     <MoviesList />
     
-    <!-- <DetailsView /> -->
+    <DetailsView />
 
-    
-    
+    <ActorDetailsPage />
 
   </div>
 
@@ -23,7 +22,9 @@ import 'bulma/css/bulma.css'
 import Header from './components/Header.vue'
 import MovieBackground from './components/informationDesk.vue'
 import MoviesList from './components/MoviesList.vue'
-// import DetailsView from './components/DetailsView.vue'
+import DetailsView from './components/DetailsView.vue'
+import ActorDetailsPage from './components/ActorDetailsPage.vue'
+
 
 export default {
   name: 'app',
@@ -31,7 +32,8 @@ export default {
     Header,
     MovieBackground,
     MoviesList,
-    // DetailsView
+    DetailsView,
+    ActorDetailsPage
   }
 }
 </script>

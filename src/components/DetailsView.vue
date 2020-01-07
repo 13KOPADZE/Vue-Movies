@@ -7,10 +7,10 @@
                 <p>{{results.original_title}}</p>
             </div>
         </div>
-        <div class="background">
+        <div class="background" :style="{ backgroundImage: `url(${'http://image.tmdb.org/t/p/w1280'+results.backdrop_path})` }">
             <div class="movieDetails">
                 <div class="movie-image">
-                    <img src="http://image.tmdb.org/t/p/w500/xBHvZcjRiWyobQ9kxBhO6B2dtRI.jpg" alt="">
+                    <img v-bind:src="'http://image.tmdb.org/t/p/w500' + results.poster_path">
                 </div>
                 <section class="informationSection">
                     <div>
@@ -18,13 +18,13 @@
                         <h3>PLOT</h3>
                         <p>{{results.overview}}</p>
                     </div>
-                    <div class="rating-director">
+                    <div class="rating-release">
                         <div>
                             <h3>IMDB RATING</h3>
                             <div class="score">{{results.vote_average}}</div>
                         </div>
                         
-                        <div class="director">
+                        <div class="release">
                             <h3>RELEASE DATE</h3>
                             <p>{{results.release_date}}</p>
                         </div>
@@ -93,15 +93,14 @@ export default {
 
     mounted() {
         axios
-        .get(API_URL + '/3/movie/419704?api_key=' + API_KEY)
+        .get(API_URL + '/3/movie/420809?api_key=' + API_KEY)
         .then(response => { 
-            this.results = response.data 
+            this.results = response.data
         });
         axios
-        .get( API_URL +'/3/movie/419704/credits?api_key='  + API_KEY)
+        .get( API_URL +'/3/movie/420809/credits?api_key='  + API_KEY)
         .then(response => {
             this.casts = response.data.cast;
-            
         });
         
     }
@@ -111,7 +110,6 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
     .background{
-        background: linear-gradient(rgba(0, 0, 0, 0) 39%, rgba(0, 0, 0, 0) 41%, rgba(0, 0, 0, 0.65) 100%),  url('../assets/background.jpg');
         width: 100%;
         height: 600px;
         position: relative;
@@ -153,7 +151,7 @@ export default {
         line-height: 26px;
         margin-top: 20px;
     }
-    .rating-director{
+    .rating-release{
         display: flex;
         -webkit-box-pack: start;
         justify-content: flex-start;
@@ -172,7 +170,7 @@ export default {
         border-radius: 25px;
         margin-top: 15px;
     }
-    .director{
+    .release{
         margin: 0px 0px 0px 40px;
     }
     .svgStyle p{
@@ -196,6 +194,7 @@ export default {
     }
     .actors-info{
         display: block;
+        cursor: pointer;
         font-family: Abel, sans-serif;
         color: rgb(255, 255, 255);
         text-align: center;
@@ -207,7 +206,7 @@ export default {
     .actors-info img{
         display: block;
         width: 100%;
-        height: 200px;
+        height: auto;
         object-fit: cover;
         border-radius: 15px;
     }
