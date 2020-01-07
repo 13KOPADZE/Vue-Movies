@@ -98,7 +98,7 @@ export default {
             this.results = response.data 
         });
         axios
-        .get('https://api.themoviedb.org/3/movie/419704/credits?api_key=5c533988cec88260e19c1a43a5711a67')
+        .get( API_URL +'/3/movie/419704/credits?api_key='  + API_KEY)
         .then(response => {
             this.casts = response.data.cast;
             

@@ -4,11 +4,13 @@
   
   <div id="app"><!-- Main Content  -->
 
-    <!-- <MovieBackground />
+    <MovieBackground />
 
-    <MoviesList /> -->
+    <MoviesList />
+    
+    <!-- <DetailsView /> -->
 
-    <DetailsView />
+    
     
 
   </div>
@@ -19,17 +21,17 @@
 <script>
 import 'bulma/css/bulma.css'
 import Header from './components/Header.vue'
-// import MovieBackground from './components/informationDesk.vue'
-// import MoviesList from './components/MoviesList.vue'
-import DetailsView from './components/DetailsView.vue'
+import MovieBackground from './components/informationDesk.vue'
+import MoviesList from './components/MoviesList.vue'
+// import DetailsView from './components/DetailsView.vue'
 
 export default {
   name: 'app',
   components: {
     Header,
-    // MovieBackground,
-    // MoviesList,
-    DetailsView
+    MovieBackground,
+    MoviesList,
+    // DetailsView
   }
 }
 </script>

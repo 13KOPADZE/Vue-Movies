@@ -1,39 +1,30 @@
 <template>
-<div>
-  <div class="search-background">
-    <div class="container control">
-        <p class="control has-icons-left relative">
-            <input class="input" type="text" placeholder="Search Movie" v-model='query' @keyup='SearchResult(query)'>
-            <svg class="pos" xmlns="http://www.w3.org/2000/svg" width="25px"  viewBox="0 0 512 512"><path fill="#fff" d="M495 466.2L377.2 348.4c29.2-35.6 46.8-81.2 46.8-130.9C424 103.5 331.5 11 217.5 11 103.4 11 11 103.5 11 217.5S103.4 424 217.5 424c49.7 0 95.2-17.5 130.8-46.7L466.1 495c8 8 20.9 8 28.9 0 8-7.9 8-20.9 0-28.8zm-277.5-83.3C126.2 382.9 52 308.7 52 217.5S126.2 52 217.5 52C308.7 52 383 126.3 383 217.5s-74.3 165.4-165.5 165.4z"/></svg>    
-        </p>
-    </div>
-  </div>
-  <div class="container paddingAround">
-    <div class="tabs is-large">
-      <ul>
-        <li><router-link to="/popular-movies">Popular Movies</router-link></li>
-        <li><router-link to="/upcoming-movies">Upcoming Movies</router-link></li>
-      </ul>
-    </div>
-    <div class="grid">
-      <div class="gridElement" v-for='result in results' :key='result.id'>  
-          <img v-bind:src="'http://image.tmdb.org/t/p/w500/' + result.poster_path">
+  <div>
+    <div class="search-background">
+      <div class="container control">
+          <p class="control has-icons-left relative">
+              <input class="input" type="text" placeholder="Search Movie" v-model='query' @keyup='SearchResult(query)'>
+              <svg class="pos" xmlns="http://www.w3.org/2000/svg" width="25px"  viewBox="0 0 512 512"><path fill="#fff" d="M495 466.2L377.2 348.4c29.2-35.6 46.8-81.2 46.8-130.9C424 103.5 331.5 11 217.5 11 103.4 11 11 103.5 11 217.5S103.4 424 217.5 424c49.7 0 95.2-17.5 130.8-46.7L466.1 495c8 8 20.9 8 28.9 0 8-7.9 8-20.9 0-28.8zm-277.5-83.3C126.2 382.9 52 308.7 52 217.5S126.2 52 217.5 52C308.7 52 383 126.3 383 217.5s-74.3 165.4-165.5 165.4z"/></svg>    
+          </p>
       </div>
     </div>
+    <div class="container paddingAround">
+      <div class="tabs is-large">
+        <ul>
+          <li :class="{'is-active': isActive}" @click="toggleClass"><router-link to="/popular-movies">Popular Movies</router-link></li>
+          <li><router-link to="/upcoming-movies">Upcoming Movies</router-link></li>
+        </ul>
+      </div>
+      <div class="grid">
+        <div class="gridElement" v-for='result in results' :key='result.id'>  
+            <img v-bind:src="'http://image.tmdb.org/t/p/w500/' + result.poster_path">
+        </div>
+      </div>
 
-    <!-- <nav class="pagination is-rounded is-centered" role="navigation" aria-label="pagination">
-      <a class="pagination-previous">Previous</a>
-      <a class="pagination-next">Next page</a>
-      <ul class="pagination-list">
-        <li><a class="pagination-link is-current" aria-label="Goto page 1">1</a></li>
-      </ul>
-    </nav> -->
-
-    <button class="loadMore">Load More</button>
-    
+      <button class="loadMore">Load More</button>
+      
+    </div>
   </div>
-</div>
-  
 </template>
 
 <script>
@@ -45,14 +36,19 @@ export default {
   data () {
     return {
       query: '',
-      results: ''
+      results: '',
+      isActive: false
     }
   },
 
   methods: {
 
+    toggleClass(){
+      this.isActive = true;
+    },
+
     fetch(query) {
-      axios.Search(query)
+      axios.get(query)
       .then(response => { 
         this.results = response.data.results 
       })  
@@ -61,17 +57,24 @@ export default {
     SearchResult(query) {
       this.fetch(API_URL+'/3/search/movie?api_key='+API_KEY+'&query=' + query);
     }
+    
   },
+  
     
   mounted: function mounted () {
     this.fetch(API_URL+'/3/movie/popular?api_key='+API_KEY);
   }
+
+  
       
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+  .active{
+    color: aqua
+  }
   .paddingAround{
     padding: 0 20px;
   }

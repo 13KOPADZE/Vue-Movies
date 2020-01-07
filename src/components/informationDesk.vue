@@ -47,6 +47,7 @@ export default {
         max-width: 700px;
         margin-bottom: 50px;
         flex-direction: column;
+        padding: 20px;
     }
     h1{
        font-family: Abel, sans-serif;
