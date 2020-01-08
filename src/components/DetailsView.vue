@@ -33,16 +33,17 @@
                     </div>
                     <div class="d-flex align-items-center youtube-icon">
                         <h1>Trailer:</h1>
-                        <svg @click="lounchModal()" style="cursor: pointer;" xmlns="http://www.w3.org/2000/svg" width="40px" height="40px" viewBox="0 0 461.001 461.001"><path d="M365.257 67.393H95.744C42.866 67.393 0 110.259 0 163.137v134.728c0 52.878 42.866 95.744 95.744 95.744h269.513c52.878 0 95.744-42.866 95.744-95.744V163.137c0-52.878-42.866-95.744-95.744-95.744zm-64.751 169.663l-126.06 60.123c-3.359 1.602-7.239-.847-7.239-4.568V168.607c0-3.774 3.982-6.22 7.348-4.514l126.06 63.881c3.748 1.899 3.683 7.274-.109 9.082z" fill="#f61c0d"/></svg>
+                        <svg @click="showModal = true" style="cursor: pointer;" xmlns="http://www.w3.org/2000/svg" width="40px" height="40px" viewBox="0 0 461.001 461.001"><path d="M365.257 67.393H95.744C42.866 67.393 0 110.259 0 163.137v134.728c0 52.878 42.866 95.744 95.744 95.744h269.513c52.878 0 95.744-42.866 95.744-95.744V163.137c0-52.878-42.866-95.744-95.744-95.744zm-64.751 169.663l-126.06 60.123c-3.359 1.602-7.239-.847-7.239-4.568V168.607c0-3.774 3.982-6.22 7.348-4.514l126.06 63.881c3.748 1.899 3.683 7.274-.109 9.082z" fill="#f61c0d"/></svg>
                     
-                        <div class="modal ">
+                        <div v-if="showModal" @click="showModal = false" class="modal is-active">
                             <div class="modal-background"></div>
                             <div class="modal-content">
                                 <p class="image is-4by3">
-                                   {{YOUTUBE_URL + this.trailers}}
+                                    <youtube :video-id="videoId" ref="youtube" @playing="playing"></youtube>
+                                    <button @click="playVideo">play</button>
                                 </p>
                             </div>
-                            <button class="modal-close is-large" aria-label="close">ez</button>
+                            <button class="modal-close is-large" aria-label="close" @click="$emit('close')">ez</button>
                         </div> <!-- Modal for Trailer -->
 
                     </div>
@@ -99,6 +100,11 @@
 <script>
 import axios from 'axios'
 import {API_KEY, API_URL, YOUTUBE_URL} from '@/config'
+import Vue from 'vue'
+import VueYoutube from 'vue-youtube'
+
+Vue.use(VueYoutube)
+
 
 export default {
     name: 'DetailsView',
@@ -107,7 +113,11 @@ export default {
             results: '',
             casts: '',
             trailers: '',
-            YOUTUBE_URL: YOUTUBE_URL
+            YOUTUBE_URL: YOUTUBE_URL,
+            showModal: false,
+            VueYoutube: VueYoutube,
+            videoId: this.trailers,
+
         }
     },
     methods: {
@@ -117,14 +127,21 @@ export default {
             .then(response => {
                 this.trailers = response.data.results[0].key;
                 console.log(this.trailers)
-            });
-            
-            
+            }); 
+        },
+        playVideo() {
+        this.player.playVideo()
+        },
+        playing() {
+        console.log(' we are watching!!!')
+        },
+        
+    },
+    computed: {
+        player() {
+        return this.$refs.youtube.player
         }
     },
-    
-    
-
     mounted() {
         axios
         .get(API_URL + '/3/movie/' + this.$route.params.id + '?api_key=' + API_KEY)
@@ -159,6 +176,10 @@ export default {
         background: rgba(0, 0, 0, 0.7);
         border-radius: 20px;
         align-items: center
+    }
+    iframe{
+        width: 600px;
+        height: 370px;
     }
     .movie-image{
         width: 300px;
@@ -330,6 +351,10 @@ export default {
         color: rgb(255, 255, 255);
         padding-right: 10px;
         text-decoration: none;
+    }
+    .modal-content, .modal-card{
+        background: #ccc;
+        padding: 20px;
     }
 
     @media screen and (max-width: 1024px){
