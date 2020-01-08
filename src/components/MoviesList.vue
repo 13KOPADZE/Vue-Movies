@@ -1,5 +1,15 @@
 <template>
   <div>
+    <div class="background">
+      <div class="container informationText d-flex align-items-end">
+          <div class="flex-direction-column">
+              <h1>Ad Astra</h1>
+              <p>
+                  The near future, a time when both hope and hardships drive humanity to look to the stars and beyond. While a mysterious phenomenon menaces to destroy life on planet Earth, astronaut Roy McBride undertakes a mission across the immensity of space and its many perils to uncover the truth about a lost expedition that decades before boldly faced emptiness and silence in search of the unknown.
+              </p>
+          </div>
+      </div>
+    </div>
     <div class="search-background">
       <div class="container control">
           <p class="control has-icons-left relative">
@@ -15,9 +25,11 @@
           <li><router-link to="/upcoming-movies">Upcoming Movies</router-link></li>
         </ul>
       </div>
-      <div class="grid">
-        <div @click="redirect(result.id)" class="gridElement" v-for='result in results' :key='result.id'>  
-            <img v-bind:src="IMG_W500 + result.poster_path">
+      <div class="grid"> 
+        <div class="gridElement" v-for='result in results' :key='result.id'> 
+          <router-link :to="{ name: 'show', params: { id: result.id }}">
+              <img v-bind:src="IMG_W500 + result.poster_path">
+          </router-link>
         </div>
       </div>
 
@@ -30,7 +42,7 @@
 <script>
 import axios from 'axios'
 import {API_KEY, API_URL, IMG_W500, IMG_W1280} from '@/config'
-import VueRouter from 'vue-router'
+// import VueRouter from 'vue-router'
 
 export default {
   name: 'MoviesList',
@@ -54,27 +66,24 @@ export default {
       })
       this.nextPage++;
     },
-    redirect(id){
-    let router = new VueRouter;
 
-    router.push({ name: 'show', params: { id: id } });
-
-    },
 
     fetch(query) {
       axios.get(query)
       .then(response => { 
         this.results = response.data.results 
-      })  
-      
+        
+      });
     },
     
     SearchResult(query) {
       let url = API_URL+'/3/search/movie?api_key='+API_KEY+'&query=' + query;
       query == ''? url = API_URL+'/3/movie/popular?api_key='+API_KEY: true;
       this.fetch(url);
+      
     }
   },
+  
   
     
   mounted: function mounted () {
@@ -84,7 +93,7 @@ export default {
       .then(response => { 
           this.upcoming = response.data.results
     })
-  }
+  },
 
   
       
@@ -93,6 +102,49 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+    .background{
+      background: linear-gradient(rgba(0, 0, 0, 0) 39%, rgba(0, 0, 0, 0) 41%, rgba(0, 0, 0, 0.65) 100%),  url('../assets/background.jpg');
+      width: 100%;
+      height: 600px;
+      position: relative;
+      background-size: cover;
+      background-position: center center, center center !important;
+    }
+    .align-items-end{
+      align-items: flex-end;
+    }
+    .informationText{
+        height: 100%;
+        color: rgb(255, 255, 255);
+        background: rgba(0, 0, 0, 0);
+        margin-bottom: 0px;
+    }
+    .flex-direction-column{
+        max-width: 700px;
+        margin-bottom: 50px;
+        flex-direction: column;
+        padding: 20px;
+    }
+    h1{
+       font-family: Abel, sans-serif;
+        font-size: 48px;
+        color: rgb(255, 255, 255);
+    }
+    p{
+       font-family: Abel, sans-serif;
+        font-size: 22px;
+        line-height: 26px;
+        color: rgb(255, 255, 255);
+    }
+    .d-flex{
+        display: flex !important;
+    }
+    .align-items-center{
+        align-items: center;
+    }
+    .justify-content-between{
+        justify-content: space-between;
+    }
   .active{
     color: aqua
   }
@@ -134,7 +186,7 @@ export default {
   h1{
       font-family: Abel, sans-serif;
       font-size: 42px;
-      color: black;
+      color: #fff;
       padding: 20px 0;
   }
   .search-background{

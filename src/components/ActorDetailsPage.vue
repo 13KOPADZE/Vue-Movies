@@ -2,7 +2,9 @@
     <div>
         <div class="navigation-bar">
             <div class="container navigation-content">
-                <p>Home</p>
+                <router-link to="/">
+                    <p>Home</p>
+                </router-link>
                 <p>|</p>
                 <p>{{results.name}}</p>
             </div>
@@ -38,10 +40,10 @@
         <div class="navigation-bar">
             <div class="container justify-content-between d-flex">
                 
-                <div class="actor-info">
+                <div class="actor-info paddingAround">
                     <div>
                         <h3>GENDER</h3>
-                        <div class="score">{{results.gender}}</div>
+                        <div class="gender">{{results.gender}}</div>
                     </div>
                     
                     <div class="release">
@@ -61,19 +63,21 @@
             
             <div class="grid">
                 <div class="gridElement" v-for='movie in movies' :key='movie.id'> 
-                    <div class="actors-info">
-                        <img v-bind:src="'http://image.tmdb.org/t/p/w500/' + movie.poster_path">
-                        <span class="actor-name">{{movie.original_title}}</span>
-                    </div>
+                     <router-link :to="{ name: 'show', params: { id: movie.id }}">
+                        <div class="actors-info">
+                            <img v-bind:src="'http://image.tmdb.org/t/p/w500/' + movie.poster_path">
+                            <span class="actor-name">{{movie.original_title}}</span>
+                        </div>
+                    </router-link>
                 </div>
             </div>
 
             <nav class="pagination is-rounded is-centered" role="navigation" aria-label="pagination">
-            <a class="pagination-previous">Previous</a>
-            <a class="pagination-next">Next page</a>
-            <ul class="pagination-list">
-                <li><a class="pagination-link is-current" aria-label="Goto page 1">1</a></li>
-            </ul>
+                <a class="pagination-previous">Previous</a>
+                <a class="pagination-next">Next page</a>
+                <ul class="pagination-list">
+                    <li><a class="pagination-link is-current" aria-label="Goto page 1">1</a></li>
+                </ul>
             </nav>
 
         </div>
@@ -96,12 +100,12 @@ export default {
 
     mounted() {
         axios
-        .get(API_URL + '/3/person/4?api_key=' + API_KEY)
+        .get(API_URL + '/3/person/'+this.$route.params.id+'?api_key=' + API_KEY)
         .then(response => { 
             this.results = response.data 
         });
         axios
-        .get( API_URL +'/3/person/4/movie_credits?api_key='  + API_KEY)
+        .get( API_URL +'/3/person/'+this.$route.params.id+'/movie_credits?api_key='  + API_KEY)
         .then(response => {
             this.movies = response.data.cast;
         });
@@ -112,6 +116,7 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+
     .background{
         width: 100%;
         min-height: 600px;
@@ -160,18 +165,8 @@ export default {
         justify-content: space-between;
         width: 100%;
     }
-    .score{
-        display: flex;
-        -webkit-box-align: center;
-        align-items: center;
-        -webkit-box-pack: center;
-        justify-content: center;
-        width: 35px;
-        height: 35px;
-        color: rgb(0, 0, 0);
-        font-weight: 800;
-        background: rgb(255, 255, 255);
-        border-radius: 25px;
+    .gender{
+        text-align: center;
     }
     .imdb_id{
         margin-top: 15px
@@ -194,7 +189,7 @@ export default {
         color: rgb(0, 0, 0);
     }
     .informationSection h3{
-        font-size: 16px;
+        font-size: 23px;
         line-height: 0;
         margin-top: 30px;
     }
@@ -296,42 +291,45 @@ export default {
 
     @media screen and (max-width: 1024px){
         .grid {
-        grid-template-columns: repeat(4, minmax(100px, 1fr));
-        gap: 40px;
+            grid-template-columns: repeat(4, minmax(100px, 1fr));
+            gap: 40px;
+        }
+        .actor-image{
+            margin: 0 auto;
+            float: none;
+            width: 500px;
+        }
+        .informationSection p{
+            font-family: Abel, sans-serif;
+            font-size: 22px;
+            line-height: 26px;
+            margin-top: 20px;
+        }
+        .informationSection h3{
+            font-size: 24px !important;
         }
     }
     @media screen and (max-width: 768px){
         .grid {
         grid-template-columns: repeat(3, minmax(100px, 1fr));
         }
+        .informationSection h3{
+            font-size: 17px !important;
+            line-height: 0;
+            margin-top: 30px;
+        }
+        .actor-info p{
+            font-size: 17px;
+        }
     }
     @media screen and (max-width: 600px){
         .grid {
         grid-template-columns: repeat(2, minmax(100px, 1fr));
         }
-    }
-    @media screen and (max-width: 375px){
-        .grid {
-        grid-template-columns: repeat(1, minmax(100px, 1fr));
-        }
-
-    @media screen and (max-width: 800px) {
-        .movie-image{
-            margin: 0 auto;
-            float: none;
-            width: 500px;
-        }
-    }
-    @media screen and (max-width: 550px) {
         .actor-image{
             margin: 0 auto;
             float: none;
             width: auto;
-        }
-        .informationSection h3{
-            font-size: 10px !important;
-            line-height: 0;
-            margin-top: 30px;
         }
         .navigation-bar{
             height: auto;
@@ -344,5 +342,16 @@ export default {
             margin: 10px;
         }
     }
-    }
+    @media screen and (max-width: 375px){
+        .grid {
+            grid-template-columns: repeat(1, minmax(100px, 1fr));
+        }
+        .informationSection h3{
+            font-size: 9px !important;
+        }
+        .informationSection p{
+            font-size: unset;
+        }
+    
+}
 </style>

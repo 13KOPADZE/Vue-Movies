@@ -15,6 +15,11 @@ export default new Router({
         component: MoviesList
     },
     {
+      path: '/popular-movies',
+      name: 'popular',
+      component: MoviesList
+    },
+    {
         path: '/movies/:id',
         name: 'show',
         component: DetailsView
