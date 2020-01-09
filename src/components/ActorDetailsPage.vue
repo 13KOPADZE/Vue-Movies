@@ -65,7 +65,7 @@
                 <div class="gridElement" v-for='movie in movies' :key='movie.id'> 
                      <router-link :to="{ name: 'show', params: { id: movie.id }}">
                         <div class="actors-info">
-                            <img v-bind:src="'http://image.tmdb.org/t/p/w500/' + movie.poster_path">
+                            <img v-bind:src="'http://image.tmdb.org/t/p/w500/' + movie.poster_path" @error="aVueFunctionThatChangesTheSrc">
                             <span class="actor-name">{{movie.original_title}}</span>
                         </div>
                     </router-link>
@@ -94,10 +94,9 @@ export default {
     data () {
         return {
             results: '',
-            movies: ''
+            movies: '',
         }
     },
-
     mounted() {
         axios
         .get(API_URL + '/3/person/'+this.$route.params.id+'?api_key=' + API_KEY)
@@ -109,7 +108,6 @@ export default {
         .then(response => {
             this.movies = response.data.cast;
         });
-        
     }
 }
 </script>

@@ -20,8 +20,7 @@
     </div>
     <div class="container tabs is-large" :class="{ 'display-none': searchText}">
       <ul> 
-        <li class="searchText">Searched Movies</li>
-        
+        <li class="searchText is-active">Searched Movies</li>
       </ul>
     </div>
     <div class="container paddingAround">
@@ -80,7 +79,6 @@ export default {
       axios.get(query)
       .then(response => { 
         this.results = response.data.results 
-        console.log(response.data.results)
       });
     },
     
