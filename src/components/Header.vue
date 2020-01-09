@@ -1,5 +1,6 @@
 <template>
   <header class="">
+    <a id="focus" href="#focus"></a>
       <div class="container d-flex justify-content-between">
         <router-link to="/">
           <div class="d-flex align-items-center logo"> 
@@ -15,10 +16,18 @@
 
 <script>
 export default {
+
+  
   name: 'Header',
+  
   props: {
     
-  }
+  },
+
+  
+  created : function() {
+    focus
+  },
 }
 </script>
 

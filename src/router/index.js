@@ -4,6 +4,8 @@ import MoviesList from '@/components/MoviesList.vue'
 import DetailsView from '@/components/DetailsView.vue'
 import ActorDetailsPage from '@/components/ActorDetailsPage.vue'
 import NotFound from '@/components/NotFound'
+import UpcomingMovies from '@/components/UpcomingMovies'
+
 
 Vue.use(Router)
 
@@ -18,6 +20,11 @@ export default new Router({
       path: '/popular-movies',
       name: 'popular',
       component: MoviesList
+    },
+    {
+      path: '/upcoming-movies',
+      name: 'popular',
+      component: UpcomingMovies
     },
     {
         path: '/movies/:id',
@@ -35,5 +42,12 @@ export default new Router({
         component: NotFound
 
     }
-  ]
+  ],
+  scrollBehavior (to, from, savedPosition) {
+    if (savedPosition) {
+      return savedPosition
+    } else {
+      return { x: 0, y: 0 }
+    }
+  }
 })

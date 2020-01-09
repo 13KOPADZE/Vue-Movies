@@ -96,10 +96,9 @@ export default {
     data () {
         return {
             results: '',
-            movies: ''
+            movies: '',
         }
     },
-
     mounted() {
         axios
         .get(API_URL + '/3/person/'+this.$route.params.id+'?api_key=' + API_KEY)
@@ -111,7 +110,6 @@ export default {
         .then(response => {
             this.movies = response.data.cast;
         });
-        
     }
 }
 </script>
