@@ -27,8 +27,8 @@
     <div class="container paddingAround">
       <div class="tabs is-large" :class="{ 'display-none': isHiding }">
         <ul>
-          <li class="is-active"><router-link to="/popular-movies">Popular Movies</router-link></li>
-          <li><router-link to="/upcoming-movies">Upcoming Movies</router-link></li>
+          <li><router-link to="/popular-movies">Popular Movies</router-link></li>
+          <li class="is-active"><router-link to="/upcoming-movies">Upcoming Movies</router-link></li>
         </ul>
       </div>
       <div class="grid"> 
@@ -68,12 +68,11 @@ export default {
 
   methods: {
     moreMovies(){
-      axios.get(API_URL + '/3/movie/popular?api_key=' + API_KEY + '&page=' + this.nextPage)
+      axios.get(API_URL + '/3/movie/upcoming?api_key=' + API_KEY + '&page=' + this.nextPage)
       .then(response => { 
           this.results = this.results.concat(response.data.results);
       })
       this.nextPage++;
-
     },
 
 
@@ -81,12 +80,13 @@ export default {
       axios.get(query)
       .then(response => { 
         this.results = response.data.results 
+        console.log(response.data.results)
       });
     },
     
     SearchResult(query) {
       let url = API_URL+'/3/search/movie?api_key='+API_KEY+'&query=' + query;
-      query == ''? url = API_URL+'/3/movie/popular?api_key='+API_KEY: true;
+      query == ''? url = API_URL+'/3/movie/upcoming?api_key='+API_KEY: true;
       this.fetch(url);
       if (query == '') {
         this.isHiding = false;
@@ -104,16 +104,8 @@ export default {
   
     
   mounted: function mounted () {
-    this.fetch(API_URL+'/3/movie/popular?api_key='+API_KEY);
-    axios
-      .get(API_URL + '/3/movie/upcoming?api_key=' + API_KEY)
-      .then(response => { 
-          this.upcoming = response.data.results
-    })
-  },
-
-  
-      
+    this.fetch(API_URL + '/3/movie/upcoming?api_key=' + API_KEY);
+  },  
 }
 </script>
 

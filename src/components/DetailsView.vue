@@ -38,10 +38,7 @@
                         <div v-if="showModal" @click="showModal = false" class="modal is-active">
                             <div class="modal-background"></div>
                             <div class="modal-content">
-                                <p class="image is-4by3">
-                                    <youtube :video-id="videoId" ref="youtube" @playing="playing"></youtube>
-                                    <button @click="playVideo">play</button>
-                                </p>
+                                <youtube :video-id="videoId" ref="youtube" @playing="playing"></youtube>
                             </div>
                             <button class="modal-close is-large" aria-label="close" @click="$emit('close')">ez</button>
                         </div> <!-- Modal for Trailer -->
@@ -129,17 +126,17 @@ export default {
                 console.log(this.trailers)
             }); 
         },
-        playVideo() {
-        this.player.playVideo()
+            playVideo() {
+            this.player.playVideo()
         },
-        playing() {
-        console.log(' we are watching!!!')
+            playing() {
+            console.log(' we are watching!!!')
         },
         
     },
     computed: {
         player() {
-        return this.$refs.youtube.player
+            return this.$refs.youtube.player
         }
     },
     mounted() {
@@ -354,7 +351,6 @@ export default {
     }
     .modal-content, .modal-card{
         background: #ccc;
-        padding: 20px;
     }
 
     @media screen and (max-width: 1024px){
