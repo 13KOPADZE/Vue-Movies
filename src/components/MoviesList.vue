@@ -28,12 +28,13 @@
       <div class="grid"> 
         <div class="gridElement" v-for='result in results' :key='result.id'> 
           <router-link :to="{ name: 'show', params: { id: result.id }}">
-              <img v-bind:src="IMG_W500 + result.poster_path">
+              <img :src="IMG_W500 + result.poster_path" v-if="result.poster_path !== null">
+              <img src="../assets/no-image.jpg" v-else>
           </router-link>
         </div>
       </div>
 
-      <button class="loadMore is-loading" @click="moreMovies">Load More</button>
+      <button class="loadMore is-loading" @click="loadMovies">Load More</button>
       
     </div>
   </div>
@@ -59,7 +60,7 @@ export default {
   },
 
   methods: {
-    moreMovies(){
+    loadMovies(){
       axios.get(API_URL + '/3/movie/popular?api_key=' + API_KEY + '&page=' + this.nextPage)
       .then(response => { 
           this.results = this.results.concat(response.data.results);

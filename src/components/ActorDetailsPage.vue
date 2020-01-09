@@ -12,7 +12,8 @@
         <div class="background" :style="{ backgroundImage: `url(${'http://image.tmdb.org/t/p/w1280'+results.profile_path})` }">
             <div class="movieDetails">
                 <div class="actor-image">
-                    <img v-bind:src="'http://image.tmdb.org/t/p/w500' + results.profile_path">
+                    <img v-bind:src="'http://image.tmdb.org/t/p/w500' + results.profile_path" v-if="results.profile_path !== null">
+                    <img src="../assets/no-image.jpg" v-else>
                 </div>
                 <section class="informationSection">
                     <div>
@@ -65,7 +66,8 @@
                 <div class="gridElement" v-for='movie in movies' :key='movie.id'> 
                      <router-link :to="{ name: 'show', params: { id: movie.id }}">
                         <div class="actors-info">
-                            <img v-bind:src="'http://image.tmdb.org/t/p/w500/' + movie.poster_path">
+                            <img v-bind:src="'http://image.tmdb.org/t/p/w500/' + movie.poster_path" v-if="movie.poster_path !== null">
+                            <img src="../assets/no-image.jpg" v-else>
                             <span class="actor-name">{{movie.original_title}}</span>
                         </div>
                     </router-link>
