@@ -65,10 +65,10 @@
             <div class="grid">
                 <div class="gridElement" v-for='movie in movies' :key='movie.id'> 
                      <router-link :to="{ name: 'show', params: { id: movie.id }}">
-                        <div class="actors-info">
+                        <div class="movie-info">
                             <img v-bind:src="'http://image.tmdb.org/t/p/w500/' + movie.poster_path" v-if="movie.poster_path !== null">
                             <img src="../assets/no-image.jpg" v-else>
-                            <span class="actor-name">{{movie.original_title}}</span>
+                            <span class="movie-title">{{movie.original_title}}</span>
                         </div>
                     </router-link>
                 </div>

@@ -37,10 +37,11 @@
         </ul>
       </div>
       <div class="grid"> 
-        <div class="gridElement" v-for='result in results' :key='result.id'> 
+        <div class="gridElement movie-info" v-for='result in results' :key='result.id'> 
           <router-link :to="{ name: 'show', params: { id: result.id }}">
               <img :src="IMG_W500 + result.poster_path" v-if="result.poster_path !== null">
               <img src="../assets/no-image.jpg" v-else>
+              <span class="movie-name">{{result.original_title}}</span>
           </router-link>
         </div>
       </div>
@@ -88,7 +89,6 @@ export default {
       this.fetch(query)
     },
 
-
     fetch(query) {
       axios.get(query)
       .then(response => { 
@@ -113,7 +113,7 @@ export default {
     }
   },
   
-  
+
     
   mounted: function mounted () {
     this.fetch(API_URL + '/3/movie/upcoming?api_key=' + API_KEY);
@@ -219,6 +219,23 @@ export default {
   a:hover{
     opacity: 0.8;
     transition: 0.5s;
+  }
+  .movie-info{
+    display: block;
+    cursor: pointer;
+    font-family: Abel, sans-serif;
+    color: rgb(255, 255, 255);
+    text-align: center;
+    background: rgb(28, 28, 28);
+    border-radius: 20px;
+    padding: 5px;
+    height: 100%;
+  }
+  .movie-name{
+    color: #fff;
+    display: block;
+    font-size: 16px;
+    margin: 0px 0px 10px;
   }
   img{
     width: 100%;
