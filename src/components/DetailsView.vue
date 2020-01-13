@@ -83,13 +83,13 @@
                 </div>
             </div>
 
-            <nav class="pagination is-rounded is-centered" role="navigation" aria-label="pagination">
-            <a class="pagination-previous">Previous</a>
-            <a class="pagination-next">Next page</a>
-            <ul class="pagination-list">
-                <li><a class="pagination-link is-current" aria-label="Goto page 1">1</a></li>
-            </ul>
-            </nav>
+            <!-- <nav class="pagination is-rounded is-centered" role="navigation" aria-label="pagination">
+                <a class="pagination-previous">Previous</a>
+                <a class="pagination-next">Next page</a>
+                <ul class="pagination-list">
+                    <li><a class="pagination-link is-current" aria-label="Goto page 1">1</a></li>
+                </ul>
+            </nav> -->
 
         </div>
     </div>
@@ -115,7 +115,6 @@ export default {
             YOUTUBE_URL: YOUTUBE_URL,
             showModal: false,
             VueYoutube: VueYoutube,
-
         }
     },
     methods: {
@@ -330,6 +329,7 @@ export default {
         display: grid;
         grid-template-columns: repeat(5, minmax(100px, 1fr));
         gap: 40px;
+        padding: 0px 0px 40px 0px
     }
     .gridElement{
         animation: 0.5s ease 0s 1 normal none running animateGrid;

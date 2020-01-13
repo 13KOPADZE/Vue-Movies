@@ -17,6 +17,12 @@
               <svg class="pos" xmlns="http://www.w3.org/2000/svg" width="25px"  viewBox="0 0 512 512"><path fill="#fff" d="M495 466.2L377.2 348.4c29.2-35.6 46.8-81.2 46.8-130.9C424 103.5 331.5 11 217.5 11 103.4 11 11 103.5 11 217.5S103.4 424 217.5 424c49.7 0 95.2-17.5 130.8-46.7L466.1 495c8 8 20.9 8 28.9 0 8-7.9 8-20.9 0-28.8zm-277.5-83.3C126.2 382.9 52 308.7 52 217.5S126.2 52 217.5 52C308.7 52 383 126.3 383 217.5s-74.3 165.4-165.5 165.4z"/></svg>    
           </p>
       </div>
+      <div class="genres"> 
+        <p>Filter With genres</p  >
+        <ul class="container d-flex wrapped genres">
+          <li @click="filterGeners(genres.id)" v-for="genres in genres" :key="genres.name">{{genres.name}}</li>
+        </ul>
+      </div>
     </div>
     <div class="container tabs is-large" :class="{ 'display-none': searchText}">
       <ul> 
@@ -39,7 +45,7 @@
         </div>
       </div>
       
-        <button class="loadMore" @click="moreMovies"  :class="{ 'display-none': isHiding }" @keydown="SearchResult(query)">Load More</button>
+        <button class="loadMore" @click="loadMoreMovies"  :class="{ 'display-none': isHiding }" @keydown="SearchResult(query)">Load More</button>
       
     </div>
   </div>
@@ -62,17 +68,24 @@ export default {
       upcoming: '',
       loadMore: '',
       isHiding: false,
-      searchText: true
+      searchText: true,
+      genres: ''
     }
   },
 
   methods: {
-    moreMovies(){
+
+    loadMoreMovies(){
       axios.get(API_URL + '/3/movie/upcoming?api_key=' + API_KEY + '&page=' + this.nextPage)
       .then(response => { 
           this.results = this.results.concat(response.data.results);
       })
       this.nextPage++;
+    },
+
+    filterGeners(id){
+      let query = API_URL+'/3/discover/movie?api_key='+API_KEY+'&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_genres='+id
+      this.fetch(query)
     },
 
 
@@ -104,6 +117,11 @@ export default {
     
   mounted: function mounted () {
     this.fetch(API_URL + '/3/movie/upcoming?api_key=' + API_KEY);
+    axios
+      .get(API_URL+'/3/genre/movie/list?api_key='+API_KEY)
+      .then(response => {
+        this.genres = response.data.genres;
+      })
   },  
 }
 </script>
@@ -179,6 +197,13 @@ export default {
     .justify-content-between{
         justify-content: space-between;
     }
+    .wrapped{
+    flex-wrap: wrap;
+  }
+  .wrapped li{
+    padding: 15px;
+    cursor: pointer;
+  }
   .active{
     color: aqua
   }
@@ -216,6 +241,30 @@ export default {
   .gridElement{
     animation: 0.5s ease 0s 1 normal none running animateGrid;
     cursor: pointer;
+  }
+  .genres p{
+    text-align: center;
+    color: #3298dc;
+  }
+
+  .genres{
+    padding: 5px;
+    margin-top: 20px;
+    color: #fff;
+  }
+  .genres li{
+    padding: 10px;
+    margin: 5px;
+    cursor: pointer;
+    transition: 0.5s;
+    border: 1px solid #32a2ec;
+    border-radius: 5px;
+  }
+
+  .genres li:hover{
+    border: 1px solid #00d1b2;
+    background: #00d1b2;
+    transition: 0.5s;
   }
 
   h1{

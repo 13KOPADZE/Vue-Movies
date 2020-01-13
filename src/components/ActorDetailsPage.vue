@@ -9,7 +9,7 @@
                 <p>{{results.name}}</p>
             </div>
         </div>
-        <div class="background" :style="{ backgroundImage: `url(${'http://image.tmdb.org/t/p/w1280'+results.profile_path})` }">
+        <div class="background" :style="{ backgroundImage: `url(${'http://image.tmdb.org/t/p/w1280'+results.profile_path})` }" v-if="results.profile_path !== undefined">
             <div class="movieDetails">
                 <div class="actor-image">
                     <img v-bind:src="'http://image.tmdb.org/t/p/w500' + results.profile_path" v-if="results.profile_path !== null">
@@ -74,13 +74,13 @@
                 </div>
             </div>
 
-            <nav class="pagination is-rounded is-centered" role="navigation" aria-label="pagination">
+            <!-- <nav class="pagination is-rounded is-centered" role="navigation" aria-label="pagination">
                 <a class="pagination-previous">Previous</a>
                 <a class="pagination-next">Next page</a>
                 <ul class="pagination-list">
                     <li><a class="pagination-link is-current" aria-label="Goto page 1">1</a></li>
                 </ul>
-            </nav>
+            </nav> -->
 
         </div>
     </div>
@@ -90,6 +90,7 @@
 <script>
 import axios from 'axios'
 import {API_KEY, API_URL} from '@/config'
+
 
 export default {
     name: 'ActorDetailsPage',
@@ -275,6 +276,7 @@ export default {
         display: grid;
         grid-template-columns: repeat(5, minmax(100px, 1fr));
         gap: 40px;
+        padding: 0px 0px 40px 0px
     }
     .gridElement{
         animation: 0.5s ease 0s 1 normal none running animateGrid;
