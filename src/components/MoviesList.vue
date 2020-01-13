@@ -18,7 +18,7 @@
           </p>
       </div>
 
-      <div class="genres">
+      <div class="genres" :class="{ 'display-none': isHiding }">
         
         <p>Filter With genres</p  >
       
