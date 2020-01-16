@@ -5,6 +5,8 @@ import DetailsView from '@/components/DetailsView.vue'
 import ActorDetailsPage from '@/components/ActorDetailsPage.vue'
 import NotFound from '@/components/NotFound'
 import UpcomingMovies from '@/components/UpcomingMovies'
+import Search from '@/components/Search'
+
 
 
 Vue.use(Router)
@@ -17,13 +19,18 @@ export default new Router({
         component: MoviesList
     },
     {
+      path: '/search',
+      name: 'search',
+      component: Search
+  },
+    {
       path: '/popular-movies',
       name: 'popular',
       component: MoviesList
     },
     {
       path: '/upcoming-movies',
-      name: 'popular',
+      name: 'upcoming',
       component: UpcomingMovies
     },
     {

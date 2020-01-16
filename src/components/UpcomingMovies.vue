@@ -18,7 +18,6 @@
           </p>
       </div>
       <div class="genres" :class="{ 'display-none': isHiding }"> 
-        <p>Filter With genres</p  >
         <ul class="container d-flex wrapped genres">
           <li @click="filterGeners(genres.id)" v-for="genres in genres" :key="genres.name">{{genres.name}}</li>
         </ul>
@@ -29,6 +28,22 @@
         <li class="searchText is-active">Searched Movies</li>
       </ul>
     </div>
+
+    <div @keydown.esc="showModal = false" tabindex="0" v-if="showModal" @click="showModal = false"  class="modal is-active">
+      
+      <div class="modal-background"></div>
+
+      <div class="modal-content">
+
+          <iframe v-bind:src="YOUTUBE_URL + trailers"></iframe>
+          
+          <button class="modal-close is-large" aria-label="close" @click="$emit('close')"></button>
+
+      </div>
+
+    </div> <!-- Modal for Trailer -->
+
+    
     <div class="container paddingAround">
       <div class="tabs is-large" :class="{ 'display-none': isHiding }">
         <ul>
@@ -36,13 +51,29 @@
           <li class="is-active"><router-link to="/upcoming-movies">Upcoming Movies</router-link></li>
         </ul>
       </div>
+
+
       <div class="grid"> 
         <div class="gridElement movie-info" v-for='result in results' :key='result.id'> 
-          <router-link :to="{ name: 'show', params: { id: result.id }}">
+            <div class="movie-avatar">
               <img :src="IMG_W500 + result.poster_path" v-if="result.poster_path !== null">
               <img src="../assets/no-image.jpg" v-else>
-              <span class="movie-name">{{result.original_title}}</span>
-          </router-link>
+              <div class="trailer_play">
+                <div class="d-flex justify-content-between">
+                  
+                  <div @click="imdb_id(result.id)">
+                    <div class="score"><div style="color: black;">{{result.vote_average | imdbNumber}}</div></div>
+                  </div>
+
+                  <div @click="launchModal(result.id)">
+                    <svg @click="showModal = true"   xmlns="http://www.w3.org/2000/svg" width="40px" height="40px" viewBox="0 0 461.001 461.001"><path d="M365.257 67.393H95.744C42.866 67.393 0 110.259 0 163.137v134.728c0 52.878 42.866 95.744 95.744 95.744h269.513c52.878 0 95.744-42.866 95.744-95.744V163.137c0-52.878-42.866-95.744-95.744-95.744zm-64.751 169.663l-126.06 60.123c-3.359 1.602-7.239-.847-7.239-4.568V168.607c0-3.774 3.982-6.22 7.348-4.514l126.06 63.881c3.748 1.899 3.683 7.274-.109 9.082z" fill="#f61c0d"/></svg>
+                  </div>
+                </div>
+                <router-link :to="{ name: 'show', params: { id: result.id }}">
+                  <span class="movie-name">{{result.original_title}}</span>
+                </router-link>
+              </div>
+            </div>
         </div>
       </div>
       
@@ -54,7 +85,7 @@
 
 <script>
 import axios from 'axios'
-import {API_KEY, API_URL, IMG_W500, IMG_W1280} from '@/config'
+import {API_KEY, API_URL, IMG_W500, IMG_W1280, MOVIE_IMDB_URL, YOUTUBE_URL} from '@/config'
 // import VueRouter from 'vue-router'
 
 export default {
@@ -70,11 +101,30 @@ export default {
       loadMore: '',
       isHiding: false,
       searchText: true,
-      genres: ''
+      showModal: false,
+      genres: '',
+      trailers: '',
+      YOUTUBE_URL: YOUTUBE_URL,
     }
   },
 
   methods: {
+
+    launchModal(id){
+      axios
+      .get(API_URL + '/3/movie/' + id + '/videos?api_key=' + API_KEY)
+      .then(response => {
+        this.trailers = response.data.results[0].key;
+      }); 
+    },
+    imdb_id(id){
+      axios
+        .get(API_URL + '/3/movie/' + id + '?api_key=' + API_KEY)
+        .then(response => { 
+          let imdbId = response.data.imdb_id;
+          window.open(MOVIE_IMDB_URL + imdbId, "_blank");
+        });
+    },
 
     loadMoreMovies(){
       axios.get(API_URL + '/3/movie/upcoming?api_key=' + API_KEY + '&page=' + this.nextPage)
@@ -85,7 +135,7 @@ export default {
     },
 
     filterGeners(id){
-      let query = API_URL+'/3/discover/movie?api_key='+API_KEY+'&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_genres='+id
+      let query = API_URL+'/3/discover/movie?api_key='+API_KEY+'&sort_by=popularity.desc&with_genres='+id
       this.fetch(query)
     },
 
@@ -154,6 +204,24 @@ export default {
       vertical-align: top;
     }
 
+    iframe{
+      width: 640px;
+      height: 400px;
+      padding: 20px;
+    }
+    .modal-close{
+      position: absolute;
+      right: 2%;
+      top: -2%;
+    }
+    .delete:active, .modal-close:active{
+      background-color: none !important;
+    }
+    .modal-content{
+      justify-content: center !important;
+      align-items: center !important;
+      display: flex;
+    }
     .background{
       background: linear-gradient(rgba(0, 0, 0, 0) 39%, rgba(0, 0, 0, 0) 41%, rgba(0, 0, 0, 0.65) 100%),  url('../assets/background.jpg');
       width: 100%;
@@ -207,6 +275,50 @@ export default {
   .active{
     color: aqua
   }
+  .movie-avatar{
+    width: 100%;
+    position: relative;
+  }
+  .movie-avatar .trailer_play{
+    border-radius: 10px;
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: rgba(0, 0, 0, .8);
+    text-align: center;
+    width: 100%;
+    height: 100%;
+    transition: 0.5s;
+  }
+  .movie-avatar:hover .trailer_play{
+    display: block !important;
+    transition: 0.5s;
+    padding: 10px;
+  }
+  .score{
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    width: 35px;
+    height: 35px;
+    color: rgb(0, 0, 0);
+    font-weight: 800;
+    background: rgb(255, 255, 255);
+    border-radius: 25px;
+    margin: 0 auto;
+  }
+  .movie-name{
+    margin-top: 52px;
+    display: block;
+    color: #fff;
+  }
   input:focus{
     box-shadow: none;
   }
@@ -230,12 +342,6 @@ export default {
     border-radius: 20px;
     padding: 5px;
     height: 100%;
-  }
-  .movie-name{
-    color: #fff;
-    display: block;
-    font-size: 16px;
-    margin: 0px 0px 10px;
   }
   img{
     width: 100%;
@@ -279,8 +385,8 @@ export default {
   }
 
   .genres li:hover{
-    border: 1px solid #00d1b2;
-    background: #00d1b2;
+    border: 1px solid #3273dc;
+    background: #3273dc;
     transition: 0.5s;
   }
 

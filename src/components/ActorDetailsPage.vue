@@ -18,18 +18,21 @@
                 <section class="informationSection">
                     <div>
                         <h1>{{results.name}}</h1>
-                        <h3>BIOGRAPHY</h3>
-                        <p>{{results.biography}}</p>
+                        <h3>Biography</h3>
+                        <p v-if="results.biography !== null">{{results.biography}}</p>
+                        <p v-else>No Info</p>
                     </div>
                     <div class="actor-info">
                         <div>
-                            <h3>IMDB ID</h3>
-                            <div class="imdb_id">{{results.imdb_id}}</div>
+                            <h3>Imdb Id</h3>
+                            <div class="imdb_id" v-if="results.imdb_id !== null"><a :href='ACTOR_IMDB_URL + results.imdb_id' target="_blank"><div>{{results.imdb_id}}</div></a></div>
+                            <p v-else>No Info</p>
                         </div>
                         
                         <div class="release">
-                            <h3>PLEACE OF BIRTH</h3>
-                            <p>{{results.place_of_birth}}</p>
+                            <h3>Place Of Birth</h3>
+                            <p v-if="results.place_of_birth !==null">{{results.place_of_birth}}</p>
+                            <p v-else>No Info</p>
                         </div>
                         <div class="birthday">
                             <!-- <p>{{result.birthday}}</p> -->
@@ -43,17 +46,19 @@
                 
                 <div class="actor-info paddingAround">
                     <div>
-                        <h3>GENDER</h3>
+                        <h3>Gender</h3>
                         <div class="gender">{{results.gender}}</div>
                     </div>
                     
                     <div class="release">
-                        <h3>PLEACE OF BIRTH</h3>
-                        <p>{{results.place_of_birth}}</p>
+                        <h3>Place Of Birth</h3>
+                        <p v-if="results.place_of_birth !==null">{{results.place_of_birth}}</p>
+                        <p v-else>No Info</p>
                     </div>
                     <div class="birthday">
-                        <h3>DATE OF BIRTH</h3>
-                        <p>{{results.birthday}}</p>
+                        <h3>Date Of Birth</h3>
+                        <p v-if="results.birthday !==null">{{results.birthday | moment("dddd, MMMM Do YYYY") }}</p>
+                        <p v-else>No Info</p>
                     </div>
                 </div>
             </div>
@@ -62,7 +67,7 @@
         <div class="container paddingAround">
             <h1 class="actors-heading">Movies</h1>
             
-            <div class="grid">
+            <div class="grid" >
                 <div class="gridElement" v-for='movie in movies' :key='movie.id'> 
                      <router-link :to="{ name: 'show', params: { id: movie.id }}">
                         <div class="movie-info">
@@ -89,8 +94,10 @@
 
 <script>
 import axios from 'axios'
-import {API_KEY, API_URL} from '@/config'
+import Vue from 'vue'
+import {API_KEY, API_URL, ACTOR_IMDB_URL} from '@/config'
 
+Vue.use(require('vue-moment'));
 
 export default {
     name: 'ActorDetailsPage',
@@ -98,6 +105,7 @@ export default {
         return {
             results: '',
             movies: '',
+            ACTOR_IMDB_URL: ACTOR_IMDB_URL
         }
     },
     mounted() {
