@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="background" :class="{ 'display-none': isHiding }">
+    <!-- <div class="background" :class="{ 'display-none': isHiding }">
       <div class="container informationText d-flex align-items-end">
           <div class="flex-direction-column">
               <h1>Ad Astra</h1>
@@ -9,7 +9,13 @@
               </p>
           </div>
       </div>
-    </div>
+    </div> -->
+    <hooper :itemsToShow="1" :progress="true" :autoPlay="true" :centerMode="true" pagination="no" >
+      <slide v-for='result in results' :key='result.id'> 
+          <!-- <MovieCardComponent :movie=result :image_url='IMG_W500' :launchModal = launchModal :imdb_id = imdb_id /> -->
+          <SliderCardComponent :movie=result :background_url='IMG_W1280' :imdb_id = imdb_id />
+      </slide>
+    </hooper>
     <div class="search-background">
       <div class="container control">
           <p class="control has-icons-left relative">
@@ -54,8 +60,9 @@
 
 
       <div class="grid"> 
-        <div class="gridElement movie-info" v-for='result in results' :key='result.id'> 
-            <div class="movie-avatar">
+        <div class="gridElement movie-info" v-for='result in results' :key='result.id'>
+          <MovieCardComponent :movie=result :image_url='IMG_W500' :launchModal = launchModal :imdb_id = imdb_id />  
+            <!-- <div class="movie-avatar">
               <img :src="IMG_W500 + result.poster_path" v-if="result.poster_path !== null">
               <img src="../assets/no-image.jpg" v-else>
               <div class="trailer_play">
@@ -73,7 +80,7 @@
                   <span class="movie-name">{{result.original_title}}</span>
                 </router-link>
               </div>
-            </div>
+            </div> -->
         </div>
       </div>
       
@@ -86,10 +93,21 @@
 <script>
 import axios from 'axios'
 import {API_KEY, API_URL, IMG_W500, IMG_W1280, MOVIE_IMDB_URL, YOUTUBE_URL} from '@/config'
+import MovieCardComponent from './MovieCardComponent'
+import SliderCardComponent from './SliderCardComponent.vue'
+import { Hooper, Slide } from 'hooper'
 // import VueRouter from 'vue-router'
 
 export default {
   name: 'MoviesList',
+
+  components: {
+    MovieCardComponent,
+    Hooper, 
+    Slide,
+    SliderCardComponent,
+  },
+
   data () {
     return {
       nextPage: 2,
@@ -202,6 +220,10 @@ export default {
       margin-bottom: -1px;
       padding: 0.5em 1em;
       vertical-align: top;
+    }
+    .hooper{
+      display: flex !important;
+      outline: none;
     }
 
     iframe{
