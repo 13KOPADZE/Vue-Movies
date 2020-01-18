@@ -23,8 +23,8 @@
 </template>
 
 <script>
-  import 'bulma/css/bulma.css'
-  import Header from './components/Header.vue'
+import 'bulma/css/bulma.css'
+import Header from './components/Header.vue'
   // import MovieBackground from './components/informationDesk.vue'
   // import MoviesList from './components/MoviesList.vue'
   // import DetailsView from './components/DetailsView.vue'
@@ -48,6 +48,9 @@
     margin: 0px;
     padding: 0px;
     box-sizing: border-box !important;
+  }
+  body{
+    overflow: hidden;
   }
   header{
     display: flex;

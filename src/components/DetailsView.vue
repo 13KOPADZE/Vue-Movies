@@ -35,13 +35,18 @@
                     <div class="d-flex align-items-center youtube-icon" @click="launchModal">
                         <h1>Trailer:</h1>
                         <svg class="trailerSVG" @click="showModal = true" xmlns="http://www.w3.org/2000/svg" width="40px" height="40px" viewBox="0 0 461.001 461.001"><path d="M365.257 67.393H95.744C42.866 67.393 0 110.259 0 163.137v134.728c0 52.878 42.866 95.744 95.744 95.744h269.513c52.878 0 95.744-42.866 95.744-95.744V163.137c0-52.878-42.866-95.744-95.744-95.744zm-64.751 169.663l-126.06 60.123c-3.359 1.602-7.239-.847-7.239-4.568V168.607c0-3.774 3.982-6.22 7.348-4.514l126.06 63.881c3.748 1.899 3.683 7.274-.109 9.082z" fill="#f61c0d"/></svg>
-                        <div v-if="showModal" @click="showModal = false"  class="modal is-active">
+                        <div v-if="showModal" @keydown.esc="showModal = false" @click="showModal = false"  class="modal is-active">
                             <div class="modal-background"></div>
                             
                                 <div class="modal-content">
 
-                                    <iframe v-bind:src="YOUTUBE_URL+ this.trailers"></iframe>
-                                    
+                                    <iframe v-bind:src="YOUTUBE_URL+ this.trailers" v-if="this.trailers !==null">asdasd</iframe>
+                                    <div v-else>
+                                        <div class="release">
+                                            <h3>Release Date</h3>
+                                            <p>{{results.release_date | moment("dddd, MMMM Do YYYY") }}</p>
+                                        </div>
+                                    </div>
                                     <button class="modal-close is-large" aria-label="close" @click="$emit('close')">ez</button>
 
                                 </div>
@@ -75,38 +80,36 @@
             <h1 class="actors-heading">Actors</h1>
             <div class="grid">
                 <div class="gridElement" v-for='cast in casts' :key='cast.id'>
-                    <router-link :to="{ name: 'actor', params: { id: cast.id }}">
-                        <div class="actors-info" v-if="cast !== []">
-                            <img v-bind:src="'http://image.tmdb.org/t/p/w500/' + cast.profile_path" v-if="cast.profile_path !== null">
-                            <img src="../assets/no-image.jpg" v-else>
-                            <span class="actor-name">{{cast.name}}</span>
-                            <span class="actor-character">{{cast.character}}</span>
-                        </div>
-                        <div style="color: black;" v-else>
-                            asdasdasd
-                        </div>
-                    </router-link>
+                    <ActorCardComponent :actor=cast :image_url='IMG_W500'/>
                 </div>
             </div>
+            <div v-if="similarMovie.length > 0"> 
+                <h1 class="actors-heading">Similar Movies</h1>
 
-            <!-- <nav class="pagination is-rounded is-centered" role="navigation" aria-label="pagination">
-                <a class="pagination-previous">Previous</a>
-                <a class="pagination-next">Next page</a>
-                <ul class="pagination-list">
-                    <li><a class="pagination-link is-current" aria-label="Goto page 1">1</a></li>
-                </ul>
-            </nav> -->
-
+                <div class="movieGrid">
+                    <div class="gridElement movie-info" v-for='movie in similarMovie' :key='movie.id'>
+                        <MovieCardComponent :movie=movie :image_url='IMG_W500' :imdb_id = imdb_id />
+                    </div>
+                </div>
+            </div>
+            
+            
         </div>
+            <button class="loadMore" @click="loadMoreMovies" v-if="similarMovie.length > 0">Load More</button>
+
     </div>
   
 </template>
 
 <script>
 import axios from 'axios'
-import {API_KEY, API_URL, YOUTUBE_URL, MOVIE_IMDB_URL} from '@/config'
+import {API_KEY, API_URL, YOUTUBE_URL, MOVIE_IMDB_URL, IMG_W500} from '@/config'
 import Vue from 'vue'
 import VueYoutube from 'vue-youtube'
+import ActorCardComponent from './ActorCardComponent.vue'
+import MovieCardComponent from './MovieCardComponent.vue'
+
+
 
 
 
@@ -137,28 +140,64 @@ Vue.filter('formatHours', function(value){
 
 export default {
     name: 'DetailsView',
+
+    components: {
+        ActorCardComponent,
+        MovieCardComponent
+    },
+
     data () {
         return {
+            nextPage: 2,
             results: '',
             casts: '',
+            similarMovie: '',
             trailers: '',
             YOUTUBE_URL: YOUTUBE_URL,
             showModal: false,
             VueYoutube: VueYoutube,
             momentDurationFormatSetup: momentDurationFormatSetup,
             MOVIE_IMDB_URL: MOVIE_IMDB_URL,
+            IMG_W500: IMG_W500,
+            loadMore: ''
         }
     },
     methods: {
+
+        loadMoreMovies(){
+            axios.get(API_URL + '/3/movie/similar?api_key=' + API_KEY + '&page=' + this.nextPage)
+            .then(response => { 
+                this.similarMovie = this.similarMovie.concat(response.data.results);
+            })
+            this.nextPage++;
+        },
+
         launchModal(){
             axios
             .get(API_URL + '/3/movie/' + this.$route.params.id + '/videos?api_key=' + API_KEY)
             .then(response => {
                 this.trailers = response.data.results[0].key;
             }); 
-        }
+        },
+        
+        imdb_id(id){
+            axios
+                .get(API_URL + '/3/movie/' + id + '?api_key=' + API_KEY)
+                .then(response => { 
+                let imdbId = response.data.imdb_id;
+                window.open(MOVIE_IMDB_URL + imdbId, "_blank");
+            });
+        },
+        
     },
+    
     mounted() {
+        axios
+        .get(API_URL + '/3/movie/' + this.$route.params.id + '/similar?api_key=' + API_KEY)
+        .then(response => {
+            this.similarMovie = response.data.results
+        });
+
         axios
         .get(API_URL + '/3/movie/' + this.$route.params.id + '?api_key=' + API_KEY)
         .then(response => { 
@@ -261,6 +300,9 @@ export default {
     .svgStyle p{
         margin-right: 10px;
     }
+    .svgStyle{
+        align-items: center;
+    }
     .informationSection h1{
         font-family: Abel, sans-serif;
         font-size: 48px;
@@ -287,6 +329,8 @@ export default {
         border-radius: 20px;
         padding: 5px;
         height: 100%;
+        display: flex;
+        justify-content: space-between;
     }
     .actors-info img{
         display: block;
@@ -298,12 +342,19 @@ export default {
     .actor-name{
         display: block;
         font-size: 18px;
-        margin: 10px 0px 0px;
+        padding: 20px;
     }
     .actor-character{
         display: block;
         font-size: 16px;
-        margin: 0px 0px 10px;
+        padding: 20px;
+    }
+    .imgStyle{
+        max-width: 150px;
+        width: 100%;
+    }
+    .actorStyle{
+        margin: 0 auto;
     }
     .align-items-end{
         align-items: flex-end;
@@ -323,6 +374,26 @@ export default {
         background: rgba(0, 0, 0, 0);
         margin-bottom: 0px;
     }
+    .loadMore{
+        width: 25%;
+        min-width: 200px;
+        height: 70px;
+        color: rgb(255, 255, 255);
+        cursor: pointer;
+        font-family: Abel, sans-serif;
+        font-size: 28px;
+        display: block;
+        background: rgb(0, 0, 0);
+        transition: all 0.3s ease 0s;
+        border-radius: 40px;
+        border: none;
+        margin: 20px auto;
+        padding: 0px 20px;
+        outline: none;
+    }
+    .loadMore:hover{
+        opacity: 0.8;
+    }
     .flex-direction-column{
         max-width: 700px;
         margin-bottom: 50px;
@@ -339,6 +410,16 @@ export default {
         height: 70px;
         color: rgb(255, 255, 255);
         background: rgb(53, 53, 53);
+    }
+    .movie-info{
+        display: block;
+        font-family: Abel, sans-serif;
+        color: rgb(255, 255, 255);
+        text-align: center;
+        background: rgb(28, 28, 28);
+        border-radius: 20px;
+        padding: 5px;
+        height: 100%;
     }
     .navigation-content{
         display: flex;
@@ -378,9 +459,16 @@ export default {
     .grid{
         position: relative;
         display: grid;
-        grid-template-columns: repeat(5, minmax(100px, 1fr));
+        grid-template-columns: repeat(2, minmax(100px, 1fr));
         gap: 40px;
         padding: 0px 0px 40px 0px
+    }
+    .movieGrid{
+        position: relative;
+        display: grid;
+        grid-template-columns: repeat(5, minmax(100px, 1fr));
+        gap: 40px;
+        padding: 40px 0px 40px 0px
     }
     .gridElement{
         animation: 0.5s ease 0s 1 normal none running animateGrid;
@@ -398,28 +486,40 @@ export default {
 
     @media screen and (max-width: 1024px){
         .grid {
-            grid-template-columns: repeat(4, minmax(100px, 1fr));
+            grid-template-columns: repeat(2, minmax(100px, 1fr));
             gap: 40px;
+        }
+        .movieGrid{
+            grid-template-columns: repeat(4, minmax(100px, 1fr));
         }
     }
     @media screen and (max-width: 768px){
         .grid {
-         grid-template-columns: repeat(3, minmax(100px, 1fr));
+         grid-template-columns: repeat(2, minmax(100px, 1fr));
         }
         .modal-close{
             position: absolute;
             right: 5%;
             top: -2%;
         }
+        .movieGrid{
+            grid-template-columns: repeat(3, minmax(100px, 1fr));
+        }
     }
     @media screen and (max-width: 600px){
         .grid {
+            grid-template-columns: repeat(2, minmax(100px, 1fr));
+        }
+        .movieGrid{
             grid-template-columns: repeat(2, minmax(100px, 1fr));
         }
     }
     @media screen and (max-width: 375px){
         .grid {
          grid-template-columns: repeat(1, minmax(100px, 1fr));
+        }
+        .movieGrid{
+            grid-template-columns: repeat(1, minmax(100px, 1fr));
         }
     }
     @media screen and (max-width: 800px) {

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="background" :class="{ 'display-none': isHiding }">
+    <!-- <div class="background" :class="{ 'display-none': isHiding }">
       <div class="container informationText d-flex align-items-end">
           <div class="flex-direction-column">
               <h1>Ad Astra</h1>
@@ -9,6 +9,15 @@
               </p>
           </div>
       </div>
+    </div> -->
+    <hooper :itemsToShow="1" :progress="true" :autoPlay="true" :infiniteScroll="true" :centerMode="true" pagination="no" >
+      <slide v-for='result in results' :key='result.id'> 
+          <!-- <MovieCardComponent :movie=result :image_url='IMG_W500' :launchModal = launchModal :imdb_id = imdb_id /> -->
+          <SliderCardComponent :movie=result :background_url='IMG_W1280' :imdb_id = imdb_id />
+      </slide>
+    </hooper>
+    <div>
+      
     </div>
     <div class="search-background">
       <div class="container control">
@@ -31,7 +40,7 @@
       </ul>
     </div>
     
-    <div @keydown.esc="showModal = false" tabindex="0" v-if="showModal" @click="showModal = false"  class="modal is-active">
+    <div v-if="showModal" @keydown.escape="showModal" @click="showModal = false"  class="modal is-active">
       
       <div class="modal-background"></div>
 
@@ -55,27 +64,10 @@
 
       <div class="grid"> 
         <div class="gridElement movie-info" v-for='result in results' :key='result.id'> 
-            <div class="movie-avatar">
-              <img :src="IMG_W500 + result.poster_path" v-if="result.poster_path !== null">
-              <img src="../assets/no-image.jpg" v-else>
-              <div class="trailer_play">
-                <div class="d-flex justify-content-between">
-                  
-                  <div @click="imdb_id(result.id)">
-                    <div class="score"><div style="color: black;">{{result.vote_average | imdbNumber}}</div></div>
-                  </div>
-
-                  <div @click="launchModal(result.id)">
-                    <svg @click="showModal = true"   xmlns="http://www.w3.org/2000/svg" width="40px" height="40px" viewBox="0 0 461.001 461.001"><path d="M365.257 67.393H95.744C42.866 67.393 0 110.259 0 163.137v134.728c0 52.878 42.866 95.744 95.744 95.744h269.513c52.878 0 95.744-42.866 95.744-95.744V163.137c0-52.878-42.866-95.744-95.744-95.744zm-64.751 169.663l-126.06 60.123c-3.359 1.602-7.239-.847-7.239-4.568V168.607c0-3.774 3.982-6.22 7.348-4.514l126.06 63.881c3.748 1.899 3.683 7.274-.109 9.082z" fill="#f61c0d"/></svg>
-                  </div>
-                </div>
-                <router-link :to="{ name: 'show', params: { id: result.id }}">
-                  <span class="movie-name">{{result.original_title}}</span>
-                </router-link>
-              </div>
-            </div>
+          <MovieCardComponent :movie=result :image_url='IMG_W500' :launchModal = launchModal :imdb_id = imdb_id />  
         </div>
       </div>
+
       
       <button class="loadMore" @click="loadMoreMovies"  :class="{ 'display-none': isHiding }" @keydown="SearchResult(query)">Load More</button>
       
@@ -86,11 +78,23 @@
 <script>
 import axios from 'axios'
 import {API_KEY, API_URL, IMG_W500, IMG_W1280, MOVIE_IMDB_URL, YOUTUBE_URL } from '@/config'
+import MovieCardComponent from './MovieCardComponent.vue'
+import SliderCardComponent from './SliderCardComponent.vue'
+import { Hooper, Slide } from 'hooper'
+
 // import VueRouter from 'vue-router'
 
 export default {
 
   name: 'MoviesList',
+
+  components: {
+    MovieCardComponent,
+    SliderCardComponent,
+    Hooper,
+    Slide
+  },
+
   data () {
     return {
       nextPage: 2,
@@ -119,7 +123,6 @@ export default {
           this.results = this.results.concat(response.data.results);
       })
       this.nextPage++;
-
     },
     launchModal(id){
       axios
@@ -171,7 +174,9 @@ export default {
   
     
   mounted: function mounted () {
+
     this.fetch(API_URL+'/3/movie/popular?api_key='+API_KEY);
+    
     axios
       .get(API_URL + '/3/movie/upcoming?api_key=' + API_KEY)
       .then(response => { 
@@ -182,7 +187,8 @@ export default {
       .get(API_URL+'/3/genre/movie/list?api_key='+API_KEY)
       .then(response => {
         this.genres = response.data.genres;
-      })
+    });
+    
   },
 
   
@@ -218,14 +224,6 @@ export default {
     vertical-align: top;
   }
 
-  .background{
-    background: linear-gradient(rgba(0, 0, 0, 0) 39%, rgba(0, 0, 0, 0) 41%, rgba(0, 0, 0, 0.65) 100%),  url('../assets/background.jpg');
-    width: 100%;
-    height: 600px;
-    position: relative;
-    background-size: cover;
-    background-position: center center, center center !important;
-  }
   .align-items-end{
     align-items: flex-end;
   }
@@ -246,6 +244,10 @@ export default {
       font-size: 48px;
       color: rgb(255, 255, 255);
   }
+  .hooper{
+    display: flex !important;
+    outline: none;
+  }
   p{
       font-family: Abel, sans-serif;
       font-size: 22px;
@@ -253,7 +255,7 @@ export default {
       color: rgb(255, 255, 255);
   }
   .d-flex{
-      display: flex !important;
+    display: flex !important;
   }
   .align-items-center{
       align-items: center;
@@ -293,7 +295,6 @@ export default {
   }
   .movie-info{
     display: block;
-    cursor: pointer;
     font-family: Abel, sans-serif;
     color: rgb(255, 255, 255);
     text-align: center;
@@ -306,6 +307,10 @@ export default {
     width: 100%;
     position: relative;
   }
+  .movie-avatar img{
+    border-radius: 20px;
+  }
+  
   .movie-avatar .trailer_play{
     border-radius: 10px;
     display: none;
@@ -380,7 +385,6 @@ export default {
   }
   .gridElement{
     animation: 0.5s ease 0s 1 normal none running animateGrid;
-    cursor: pointer;
     position: relative;
   }
 
@@ -485,9 +489,9 @@ export default {
     .grid {
       grid-template-columns: repeat(2, minmax(100px, 1fr));
     }
-    ul{
+    /* ul{
       flex-direction: column;
-    }
+    } */
   }
   @media screen and (max-width: 375px){
     .grid {
