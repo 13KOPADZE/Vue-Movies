@@ -1,18 +1,7 @@
 <template>
   <div>
-    <!-- <div class="background" :class="{ 'display-none': isHiding }">
-      <div class="container informationText d-flex align-items-end">
-          <div class="flex-direction-column">
-              <h1>Ad Astra</h1>
-              <p>
-                  The near future, a time when both hope and hardships drive humanity to look to the stars and beyond. While a mysterious phenomenon menaces to destroy life on planet Earth, astronaut Roy McBride undertakes a mission across the immensity of space and its many perils to uncover the truth about a lost expedition that decades before boldly faced emptiness and silence in search of the unknown.
-              </p>
-          </div>
-      </div>
-    </div> -->
-    <hooper :itemsToShow="1" :progress="true" :autoPlay="true" :centerMode="true" pagination="no" >
+    <hooper :itemsToShow="1" :progress="true" :centerMode="true" pagination="no" >
       <slide v-for='result in results' :key='result.id'> 
-          <!-- <MovieCardComponent :movie=result :image_url='IMG_W500' :launchModal = launchModal :imdb_id = imdb_id /> -->
           <SliderCardComponent :movie=result :background_url='IMG_W1280' :imdb_id = imdb_id />
       </slide>
     </hooper>
@@ -243,14 +232,6 @@ export default {
       justify-content: center !important;
       align-items: center !important;
       display: flex;
-    }
-    .background{
-      background: linear-gradient(rgba(0, 0, 0, 0) 39%, rgba(0, 0, 0, 0) 41%, rgba(0, 0, 0, 0.65) 100%),  url('../assets/background.jpg');
-      width: 100%;
-      height: 600px;
-      position: relative;
-      background-size: cover;
-      background-position: center center, center center !important;
     }
     .align-items-end{
       align-items: flex-end;
