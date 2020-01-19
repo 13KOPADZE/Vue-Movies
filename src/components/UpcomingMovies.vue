@@ -1,6 +1,6 @@
 <template>
   <div>
-    <hooper :itemsToShow="1" :progress="true" :centerMode="true" pagination="no" >
+    <hooper :itemsToShow="1" :progress="true" :centerMode="true" pagination="no" :class="{ 'display-none': isHiding }">
       <slide v-for='result in results' :key='result.id'> 
           <SliderCardComponent :movie=result :background_url='IMG_W1280' :imdb_id = imdb_id />
       </slide>
@@ -167,13 +167,25 @@ export default {
       }else{
         this.searchText = false;
       }
+    },
+
+    // 
+
+    styleAction(attribute, selector, style){
+      var sliderUl = this.$el.querySelector(attribute)
+      sliderUl.setAttribute("style", selector + ":" + style);
     }
   },
   
 
     
   mounted: function mounted () {
+
+    this.styleAction('.hooper-track', 'display', 'flex')
+    this.styleAction('.hooper-liveregion', 'display', 'none')
+
     this.fetch(API_URL + '/3/movie/upcoming?api_key=' + API_KEY);
+    
     axios
       .get(API_URL+'/3/genre/movie/list?api_key='+API_KEY)
       .then(response => {
@@ -211,7 +223,7 @@ export default {
       vertical-align: top;
     }
     .hooper{
-      display: flex !important;
+      display: flex;
       outline: none;
     }
 

@@ -1,10 +1,21 @@
 <template>
   <div>
-    <div class="tabs is-large container">
+    <div class=" container tabs is-large">
       <ul>
         <li class="is-active">Searched Movies</li>
       </ul>
     </div>
+    <div class="container">
+      {{this.$route.query.query}}
+      <div class="grid container"> 
+        <div class="gridElement movie-info" v-for='result in results' :key='result.id'> 
+          <MovieCardComponent :movie=result :background_url='IMG_W500' :imdb_id = imdb_id />  
+        </div>
+      </div>
+    </div>
+      
+    <button class="loadMore" @click="loadMoreMovies">Load More</button>
+
   </div>   
 </template>
 
@@ -30,30 +41,14 @@ export default {
 
   methods: {
 
-    loadMoreMovies(){
-      axios.get(API_URL + '/3/movie/popular?api_key=' + API_KEY + '&page=' + this.nextPage)
+    loadMoreMovies(query){
+      axios.get(API_URL+'/3/search/movie?api_key=' + API_KEY + '&query=' + query + '&page=' + this.nextPage)
       .then(response => { 
           this.results = this.results.concat(response.data.results);
       })
       this.nextPage++;
-
     },
 
-    fetch(query) {
-      axios.get(query)
-      .then(response => { 
-        this.results = response.data.results
-      });
-    },
-    
-    SearchResult(query) {
-      let url = API_URL+'/3/search/movie?api_key='+API_KEY+'&query=' + query;
-      query == ''? url = API_URL+'/3/movie/popular?api_key='+API_KEY: true;
-      this.fetch(url);
-
-      this.$router.push({ name: 'search', query: {query} });
-
-    }
   },    
 }
 </script>
@@ -91,6 +86,27 @@ export default {
     position: relative;
     background-size: cover;
     background-position: center center, center center !important;
+  }
+  .grid{
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(5, minmax(100px, 1fr));
+    gap: 40px;
+    margin-top: 40px;
+  }
+  .gridElement{
+    animation: 0.5s ease 0s 1 normal none running animateGrid;
+    position: relative;
+  }
+  .movie-info{
+    display: block;
+    font-family: Abel, sans-serif;
+    color: rgb(255, 255, 255);
+    text-align: center;
+    background: rgb(28, 28, 28);
+    border-radius: 20px;
+    padding: 5px;
+    height: 100%;
   }
   .align-items-end{
     align-items: flex-end;

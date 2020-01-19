@@ -48,6 +48,7 @@ import Header from './components/Header.vue'
     margin: 0px;
     padding: 0px;
     box-sizing: border-box !important;
+    outline: none !important;
   }
   body{
     overflow: hidden;

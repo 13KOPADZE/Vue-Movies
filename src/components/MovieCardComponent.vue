@@ -1,5 +1,5 @@
 <template>
-  <div class="movie-avatar">
+  <div class="movie-avatar" @keydown.esc="showModal = false" tabindex="0">
     <img :src="image_url + movie.poster_path" v-if="movie.poster_path !== null">
     <img src="../assets/no-image.jpg" v-else>
     <div class="trailer_play">
@@ -17,17 +17,50 @@
         <span class="movie-name">{{movie.original_title}}</span>
       </router-link>
     </div>
+      <div v-if="showModal"  @click="showModal = false"  class="modal is-active">
+        
+        <div class="modal-background"></div>
+
+        <div class="modal-content">
+
+            <iframe v-bind:src="YOUTUBE_URL + this.trailers"></iframe>
+            
+            <button class="modal-close is-large" aria-label="close" @click="$emit('close')"></button>
+
+        </div>
+
+      </div> <!-- Modal for Trailer -->
   </div>
 </template>
 
 <script>
+import axios from 'axios'
+import {API_URL, API_KEY, YOUTUBE_URL} from '@/config'
 
 
 export default {
 
     name: 'MovieCard',
 
-    props: ['movie', 'image_url', 'launchModal', 'imdb_id']
+    props: ['movie', 'image_url', 'imdb_id'],
+
+    data(){
+      return{
+        YOUTUBE_URL: YOUTUBE_URL,
+        showModal: false,
+        trailers: '',
+      }
+    },
+
+    methods: {
+      launchModal(id){
+        axios
+        .get(API_URL + '/3/movie/' + id + '/videos?api_key=' + API_KEY)
+        .then(response => {
+          this.trailers = response.data.results[0].key;
+        }); 
+      },
+    }
     
 }
 </script>  
@@ -108,6 +141,21 @@ export default {
     margin-top: 52px;
     display: block;
     color: #fff;
+  }
+  iframe{
+    width: 640px;
+    height: 400px;
+    padding: 20px;
+  }
+  .modal-content{
+    justify-content: center !important;
+    align-items: center !important;
+    display: flex;
+  }
+  .modal-close{
+    position: absolute;
+    right: 2%;
+    top: -2%;
   }
 
   @media screen and (max-width: 1024px){

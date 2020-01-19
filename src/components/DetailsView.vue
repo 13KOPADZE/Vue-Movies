@@ -9,11 +9,11 @@
                 <p>{{results.original_title}}</p>
             </div>
         </div>
-        <div class="background" :style="{ backgroundImage: `url(${'https://image.tmdb.org/t/p/w1280/'+results.backdrop_path})` }">
+        <div  class="background" :style="{ backgroundImage: `url(${IMG_W1280 + results.backdrop_path})` }">
             <div class="movieDetails">
                 <div class="movie-image">
-                    <img v-bind:src="'https://image.tmdb.org/t/p/w500/' + results.poster_path" v-if="results.poster_path !== null">
-                    <img src="../assets/no-image.jpg" v-else>
+                    <img v-if="results.poster_path !== null" v-bind:src="IMG_W500 + results.poster_path">
+                    <img v-else src="../assets/no-image.jpg" >
                 </div>
                 <section class="informationSection">
                     <div>
@@ -34,19 +34,14 @@
                     </div>
                     <div class="d-flex align-items-center youtube-icon" @click="launchModal">
                         <h1>Trailer:</h1>
-                        <svg class="trailerSVG" @click="showModal = true" xmlns="http://www.w3.org/2000/svg" width="40px" height="40px" viewBox="0 0 461.001 461.001"><path d="M365.257 67.393H95.744C42.866 67.393 0 110.259 0 163.137v134.728c0 52.878 42.866 95.744 95.744 95.744h269.513c52.878 0 95.744-42.866 95.744-95.744V163.137c0-52.878-42.866-95.744-95.744-95.744zm-64.751 169.663l-126.06 60.123c-3.359 1.602-7.239-.847-7.239-4.568V168.607c0-3.774 3.982-6.22 7.348-4.514l126.06 63.881c3.748 1.899 3.683 7.274-.109 9.082z" fill="#f61c0d"/></svg>
-                        <div v-if="showModal" @keydown.esc="showModal = false" @click="showModal = false"  class="modal is-active">
+                        <svg class="trailerSVG" @click="showModal = true" @keydown.esc="showModal = false" tabindex="1" xmlns="http://www.w3.org/2000/svg" width="40px" height="40px" viewBox="0 0 461.001 461.001"><path d="M365.257 67.393H95.744C42.866 67.393 0 110.259 0 163.137v134.728c0 52.878 42.866 95.744 95.744 95.744h269.513c52.878 0 95.744-42.866 95.744-95.744V163.137c0-52.878-42.866-95.744-95.744-95.744zm-64.751 169.663l-126.06 60.123c-3.359 1.602-7.239-.847-7.239-4.568V168.607c0-3.774 3.982-6.22 7.348-4.514l126.06 63.881c3.748 1.899 3.683 7.274-.109 9.082z" fill="#f61c0d"/></svg>
+                        <div v-if="showModal" @click="showModal = false"  class="modal is-active">
                             <div class="modal-background"></div>
                             
                                 <div class="modal-content">
 
-                                    <iframe v-bind:src="YOUTUBE_URL+ this.trailers" v-if="this.trailers !==null">asdasd</iframe>
-                                    <div v-else>
-                                        <div class="release">
-                                            <h3>Release Date</h3>
-                                            <p>{{results.release_date | moment("dddd, MMMM Do YYYY") }}</p>
-                                        </div>
-                                    </div>
+                                    <iframe v-bind:src="YOUTUBE_URL+ this.trailers" v-if="this.trailers !==null"></iframe>
+                    
                                     <button class="modal-close is-large" aria-label="close" @click="$emit('close')">ez</button>
 
                                 </div>
@@ -83,6 +78,10 @@
                     <ActorCardComponent :actor=cast :image_url='IMG_W500'/>
                 </div>
             </div>
+
+            <button class="loadMore" v-if="!isHidden" @click="showAll" v-on:click="isHidden = true">Show All</button>
+
+
             <div v-if="similarMovie.length > 0"> 
                 <h1 class="actors-heading">Similar Movies</h1>
 
@@ -92,25 +91,21 @@
                     </div>
                 </div>
             </div>
-            
-            
         </div>
-            <button class="loadMore" @click="loadMoreMovies" v-if="similarMovie.length > 0">Load More</button>
 
     </div>
   
 </template>
 
 <script>
+
+
 import axios from 'axios'
-import {API_KEY, API_URL, YOUTUBE_URL, MOVIE_IMDB_URL, IMG_W500} from '@/config'
+import {API_KEY, API_URL, YOUTUBE_URL, MOVIE_IMDB_URL, IMG_W1280, IMG_W500} from '@/config'
 import Vue from 'vue'
 import VueYoutube from 'vue-youtube'
 import ActorCardComponent from './ActorCardComponent.vue'
 import MovieCardComponent from './MovieCardComponent.vue'
-
-
-
 
 
 Vue.use(require('vue-moment'));
@@ -155,21 +150,23 @@ export default {
             trailers: '',
             YOUTUBE_URL: YOUTUBE_URL,
             showModal: false,
+            isHidden: false,
             VueYoutube: VueYoutube,
             momentDurationFormatSetup: momentDurationFormatSetup,
             MOVIE_IMDB_URL: MOVIE_IMDB_URL,
             IMG_W500: IMG_W500,
-            loadMore: ''
+            IMG_W1280: IMG_W1280,
+            
         }
     },
     methods: {
 
-        loadMoreMovies(){
-            axios.get(API_URL + '/3/movie/similar?api_key=' + API_KEY + '&page=' + this.nextPage)
-            .then(response => { 
-                this.similarMovie = this.similarMovie.concat(response.data.results);
-            })
-            this.nextPage++;
+        showAll(){
+            axios
+            .get( API_URL +'/3/movie/' + this.$route.params.id + '/credits?api_key='  + API_KEY)
+            .then(response => {
+                this.casts = response.data.cast
+            });
         },
 
         launchModal(){
@@ -190,8 +187,9 @@ export default {
         },
         
     },
-    
+
     mounted() {
+
         axios
         .get(API_URL + '/3/movie/' + this.$route.params.id + '/similar?api_key=' + API_KEY)
         .then(response => {
@@ -203,18 +201,26 @@ export default {
         .then(response => { 
             this.results = response.data
         });
+
         axios
         .get( API_URL +'/3/movie/' + this.$route.params.id + '/credits?api_key='  + API_KEY)
         .then(response => {
-            this.casts = response.data.cast;
+            this.casts = response.data.cast.slice(0, 6);
         });
- 
-    }
+    },
+    // beforeRouteUpdate (to, from, next) {
+    //     this.getContent(to.params.id);
+    //     next(this.$route.params.id);
+    // }
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+
+    .display-none {
+        display: none;
+    }
     .background{
         width: 100%;
         min-height: 600px;
@@ -293,6 +299,26 @@ export default {
         background: rgb(255, 255, 255);
         border-radius: 25px;
         margin-top: 15px;
+    }
+    .loadMore{
+        width: 25%;
+        min-width: 200px;
+        height: 70px;
+        color: rgb(255, 255, 255);
+        cursor: pointer;
+        font-family: Abel, sans-serif;
+        font-size: 28px;
+        display: block;
+        background: rgb(0, 0, 0);
+        transition: all 0.3s ease 0s;
+        border-radius: 40px;
+        border: none;
+        margin: 20px auto;
+        padding: 0px 20px;
+        outline: none;
+    }
+    .loadMore:hover{
+        opacity: 0.8;
     }
     .release{
         margin: 0px 0px 0px 40px;
@@ -373,26 +399,6 @@ export default {
         color: rgb(255, 255, 255);
         background: rgba(0, 0, 0, 0);
         margin-bottom: 0px;
-    }
-    .loadMore{
-        width: 25%;
-        min-width: 200px;
-        height: 70px;
-        color: rgb(255, 255, 255);
-        cursor: pointer;
-        font-family: Abel, sans-serif;
-        font-size: 28px;
-        display: block;
-        background: rgb(0, 0, 0);
-        transition: all 0.3s ease 0s;
-        border-radius: 40px;
-        border: none;
-        margin: 20px auto;
-        padding: 0px 20px;
-        outline: none;
-    }
-    .loadMore:hover{
-        opacity: 0.8;
     }
     .flex-direction-column{
         max-width: 700px;

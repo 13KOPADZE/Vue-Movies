@@ -1,6 +1,6 @@
 <template>
   <div>
-    <hooper :itemsToShow="1" :progress="true"  :infiniteScroll="true" :centerMode="true" pagination="no" >
+    <hooper :itemsToShow="1" :progress="true" :autoPlay="true"  :infiniteScroll="true" :centerMode="true" pagination="no" :class="{ 'display-none': isHiding }">
       <slide v-for='result in results' :key='result.id'> 
           <SliderCardComponent :movie=result :background_url='IMG_W1280' :imdb_id = imdb_id />
       </slide>
@@ -29,19 +29,6 @@
       </ul>
     </div>
     
-    <div v-if="showModal" @keydown.escape="showModal" @click="showModal = false"  class="modal is-active">
-      
-      <div class="modal-background"></div>
-
-      <div class="modal-content">
-
-          <iframe v-bind:src="YOUTUBE_URL + trailers"></iframe>
-          
-          <button class="modal-close is-large" aria-label="close" @click="$emit('close')"></button>
-
-      </div>
-
-    </div> <!-- Modal for Trailer -->
 
     <div class="container paddingAround">
       <div class="tabs is-large" :class="{ 'display-none': isHiding }">
@@ -95,7 +82,6 @@ export default {
       loadMore: '',
       isHiding: false,
       searchText: true,
-      showModal: false,
       genres: '',
       MOVIE_IMDB_URL: MOVIE_IMDB_URL,
       YOUTUBE_URL: YOUTUBE_URL,
@@ -113,6 +99,7 @@ export default {
       })
       this.nextPage++;
     },
+    
     launchModal(id){
       axios
       .get(API_URL + '/3/movie/' + id + '/videos?api_key=' + API_KEY)
@@ -120,6 +107,7 @@ export default {
         this.trailers = response.data.results[0].key;
       }); 
     },
+
     imdb_id(id){
       axios
         .get(API_URL + '/3/movie/' + id + '?api_key=' + API_KEY)
@@ -129,11 +117,17 @@ export default {
         });
     },
 
+    /**
+     * 
+     */
     filterGeners(id){
       let query = API_URL+'/3/discover/movie?api_key='+API_KEY+'&sort_by=popularity.desc&with_genres='+id
       this.fetch(query)
     },
 
+    /**
+     * 
+     */
     fetch(query) {
       axios.get(query)
       .then(response => { 
@@ -141,6 +135,7 @@ export default {
       });
     },
     
+
     SearchResult(query) {
       let url = API_URL+'/3/search/movie?api_key='+API_KEY+'&query=' + query;
       query == ''? url = API_URL+'/3/movie/popular?api_key='+API_KEY: true;
@@ -157,6 +152,14 @@ export default {
         this.searchText = false;
       }
 
+    },
+
+    /**
+     * 
+     */
+    styleAction(attribute, selector, style){
+      var sliderUl = this.$el.querySelector(attribute)
+      sliderUl.setAttribute("style", selector + ":" + style);
     }
   },
   
@@ -164,6 +167,10 @@ export default {
     
   mounted: function mounted () {
 
+    
+    this.styleAction('.hooper-track', 'display', 'flex')
+    this.styleAction('.hooper-liveregion', 'display', 'none')
+ 
     this.fetch(API_URL+'/3/movie/popular?api_key='+API_KEY);
     
     axios
@@ -177,11 +184,8 @@ export default {
       .then(response => {
         this.genres = response.data.genres;
     });
-    
-  },
 
-  
-      
+  },  
 }
 </script>
 
@@ -234,7 +238,7 @@ export default {
       color: rgb(255, 255, 255);
   }
   .hooper{
-    display: flex !important;
+    display: flex;
     outline: none;
   }
   p{
