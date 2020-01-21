@@ -1,11 +1,14 @@
 <template>
 	<div>
+		<nprogress-container></nprogress-container>
 		<hooper
 			:itemsToShow="1"
+			:progress="true"
 			:autoPlay="true"
+			:wheelControl="false"
+			:playSpeed="3500"
 			:infiniteScroll="true"
 			:centerMode="true"
-			pagination="no"
 			:class="{ 'display-none': isHiding }"
 		>
 			<slide v-for="result in results" :key="result.id">
@@ -104,6 +107,7 @@
 
 <script>
 import axios from 'axios';
+import NprogressContainer from 'vue-nprogress/src/NprogressContainer';
 import {
 	API_KEY,
 	API_URL,
@@ -125,7 +129,8 @@ export default {
 		MovieCardComponent,
 		SliderCardComponent,
 		Hooper,
-		Slide
+		Slide,
+		NprogressContainer
 	},
 
 	data() {

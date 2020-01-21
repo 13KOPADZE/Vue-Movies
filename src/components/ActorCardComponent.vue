@@ -11,6 +11,9 @@
 				</div>
 				<div class="actorStyle">
 					<div class="actor-name">Name: {{ actor.name }}</div>
+
+					<br />
+
 					<div class="actor-character">Character: {{ actor.character }}</div>
 				</div>
 			</div>
@@ -38,7 +41,6 @@ export default {
 	padding: 5px;
 	height: 100%;
 	display: flex;
-	justify-content: space-between;
 }
 .actors-info img {
 	display: block;
@@ -51,17 +53,16 @@ export default {
 	display: block;
 	font-size: 18px;
 	padding: 20px;
+	float: left;
 }
 .actor-character {
 	display: block;
-	font-size: 16px;
+	font-size: 18px;
+	float: left;
 	padding: 20px;
 }
 .imgStyle {
-	max-width: 150px;
+	max-width: 120px;
 	width: 100%;
-}
-.actorStyle {
-	margin: 0 auto;
 }
 </style>

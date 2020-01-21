@@ -12,6 +12,7 @@
 		<div
 			class="background"
 			:style="{ backgroundImage: `url(${IMG_W1280 + results.backdrop_path})` }"
+			v-if="results.backdrop_path !== undefined"
 		>
 			<div class="movieDetails">
 				<div class="movie-image">
@@ -247,7 +248,7 @@ export default {
 	watch: {
 		$route(to, from) {
 			console.log('watch:', to, from);
-			// react to route changes...
+			alert(to.params.id);
 		}
 	},
 
@@ -308,6 +309,10 @@ export default {
 	},
 
 	mounted() {
+		setTimeout(() => {
+			this.results.original_title = 'asdasd';
+			console.log(123);
+		}, 5000);
 		axios
 			.get(
 				API_URL +
@@ -478,43 +483,7 @@ iframe {
 	line-height: 0;
 	margin-top: 30px;
 }
-.actors-info {
-	display: block;
-	cursor: pointer;
-	font-family: Abel, sans-serif;
-	color: rgb(255, 255, 255);
-	text-align: center;
-	background: rgb(28, 28, 28);
-	border-radius: 20px;
-	padding: 5px;
-	height: 100%;
-	display: flex;
-	justify-content: space-between;
-}
-.actors-info img {
-	display: block;
-	width: 100%;
-	height: auto;
-	object-fit: cover;
-	border-radius: 15px;
-}
-.actor-name {
-	display: block;
-	font-size: 18px;
-	padding: 20px;
-}
-.actor-character {
-	display: block;
-	font-size: 16px;
-	padding: 20px;
-}
-.imgStyle {
-	max-width: 150px;
-	width: 100%;
-}
-.actorStyle {
-	margin: 0 auto;
-}
+
 .align-items-end {
 	align-items: flex-end;
 }

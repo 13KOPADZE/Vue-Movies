@@ -34,10 +34,7 @@ export default new Router({
 		{
 			path: '/movies/:id',
 			name: 'show',
-			component: DetailsView,
-			meta: {
-				reload: true
-			}
+			component: DetailsView
 		},
 		{
 			path: '/actor/:id',

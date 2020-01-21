@@ -26,11 +26,12 @@
 					class="input"
 					type="text"
 					v-model.trim="query"
-					@keydown="SearchResult(query)"
 					placeholder="Search Movie"
+					@keydown.enter="SearchResult(query)"
 				/>
 				<svg
 					class="pos"
+					style="cursor: pointer;"
 					xmlns="http://www.w3.org/2000/svg"
 					width="25px"
 					viewBox="0 0 512 512"
@@ -47,7 +48,8 @@
 
 <script>
 import axios from 'axios';
-import { API_KEY, API_URL } from '@/config';
+import { API_KEY, API_URL, MOVIE_IMDB_URL } from '@/config';
+import Events from '../Events';
 
 export default {
 	name: 'Header',
@@ -60,9 +62,18 @@ export default {
 		};
 	},
 	methods: {
+		imdb_id(id) {
+			axios
+				.get(API_URL + '/3/movie/' + id + '?api_key=' + API_KEY)
+				.then(response => {
+					let imdbId = response.data.imdb_id;
+					window.open(MOVIE_IMDB_URL + imdbId, '_blank');
+				});
+		},
 		fetch(query) {
 			axios.get(query).then(response => {
 				this.results = response.data.results;
+				Events.$emit('search', this.results);
 			});
 		},
 
@@ -70,7 +81,6 @@ export default {
 			let url =
 				API_URL + '/3/search/movie?api_key=' + API_KEY + '&query=' + query;
 			this.fetch(url);
-
 			this.$router.push({ name: 'search', query: { query } });
 		}
 	}

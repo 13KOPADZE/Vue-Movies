@@ -3,8 +3,11 @@
 		<hooper
 			:itemsToShow="1"
 			:progress="true"
+			:autoPlay="true"
+			:wheelControl="false"
+			:playSpeed="3500"
+			:infiniteScroll="true"
 			:centerMode="true"
-			pagination="no"
 			:class="{ 'display-none': isHiding }"
 		>
 			<slide v-for="result in results" :key="result.id">

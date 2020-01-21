@@ -5,31 +5,29 @@
 			backgroundImage: `url(${'https://image.tmdb.org/t/p/w1280/' +
 				movie.backdrop_path})`
 		}"
+		v-if="movie.backdrop_path !== null"
 	>
 		<div class="container informationText d-flex align-items-end">
 			<div class="flex-direction-column">
 				<div>
-					<h1>{{ movie.original_title }}</h1>
-					<h3>Plot</h3>
-					<p>{{ movie.overview }}</p>
-				</div>
-				<div class="rating-release d-flex">
-					<div class="imdbScore">
-						<h3>Imdb Rating</h3>
-						<div @click="imdb_id(movie.id)">
-							<div class="score">
-								<div style="color: black;">
-									{{ movie.vote_average | imdbNumber }}
+					<div class="rating-release justify-content-between d-flex">
+						<h1>{{ movie.original_title }}</h1>
+
+						<div class="imdbScore">
+							<h3>Imdb Rating</h3>
+							<div @click="imdb_id(movie.id)">
+								<div class="score">
+									<div style="color: black;">
+										{{ movie.vote_average | imdbNumber }}
+									</div>
 								</div>
 							</div>
 						</div>
 					</div>
-
-					<div class="release">
-						<h3>Release Date</h3>
-						<p>{{ movie.release_date | moment('dddd, MMMM Do YYYY') }}</p>
-					</div>
+					<h3>Plot</h3>
+					<p>{{ movie.overview }}</p>
 				</div>
+
 				<div class="movieDetails">
 					<router-link :to="{ name: 'show', params: { id: movie.id } }">
 						<button class="movieDetailsButton">
@@ -90,6 +88,9 @@ export default {
 .imdbScore h3 {
 	padding: 0 0 20px 0;
 }
+.justify-content-between {
+	justify-content: space-between;
+}
 .score {
 	cursor: pointer;
 	display: -webkit-box;
@@ -116,8 +117,8 @@ export default {
 }
 .movieDetailsButton {
 	cursor: pointer;
-	width: 100px;
-	height: 30px;
+	width: 125px;
+	height: 35px;
 	border-radius: 20px;
 	border: none;
 	font-size: 14px;
@@ -131,11 +132,10 @@ export default {
 }
 h1 {
 	color: #fff;
-	padding: 20px 0;
 	font-size: 24px;
 }
 h3 {
-	font-weight: 700;
+	font-weight: 400;
 }
 p {
 	font-size: 18px;

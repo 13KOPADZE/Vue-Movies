@@ -1,38 +1,67 @@
 <template>
 	<div>
-		<div class=" container tabs is-large">
+		<div class="container tabs is-large">
 			<ul>
 				<li class="is-active">Searched Movies</li>
 			</ul>
 		</div>
 		<div class="container">
-			{{ this.$route.query.query }}
-			<div class="grid container">
-				<div
-					class="gridElement movie-info"
-					v-for="result in results"
-					:key="result.id"
-				>
-					<MovieCardComponent
-						:movie="result"
-						:background_url="IMG_W500"
-						:imdb_id="imdb_id"
-					/>
+			<div v-if="results.length > 0">
+				<div class="grid container">
+					<div class="gridElement movie-info" v-for="result in results" :key="result.id">
+						<MovieCardComponent :movie="result" :image_url="IMG_W500" :imdb_id="imdb_id" />
+					</div>
+				</div>
+				<button class="loadMore" @click="loadMoreMovies">Load More</button>
+			</div>
+
+			<div v-else>
+				<div class="svgStyle">
+					<svg
+						xmlns="http://www.w3.org/2000/svg"
+						width="200px"
+						height="200px"
+						viewBox="0 0 451.74 451.74"
+					>
+						<path
+							d="M446.324 367.381L262.857 41.692c-15.644-28.444-58.311-28.444-73.956 0L5.435 367.381c-15.644 28.444 4.267 64 36.978 64h365.511c34.133-1.422 54.044-35.556 38.4-64z"
+							fill="#e24c4b"
+						/>
+						<path d="M225.879 63.025l183.467 325.689H42.413L225.879 63.025z" fill="#fff" />
+						<g fill="#3f4448">
+							<path
+								d="M196.013 212.359l11.378 75.378c1.422 8.533 8.533 15.644 18.489 15.644 8.533 0 17.067-7.111 18.489-15.644l11.378-75.378c2.844-18.489-11.378-34.133-29.867-34.133-18.49-.001-31.29 15.644-29.867 34.133z"
+							/>
+							<circle cx="225.879" cy="336.092" r="17.067" />
+						</g>
+					</svg>
+					<h1 class="Danger">Sorry, we couldn't find any results matching "{{this.$route.query.query}}"</h1>
 				</div>
 			</div>
 		</div>
-
-		<button class="loadMore" @click="loadMoreMovies">Load More</button>
 	</div>
 </template>
 
 <script>
 import axios from 'axios';
-import { API_KEY, API_URL, IMG_W500, IMG_W1280 } from '@/config';
+import MovieCardComponent from './MovieCardComponent';
+import {
+	API_KEY,
+	API_URL,
+	IMG_W500,
+	IMG_W1280,
+	MOVIE_IMDB_URL
+} from '@/config';
+import Events from '../Events';
+
 // import VueRouter from 'vue-router'
 
 export default {
 	name: 'search',
+
+	components: {
+		MovieCardComponent
+	},
 
 	data() {
 		return {
@@ -46,6 +75,18 @@ export default {
 	},
 
 	methods: {
+		setResults(results) {
+			this.results = results;
+		},
+
+		imdb_id(id) {
+			axios
+				.get(API_URL + '/3/movie/' + id + '?api_key=' + API_KEY)
+				.then(response => {
+					let imdbId = response.data.imdb_id;
+					window.open(MOVIE_IMDB_URL + imdbId, '_blank');
+				});
+		},
 		loadMoreMovies(query) {
 			axios
 				.get(
@@ -62,6 +103,10 @@ export default {
 				});
 			this.nextPage++;
 		}
+	},
+
+	created() {
+		Events.$on('search', this.setResults);
 	}
 };
 </script>
@@ -71,6 +116,20 @@ export default {
 }
 .display-block {
 	display: none !important;
+}
+.svgStyle {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	height: 70vh;
+}
+.svgStyle h1 {
+	margin-top: 30px;
+	font-weight: bold;
+	color: #1c1c1c;
+	text-align: center;
+	padding: 20px;
 }
 .searchText {
 	-webkit-box-align: center;
