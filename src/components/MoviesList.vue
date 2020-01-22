@@ -1,6 +1,5 @@
 <template>
 	<div>
-		<nprogress-container></nprogress-container>
 		<hooper
 			:itemsToShow="1"
 			:progress="true"
@@ -77,37 +76,15 @@
 					</li>
 				</ul>
 			</div>
-
-			<div class="grid">
-				<div
-					class="gridElement movie-info"
-					v-for="result in results"
-					:key="result.id"
-				>
-					<MovieCardComponent
-						:movie="result"
-						:image_url="IMG_W500"
-						:launchModal="launchModal"
-						:imdb_id="imdb_id"
-					/>
-				</div>
-			</div>
-
-			<button
-				class="loadMore"
-				@click="loadMoreMovies"
-				:class="{ 'display-none': isHiding }"
-				@keydown="SearchResult(query)"
-			>
-				Load More
-			</button>
+			<!-- Grid -->
+			<GridCardComponent />
+			<!--  -->
 		</div>
 	</div>
 </template>
 
 <script>
 import axios from 'axios';
-import NprogressContainer from 'vue-nprogress/src/NprogressContainer';
 import {
 	API_KEY,
 	API_URL,
@@ -116,21 +93,19 @@ import {
 	MOVIE_IMDB_URL,
 	YOUTUBE_URL
 } from '@/config';
-import MovieCardComponent from './MovieCardComponent.vue';
 import SliderCardComponent from './SliderCardComponent.vue';
-import { Hooper, Slide } from 'hooper';
+import GridCardComponent from './GridCardComponent';
 
-// import VueRouter from 'vue-router'
+import { Hooper, Slide } from 'hooper';
 
 export default {
 	name: 'MoviesList',
 
 	components: {
-		MovieCardComponent,
 		SliderCardComponent,
+		GridCardComponent,
 		Hooper,
-		Slide,
-		NprogressContainer
+		Slide
 	},
 
 	data() {
@@ -365,41 +340,6 @@ img {
 	transition: all 0.3s ease 0s;
 	border-radius: 20px;
 }
-.movie-info {
-	display: block;
-	font-family: Abel, sans-serif;
-	color: rgb(255, 255, 255);
-	text-align: center;
-	background: rgb(28, 28, 28);
-	border-radius: 20px;
-	padding: 5px;
-	height: 100%;
-}
-.movie-avatar {
-	width: 100%;
-	position: relative;
-}
-.movie-avatar img {
-	border-radius: 20px;
-}
-
-.movie-avatar .trailer_play {
-	border-radius: 10px;
-	display: none;
-	position: absolute;
-	top: 0;
-	left: 0;
-	background: rgba(0, 0, 0, 0.8);
-	text-align: center;
-	width: 100%;
-	height: 100%;
-	transition: 0.5s;
-}
-.movie-avatar:hover .trailer_play {
-	display: block !important;
-	transition: 0.5s;
-	padding: 10px;
-}
 h3 {
 	color: #fff;
 }
@@ -516,26 +456,6 @@ h1 {
 	font-size: 20px;
 	outline: none;
 	height: 60px;
-}
-.loadMore {
-	width: 25%;
-	min-width: 200px;
-	height: 70px;
-	color: rgb(255, 255, 255);
-	cursor: pointer;
-	font-family: Abel, sans-serif;
-	font-size: 28px;
-	display: block;
-	background: rgb(0, 0, 0);
-	transition: all 0.3s ease 0s;
-	border-radius: 40px;
-	border: none;
-	margin: 20px auto;
-	padding: 0px 20px;
-	outline: none;
-}
-.loadMore:hover {
-	opacity: 0.8;
 }
 .control {
 	font-size: 1.5rem !important;

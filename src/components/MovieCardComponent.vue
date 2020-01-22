@@ -82,36 +82,11 @@ export default {
 </script>
 
 <style scoped>
-.grid {
-	position: relative;
-	display: grid;
-	grid-template-columns: repeat(5, minmax(100px, 1fr));
-	gap: 40px;
-	margin-top: 40px;
-}
-.gridElement {
-	animation: 0.5s ease 0s 1 normal none running animateGrid;
-	position: relative;
-}
-.movie-info {
-	display: block;
-	font-family: Abel, sans-serif;
-	color: rgb(255, 255, 255);
-	text-align: center;
-	background: rgb(28, 28, 28);
-	border-radius: 20px;
-	padding: 5px;
-	height: 100%;
-}
 .movie-avatar {
 	width: 100%;
 	position: relative;
 }
-.movie-avatar img {
-	border-radius: 20px;
-}
 .movie-avatar .trailer_play {
-	border-radius: 10px;
 	display: none;
 	position: absolute;
 	top: 0;
@@ -123,15 +98,20 @@ export default {
 	transition: 0.5s;
 }
 .movie-avatar:hover .trailer_play {
-	display: block !important;
 	transition: 0.5s;
 	padding: 10px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
 }
 .d-flex {
 	display: flex !important;
 }
 .justify-content-between {
+	-webkit-box-pack: justify;
+	-ms-flex-pack: justify;
 	justify-content: space-between;
+	margin-bottom: auto;
 }
 .score {
 	cursor: pointer;
@@ -171,27 +151,5 @@ iframe {
 	position: absolute;
 	right: 2%;
 	top: -2%;
-}
-
-@media screen and (max-width: 1024px) {
-	.grid {
-		grid-template-columns: repeat(4, minmax(100px, 1fr));
-		gap: 40px;
-	}
-}
-@media screen and (max-width: 768px) {
-	.grid {
-		grid-template-columns: repeat(3, minmax(100px, 1fr));
-	}
-}
-@media screen and (max-width: 600px) {
-	.grid {
-		grid-template-columns: repeat(2, minmax(100px, 1fr));
-	}
-}
-@media screen and (max-width: 375px) {
-	.grid {
-		grid-template-columns: repeat(1, minmax(100px, 1fr));
-	}
 }
 </style>

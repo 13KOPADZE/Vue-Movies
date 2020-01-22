@@ -130,6 +130,14 @@
 					/>
 				</div>
 			</div>
+			<button
+				class="loadMore"
+				v-if="!isHidden"
+				@click="showAll"
+				v-on:click="isHidden = true"
+			>
+				Show All
+			</button>
 		</div>
 	</div>
 </template>
@@ -160,7 +168,8 @@ export default {
 			results: '',
 			movies: '',
 			ACTOR_IMDB_URL: ACTOR_IMDB_URL,
-			IMG_W500: IMG_W500
+			IMG_W500: IMG_W500,
+			isHidden: false
 		};
 	},
 
@@ -171,6 +180,19 @@ export default {
 				.then(response => {
 					let imdbId = response.data.imdb_id;
 					window.open(MOVIE_IMDB_URL + imdbId, '_blank');
+				});
+		},
+		showAll() {
+			axios
+				.get(
+					API_URL +
+						'/3/person/' +
+						this.$route.params.id +
+						'/movie_credits?api_key=' +
+						API_KEY
+				)
+				.then(response => {
+					this.movies = response.data.cast;
 				});
 		}
 	},
@@ -192,7 +214,7 @@ export default {
 					API_KEY
 			)
 			.then(response => {
-				this.movies = response.data.cast;
+				this.movies = response.data.cast.slice(0, 10);
 			});
 	}
 };
@@ -301,19 +323,22 @@ export default {
 	display: block;
 	cursor: pointer;
 	font-family: Abel, sans-serif;
-	color: rgb(255, 255, 255);
+	color: rgba(28, 28, 28, 1);
 	text-align: center;
-	background: rgb(28, 28, 28);
-	border-radius: 20px;
-	padding: 5px;
+	/* background: rgb(28, 28, 28); */
+	/* border-radius: 20px; */
+	/* padding: 5px; */
 	height: 100%;
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: flex;
+	border-bottom: 1px solid #000;
 }
 .actors-info img {
 	display: block;
 	width: 100%;
 	height: auto;
 	object-fit: cover;
-	border-radius: 15px;
 }
 .actor-name {
 	display: block;
@@ -344,6 +369,26 @@ export default {
 	max-width: 700px;
 	margin-bottom: 50px;
 	flex-direction: column;
+}
+.loadMore {
+	width: 25%;
+	min-width: 200px;
+	height: 70px;
+	color: rgb(255, 255, 255);
+	cursor: pointer;
+	font-family: Abel, sans-serif;
+	font-size: 28px;
+	display: block;
+	background: rgb(0, 0, 0);
+	transition: all 0.3s ease 0s;
+	border-radius: 40px;
+	border: none;
+	margin: 20px auto;
+	padding: 0px 20px;
+	outline: none;
+}
+.loadMore:hover {
+	opacity: 0.8;
 }
 .paddingAround {
 	padding: 0 20px;

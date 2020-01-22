@@ -34,20 +34,18 @@ export default {
 	display: block;
 	cursor: pointer;
 	font-family: Abel, sans-serif;
-	color: rgb(255, 255, 255);
+	color: rgb(28, 28, 28);
 	text-align: center;
-	background: rgb(28, 28, 28);
-	border-radius: 20px;
-	padding: 5px;
 	height: 100%;
 	display: flex;
+	border-bottom: 1px solid #000;
 }
 .actors-info img {
 	display: block;
 	width: 100%;
 	height: auto;
+	max-height: 160px;
 	object-fit: cover;
-	border-radius: 15px;
 }
 .actor-name {
 	display: block;

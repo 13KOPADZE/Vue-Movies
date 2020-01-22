@@ -7,7 +7,7 @@
 		}"
 		v-if="movie.backdrop_path !== null"
 	>
-		<div class="container informationText d-flex align-items-end">
+		<div class="container informationText d-flex align-items-center">
 			<div class="flex-direction-column">
 				<div>
 					<div class="rating-release justify-content-between d-flex">
@@ -69,6 +69,9 @@ export default {
 }
 .align-items-end {
 	align-items: flex-end;
+}
+.align-items-center {
+	align-items: center;
 }
 .flex-direction-column {
 	max-width: 700px;

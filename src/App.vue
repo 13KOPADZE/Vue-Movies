@@ -8,22 +8,15 @@
 			<router-link to="/"></router-link>
 
 			<router-view></router-view>
-
-			<!-- <MovieBackground />
-
-      <MoviesList />
-      
-      <DetailsView />
-
-      <ActorDetailsPage /> -->
 		</div>
+		<Footer />
 	</div>
 </template>
 
 <script>
 import 'bulma/css/bulma.css';
 import Header from './components/Header.vue';
-// import MovieBackground from './components/informationDesk.vue'
+import Footer from './components/Footer.vue';
 // import MoviesList from './components/MoviesList.vue'
 // import DetailsView from './components/DetailsView.vue'
 // import ActorDetailsPage from './components/ActorDetailsPage.vue'
@@ -31,7 +24,8 @@ import Header from './components/Header.vue';
 export default {
 	name: 'app',
 	components: {
-		Header
+		Header,
+		Footer
 		// MovieBackground,
 		// MoviesList,
 		// DetailsView,

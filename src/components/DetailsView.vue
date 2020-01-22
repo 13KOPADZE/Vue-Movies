@@ -165,7 +165,11 @@
 		<div class="container paddingAround">
 			<h1 class="actors-heading">Actors</h1>
 			<div class="grid">
-				<div class="gridElement" v-for="cast in casts" :key="cast.id">
+				<div
+					class="gridElement actorsGridElement"
+					v-for="cast in casts"
+					:key="cast.id"
+				>
 					<ActorCardComponent :actor="cast" :image_url="IMG_W500" />
 				</div>
 			</div>
@@ -214,10 +218,13 @@ import Vue from 'vue';
 import VueYoutube from 'vue-youtube';
 import ActorCardComponent from './ActorCardComponent.vue';
 import MovieCardComponent from './MovieCardComponent.vue';
+import NProgress from 'nprogress';
 
 Vue.use(require('vue-moment'));
 
 Vue.use(VueYoutube);
+
+Vue.use(NProgress);
 
 var numeral = require('numeral');
 
@@ -226,11 +233,11 @@ var moment = require('moment');
 var momentDurationFormatSetup = require('moment-duration-format');
 
 Vue.filter('formatNumber', function(value) {
-	return numeral(value).format('$ 0,0'); // displaying other groupings/separators is possible, look at the docs
+	return numeral(value).format('$ 0,0');
 });
 
 Vue.filter('imdbNumber', function(value) {
-	return numeral(value).format('0.0'); // displaying other groupings/separators is possible, look at the docs
+	return numeral(value).format('0.0');
 });
 
 Vue.filter('formatHours', function(value) {
@@ -244,11 +251,10 @@ export default {
 		ActorCardComponent,
 		MovieCardComponent
 	},
-
 	watch: {
 		$route(to, from) {
-			console.log('watch:', to, from);
-			alert(to.params.id);
+			this.params = to.params.id;
+			console.log('watch:', this.params, from);
 		}
 	},
 
@@ -259,6 +265,7 @@ export default {
 			casts: '',
 			similarMovie: '',
 			trailers: '',
+			params: '',
 			YOUTUBE_URL: YOUTUBE_URL,
 			showModal: false,
 			isHidden: false,
@@ -269,6 +276,7 @@ export default {
 			IMG_W1280: IMG_W1280
 		};
 	},
+
 	methods: {
 		showAll() {
 			axios
@@ -309,10 +317,6 @@ export default {
 	},
 
 	mounted() {
-		setTimeout(() => {
-			this.results.original_title = 'asdasd';
-			console.log(123);
-		}, 5000);
 		axios
 			.get(
 				API_URL +
@@ -344,12 +348,6 @@ export default {
 			.then(response => {
 				this.casts = response.data.cast.slice(0, 6);
 			});
-	},
-	beforeRouteUpdate(to, from, next) {
-		// just use `this`
-		console.log(to.name);
-
-		next();
 	}
 };
 </script>
@@ -478,6 +476,12 @@ iframe {
 	font-size: 48px;
 	color: rgb(0, 0, 0);
 }
+.actorsGridElement:nth-child(4n + 4) {
+	background: #ccc;
+}
+.actorsGridElement:nth-child(4n + 3) {
+	background: #ccc;
+}
 .informationSection h3 {
 	font-size: 16px;
 	line-height: 0;
@@ -580,6 +584,7 @@ img {
 }
 .gridElement {
 	animation: 0.5s ease 0s 1 normal none running animateGrid;
+	overflow: hidden;
 }
 
 p {
@@ -633,14 +638,12 @@ p {
 	.movie-image {
 		margin: 0 auto;
 		float: none;
-		width: 500px;
 	}
 }
 @media screen and (max-width: 550px) {
 	.movie-image {
 		margin: 0 auto;
 		float: none;
-		width: auto;
 	}
 	.informationSection h3 {
 		font-size: 11px !important;
