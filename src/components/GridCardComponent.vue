@@ -36,7 +36,7 @@ import {
 export default {
 	name: 'GridCardComponent',
 
-	props: [''],
+	props: ['SearchResult'],
 
 	components: {
 		MovieCardComponent
@@ -100,6 +100,7 @@ export default {
 		/**
 		 *
 		 */
+
 		fetch(query) {
 			axios.get(query).then(response => {
 				this.results = response.data.results;
@@ -123,6 +124,7 @@ export default {
 .gridElement {
 	animation: 0.5s ease 0s 1 normal none running animateGrid;
 	position: relative;
+	overflow: hidden;
 }
 .movie-info {
 	display: block;
@@ -137,17 +139,18 @@ export default {
 .loadMore {
 	width: 25%;
 	min-width: 200px;
-	height: 70px;
+	height: 55px;
 	color: rgb(255, 255, 255);
 	cursor: pointer;
 	font-family: Abel, sans-serif;
 	font-size: 28px;
 	display: block;
 	background: rgb(0, 0, 0);
+	-webkit-transition: all 0.3s ease 0s;
 	transition: all 0.3s ease 0s;
 	border-radius: 40px;
 	border: none;
-	margin: 45px auto;
+	margin: 50px auto;
 	padding: 0px 20px;
 	outline: none;
 }

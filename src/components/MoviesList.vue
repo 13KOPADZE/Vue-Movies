@@ -1,6 +1,7 @@
 <template>
 	<div>
 		<hooper
+			:hoverPause="false"
 			:itemsToShow="1"
 			:progress="true"
 			:autoPlay="true"
@@ -20,7 +21,7 @@
 		</hooper>
 		<div></div>
 		<div class="search-background">
-			<div class="container control">
+			<!-- <div class="container control">
 				<p class="control has-icons-left relative">
 					<input
 						class="input"
@@ -41,7 +42,7 @@
 						/>
 					</svg>
 				</p>
-			</div>
+			</div> -->
 
 			<div class="genres" :class="{ 'display-none': isHiding }">
 				<ul class="container d-flex wrapped genres">
@@ -85,6 +86,8 @@
 
 <script>
 import axios from 'axios';
+import NProgress from 'nprogress';
+
 import {
 	API_KEY,
 	API_URL,
@@ -176,6 +179,7 @@ export default {
 		 *
 		 */
 		filterGeners(id) {
+			NProgress.start();
 			let query =
 				API_URL +
 				'/3/discover/movie?api_key=' +
@@ -183,6 +187,7 @@ export default {
 				'&sort_by=popularity.desc&with_genres=' +
 				id;
 			this.fetch(query);
+			NProgress.done();
 		},
 
 		/**
@@ -194,25 +199,25 @@ export default {
 			});
 		},
 
-		SearchResult(query) {
-			let url =
-				API_URL + '/3/search/movie?api_key=' + API_KEY + '&query=' + query;
-			query == ''
-				? (url = API_URL + '/3/movie/popular?api_key=' + API_KEY)
-				: true;
-			this.fetch(url);
+		// SearchResult(query) {
+		// 	let url =
+		// 		API_URL + '/3/search/movie?api_key=' + API_KEY + '&query=' + query;
+		// 	query == ''
+		// 		? (url = API_URL + '/3/movie/popular?api_key=' + API_KEY)
+		// 		: true;
+		// 	this.fetch(url);
 
-			if (query == '') {
-				this.isHiding = false;
-			} else {
-				this.isHiding = true;
-			}
-			if (query == '') {
-				this.searchText = true;
-			} else {
-				this.searchText = false;
-			}
-		},
+		// 	if (query == '') {
+		// 		this.isHiding = false;
+		// 	} else {
+		// 		this.isHiding = true;
+		// 	}
+		// 	if (query == '') {
+		// 		this.searchText = true;
+		// 	} else {
+		// 		this.searchText = false;
+		// 	}
+		// },
 
 		/**
 		 *

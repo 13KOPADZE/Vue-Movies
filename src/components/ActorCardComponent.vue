@@ -38,13 +38,15 @@ export default {
 	text-align: center;
 	height: 100%;
 	display: flex;
-	border-bottom: 1px solid #000;
+	border-bottom: 1px solid #ccc;
 }
 .actors-info img {
 	display: block;
 	width: 100%;
+	max-width: 90px;
 	height: auto;
-	max-height: 160px;
+	max-height: 135px;
+	-o-object-fit: cover;
 	object-fit: cover;
 }
 .actor-name {

@@ -31,18 +31,18 @@
 					<div>
 						<h1>{{ results.name }}</h1>
 						<h3>Biography</h3>
-						<p v-if="results.biography !== null">{{ results.biography }}</p>
+						<p v-if="results.biography.length > 0">{{ results.biography }}</p>
 						<p v-else>No Info</p>
 					</div>
 					<div class="actor-info">
 						<div>
 							<h3>Imdb Id</h3>
 							<div class="imdb_id" v-if="results.imdb_id !== null">
-								<a :href="ACTOR_IMDB_URL + results.imdb_id" target="_blank"
-									><div style="color: #fff !important">
+								<a :href="ACTOR_IMDB_URL + results.imdb_id" target="_blank">
+									<div style="color: #fff !important">
 										{{ results.imdb_id }}
-									</div></a
-								>
+									</div>
+								</a>
 							</div>
 							<p v-else>No Info</p>
 						</div>
@@ -373,17 +373,18 @@ export default {
 .loadMore {
 	width: 25%;
 	min-width: 200px;
-	height: 70px;
+	height: 55px;
 	color: rgb(255, 255, 255);
 	cursor: pointer;
 	font-family: Abel, sans-serif;
 	font-size: 28px;
 	display: block;
 	background: rgb(0, 0, 0);
+	-webkit-transition: all 0.3s ease 0s;
 	transition: all 0.3s ease 0s;
 	border-radius: 40px;
 	border: none;
-	margin: 20px auto;
+	margin: 50px auto;
 	padding: 0px 20px;
 	outline: none;
 }

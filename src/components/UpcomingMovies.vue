@@ -1,6 +1,7 @@
 <template>
 	<div>
 		<hooper
+			:hoverPause="false"
 			:itemsToShow="1"
 			:progress="true"
 			:autoPlay="true"

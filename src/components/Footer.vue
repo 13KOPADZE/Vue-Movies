@@ -18,7 +18,7 @@ footer {
 	align-items: center;
 	justify-content: center;
 	width: 100%;
-	height: 70px;
+	height: 75px;
 }
 p {
 	padding: 10px;

@@ -62,7 +62,6 @@
 import axios from 'axios';
 // import GridCardComponent from './GridCardComponent';
 import MovieCardComponent from './MovieCardComponent';
-
 import {
 	API_KEY,
 	API_URL,
@@ -149,6 +148,7 @@ export default {
 	color: #1c1c1c;
 	text-align: center;
 	padding: 20px;
+	font-size: 25px;
 }
 .searchText {
 	-webkit-box-align: center;
@@ -192,6 +192,7 @@ export default {
 .gridElement {
 	animation: 0.5s ease 0s 1 normal none running animateGrid;
 	position: relative;
+	overflow: hidden;
 }
 .movie-info {
 	display: block;
@@ -333,17 +334,18 @@ h1 {
 .loadMore {
 	width: 25%;
 	min-width: 200px;
-	height: 70px;
+	height: 55px;
 	color: rgb(255, 255, 255);
 	cursor: pointer;
 	font-family: Abel, sans-serif;
 	font-size: 28px;
 	display: block;
 	background: rgb(0, 0, 0);
+	-webkit-transition: all 0.3s ease 0s;
 	transition: all 0.3s ease 0s;
 	border-radius: 40px;
 	border: none;
-	margin: 20px auto;
+	margin: 50px auto;
 	padding: 0px 20px;
 	outline: none;
 }

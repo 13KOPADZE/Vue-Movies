@@ -85,6 +85,7 @@ export default {
 .movie-avatar {
 	width: 100%;
 	position: relative;
+	height: 100%;
 }
 .movie-avatar .trailer_play {
 	display: none;

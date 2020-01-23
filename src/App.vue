@@ -1,6 +1,7 @@
 <template>
 	<div>
-		<Header /><!-- HeaderComponent -->
+		<Header />
+		<!-- HeaderComponent -->
 
 		<div id="app">
 			<!-- Main Content  -->
@@ -14,22 +15,30 @@
 </template>
 
 <script>
+import axios from 'axios';
 import 'bulma/css/bulma.css';
+import 'nprogress/nprogress.css';
 import Header from './components/Header.vue';
+import NProgress from 'nprogress';
 import Footer from './components/Footer.vue';
-// import MoviesList from './components/MoviesList.vue'
-// import DetailsView from './components/DetailsView.vue'
-// import ActorDetailsPage from './components/ActorDetailsPage.vue'
 
 export default {
 	name: 'app',
 	components: {
 		Header,
 		Footer
-		// MovieBackground,
-		// MoviesList,
-		// DetailsView,
-		// ActorDetailsPage
+	},
+	mounted() {
+		// Add a request interceptor
+		axios.interceptors.request.use(function(config) {
+			NProgress.start();
+			return config;
+		});
+		// Add a response interceptor
+		axios.interceptors.response.use(function(config) {
+			NProgress.done();
+			return config;
+		});
 	}
 };
 </script>

@@ -218,13 +218,10 @@ import Vue from 'vue';
 import VueYoutube from 'vue-youtube';
 import ActorCardComponent from './ActorCardComponent.vue';
 import MovieCardComponent from './MovieCardComponent.vue';
-import NProgress from 'nprogress';
 
 Vue.use(require('vue-moment'));
 
 Vue.use(VueYoutube);
-
-Vue.use(NProgress);
 
 var numeral = require('numeral');
 
@@ -439,17 +436,18 @@ iframe {
 .loadMore {
 	width: 25%;
 	min-width: 200px;
-	height: 70px;
+	height: 55px;
 	color: rgb(255, 255, 255);
 	cursor: pointer;
 	font-family: Abel, sans-serif;
 	font-size: 28px;
 	display: block;
 	background: rgb(0, 0, 0);
+	-webkit-transition: all 0.3s ease 0s;
 	transition: all 0.3s ease 0s;
 	border-radius: 40px;
 	border: none;
-	margin: 20px auto;
+	margin: 50px auto;
 	padding: 0px 20px;
 	outline: none;
 }
@@ -477,10 +475,10 @@ iframe {
 	color: rgb(0, 0, 0);
 }
 .actorsGridElement:nth-child(4n + 4) {
-	background: #ccc;
+	background: #eaeaea;
 }
 .actorsGridElement:nth-child(4n + 3) {
-	background: #ccc;
+	background: #eaeaea;
 }
 .informationSection h3 {
 	font-size: 16px;
