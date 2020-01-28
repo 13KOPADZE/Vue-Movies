@@ -9,17 +9,10 @@
         <p>{{ results.original_title }}</p>
       </div>
     </div>
-    <div
-      class="background"
-      :style="{ backgroundImage: `url(${IMG_W1280 + results.backdrop_path})` }"
-      v-if="results.backdrop_path"
-    >
+    <div class="background" :style="{ backgroundImage: `url(${background})` }">
       <div class="movie-details">
         <div class="movie-image">
-          <img
-            v-if="results.poster_path"
-            v-bind:src="IMG_W500 + results.poster_path"
-          />
+          <img v-if="results.poster_path" v-bind:src="posterIMG" />
           <img v-else src="../assets/no-image.jpg" />
         </div>
         <section class="information-section">
@@ -32,7 +25,7 @@
             <div>
               <h3>Imdb Rating</h3>
               <div class="score">
-                <a :href="MOVIE_IMDB_URL + results.imdb_id" target="_blank">
+                <a :href="imdb_score" target="_blank">
                   <div style="color: black;">
                     {{ results.vote_average | imdbNumber }}
                   </div>
@@ -50,21 +43,24 @@
             @click="launchModal"
           >
             <h1>Trailer:</h1>
-            <svg
-              class="trailer-SVG"
-              @click="showModal = true"
-              @keydown.esc="showModal = false"
-              tabindex="1"
-              xmlns="http://www.w3.org/2000/svg"
-              width="40px"
-              height="40px"
-              viewBox="0 0 461.001 461.001"
-            >
-              <path
-                d="M365.257 67.393H95.744C42.866 67.393 0 110.259 0 163.137v134.728c0 52.878 42.866 95.744 95.744 95.744h269.513c52.878 0 95.744-42.866 95.744-95.744V163.137c0-52.878-42.866-95.744-95.744-95.744zm-64.751 169.663l-126.06 60.123c-3.359 1.602-7.239-.847-7.239-4.568V168.607c0-3.774 3.982-6.22 7.348-4.514l126.06 63.881c3.748 1.899 3.683 7.274-.109 9.082z"
-                fill="#f61c0d"
-              />
-            </svg>
+            <button class="trailer-button">
+              <svg
+                class="trailer-SVG"
+                @click="showModal = true"
+                @keydown.esc="showModal = false"
+                tabindex="1"
+                xmlns="http://www.w3.org/2000/svg"
+                width="40px"
+                height="40px"
+                viewBox="0 0 461.001 461.001"
+              >
+                <path
+                  d="M365.257 67.393H95.744C42.866 67.393 0 110.259 0 163.137v134.728c0 52.878 42.866 95.744 95.744 95.744h269.513c52.878 0 95.744-42.866 95.744-95.744V163.137c0-52.878-42.866-95.744-95.744-95.744zm-64.751 169.663l-126.06 60.123c-3.359 1.602-7.239-.847-7.239-4.568V168.607c0-3.774 3.982-6.22 7.348-4.514l126.06 63.881c3.748 1.899 3.683 7.274-.109 9.082z"
+                  fill="#f61c0d"
+                />
+              </svg>
+            </button>
+
             <div
               v-if="showModal"
               @click="showModal = false"
@@ -74,7 +70,7 @@
 
               <div class="modal-content">
                 <iframe
-                  v-bind:src="YOUTUBE_URL + this.trailers"
+                  v-bind:src="movie_trailer"
                   v-if="this.trailers"
                 ></iframe>
 
@@ -216,8 +212,8 @@ import {
 } from '@/config';
 import Vue from 'vue';
 import VueYoutube from 'vue-youtube';
-import ActorCardComponent from './ActorCardComponent.vue';
-import MovieCardComponent from './MovieCardComponent.vue';
+import ActorCardComponent from '../components/ActorCardComponent.vue';
+import MovieCardComponent from '../components/MovieCardComponent';
 
 Vue.use(require('vue-moment'));
 
@@ -277,6 +273,24 @@ export default {
       IMG_W500: IMG_W500,
       IMG_W1280: IMG_W1280
     };
+  },
+  computed: {
+    background: function() {
+      if (this.results.backdrop_path) {
+        return this.IMG_W1280 + this.results.backdrop_path;
+      } else {
+        return '../assets/no-image.jpg';
+      }
+    },
+    posterIMG: function() {
+      return this.IMG_W500 + this.results.poster_path;
+    },
+    imdb_score: function() {
+      return this.MOVIE_IMDB_URL + this.results.imdb_id;
+    },
+    movie_trailer: function() {
+      return this.YOUTUBE_URL + this.trailers;
+    }
   },
 
   methods: {
@@ -407,6 +421,9 @@ export default {
   width: 100%;
   margin: 0px auto;
   padding: 0px 20px;
+}
+.score {
+  margin-top: 15px;
 }
 img {
   width: 100%;

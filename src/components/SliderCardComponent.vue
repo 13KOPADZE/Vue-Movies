@@ -2,12 +2,11 @@
   <div
     class="background"
     :style="{
-      backgroundImage: `url(${'https://image.tmdb.org/t/p/w1280/' +
-        movie.backdrop_path})`
+      backgroundImage: `url(${slider_background})`
     }"
-    v-if="movie.backdrop_path !== null"
+    v-if="movie.backdrop_path"
   >
-    <div class="container informationText d-flex align-items-center">
+    <div class="container information-text d-flex align-items-center">
       <div class="flex-direction-column">
         <div>
           <div class="rating-release justify-content-between d-flex">
@@ -41,10 +40,22 @@
 </template>
 
 <script>
+import { IMG_W1280 } from '@/config';
 export default {
   name: 'SliderCard',
 
-  props: ['movie', 'background_url', 'imdb_id']
+  props: ['movie', 'background_url', 'imdb_id'],
+
+  data() {
+    return {
+      IMG_W1280: IMG_W1280
+    };
+  },
+  computed: {
+    slider_background: function() {
+      return this.IMG_W1280 + this.movie.backdrop_path;
+    }
+  }
 };
 </script>
 
@@ -58,40 +69,19 @@ export default {
   background-size: cover;
   background-position: center center, center center !important;
 }
-.informationText {
+.information-text {
   height: 100%;
   color: rgb(255, 255, 255);
   background: rgba(0, 0, 0, 0);
   margin-bottom: 0px;
 }
-.d-flex {
-  display: flex !important;
-}
-.align-items-end {
-  align-items: flex-end;
-}
-.align-items-center {
-  align-items: center;
-}
 .flex-direction-column {
-  max-width: 700px;
-  margin-bottom: 50px;
-  flex-direction: column;
   padding: 20px;
   background: rgba(0, 0, 0, 0.8);
   border-radius: 20px;
 }
-
-.release {
-  margin-left: 40px;
-}
 .imdbScore h3 {
-  padding: 0 0 20px 0;
-}
-.movieDetails {
-  color: #fff;
-  transition: 0.5s;
-  padding: 20px 0;
+  padding: 0px 0 10px 0;
 }
 .movieDetailsButton {
   cursor: pointer;
@@ -112,11 +102,7 @@ h1 {
   color: #fff;
   font-size: 24px;
 }
-h3 {
-  font-weight: 400;
-}
 p {
-  font-size: 18px;
   padding: 20px 0;
   color: rgb(255, 255, 255);
 }

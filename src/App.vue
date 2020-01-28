@@ -18,9 +18,9 @@
 import axios from 'axios';
 import 'bulma/css/bulma.css';
 import 'nprogress/nprogress.css';
-import Header from './components/Header.vue';
+import Header from './pages/Header.vue';
 import NProgress from 'nprogress';
-import Footer from './components/Footer.vue';
+import Footer from './pages/Footer.vue';
 
 export default {
   name: 'app',
@@ -45,4 +45,7 @@ export default {
 
 <style>
 @import url('style/style.css');
+#app {
+  min-height: calc(100vh - 225px);
+}
 </style>

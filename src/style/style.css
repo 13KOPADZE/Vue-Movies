@@ -9,6 +9,21 @@ header {
   background: rgb(28, 28, 28);
   padding: 30px 20px;
 }
+::-webkit-scrollbar {
+  width: 3px;
+  height: 3px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #32a2ec;
+}
+
+#nprogress .bar {
+  height: 3px;
+}
 ::placeholder {
   font-size: 20px;
   color: #ccc;
@@ -61,6 +76,10 @@ header {
   background-size: cover;
   background-position: center center, center center !important;
 }
+.trailer-button {
+  border: 0px;
+  background: transparent;
+}
 .score {
   display: flex;
   align-items: center;
@@ -71,7 +90,7 @@ header {
   font-weight: 800;
   background: #fff;
   border-radius: 25px;
-  margin-top: 15px;
+  cursor: pointer;
 }
 iframe {
   width: 640px;
@@ -86,20 +105,15 @@ iframe {
 .genres {
   padding: 5px;
   color: #fff;
+  width: 100%;
+  overflow: auto;
 }
 .genres li {
-  padding: 10px;
-  margin: 5px;
+  padding: 0px 20px;
   cursor: pointer;
   transition: 0.5s;
-  border: 1px solid #32a2ec;
-  border-radius: 5px;
-}
-
-.genres li:hover {
-  border: 1px solid #3273dc;
-  background: #3273dc;
-  transition: 0.5s;
+  border-right: 1px solid #32a2ec;
+  text-align: center;
 }
 .padding-around {
   padding: 0 20px;
@@ -152,7 +166,6 @@ iframe {
   transition: 0.5s;
 }
 .movie-avatar:hover .trailer_play {
-  -webkit-transition: 0.5s;
   transition: 0.5s;
   padding: 10px;
   display: flex;

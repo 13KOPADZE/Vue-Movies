@@ -6,7 +6,7 @@
       </ul>
     </div>
     <div class="container">
-      <div v-if="results.length > 0">
+      <div v-if="results.length">
         <div class="grid container">
           <div
             class="gridElement movie-info"
@@ -20,7 +20,6 @@
             />
           </div>
         </div>
-        <button class="loadMore" @click="loadMoreMovies">Load More</button>
         <!-- <GridCardComponent :result="searchResult" /> -->
       </div>
 
@@ -103,22 +102,6 @@ export default {
           let imdbId = response.data.imdb_id;
           window.open(MOVIE_IMDB_URL + imdbId, '_blank');
         });
-    },
-    loadMoreMovies(query) {
-      axios
-        .get(
-          API_URL +
-            '/3/search/movie?api_key=' +
-            API_KEY +
-            '&query=' +
-            query +
-            '&page=' +
-            this.nextPage
-        )
-        .then(response => {
-          this.results = this.results.concat(response.data.results);
-        });
-      this.nextPage++;
     }
   },
 
@@ -133,7 +116,6 @@ export default {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  min-height: 72vh;
 }
 .svg-style h1 {
   margin-top: 30px;
@@ -143,73 +125,12 @@ export default {
   padding: 20px;
   font-size: 25px;
 }
-h1 {
-  font-family: Abel, sans-serif;
-  font-size: 48px;
-  color: rgb(255, 255, 255);
-}
-p {
-  font-family: Abel, sans-serif;
-  font-size: 22px;
-  line-height: 26px;
-  color: rgb(255, 255, 255);
-}
-.wrapped {
-  flex-wrap: wrap;
-}
 ul li {
   margin-top: 15px;
-  color: #3273dc !important;
-  border-bottom: 1px solid #3273dc !important;
+  color: #3273dc;
+  border-bottom: 1px solid #3273dc;
   font-size: 30px;
 }
-.wrapped li {
-  padding: 15px;
-  cursor: pointer;
-}
-input:focus {
-  box-shadow: none;
-}
-.paddingAround {
-  padding: 0 20px;
-}
-a {
-  transition: 0.5s;
-}
-a:hover {
-  opacity: 0.8;
-  transition: 0.5s;
-}
-img {
-  width: 100%;
-  height: auto;
-  object-fit: cover;
-  transition: all 0.3s ease 0s;
-  border-radius: 20px;
-}
-.movie-name {
-  color: #fff;
-  display: block;
-  font-size: 16px;
-  margin: 0px 0px 10px;
-}
-
-.grid {
-  position: relative;
-  display: grid;
-  grid-template-columns: repeat(5, minmax(100px, 1fr));
-  gap: 40px;
-  margin-top: 40px;
-}
-.gridElement {
-  animation: 0.5s ease 0s 1 normal none running animateGrid;
-  cursor: pointer;
-}
-.search-background {
-  background: #1c1c1c;
-  padding: 30px 20px;
-}
-
 .input {
   border: none;
   border-radius: 30px;
@@ -218,26 +139,5 @@ img {
   font-size: 20px;
   outline: none;
   height: 60px;
-}
-@media screen and (max-width: 1024px) {
-  .grid {
-    grid-template-columns: repeat(4, minmax(100px, 1fr));
-    gap: 40px;
-  }
-}
-@media screen and (max-width: 768px) {
-  .grid {
-    grid-template-columns: repeat(3, minmax(100px, 1fr));
-  }
-}
-@media screen and (max-width: 600px) {
-  .grid {
-    grid-template-columns: repeat(2, minmax(100px, 1fr));
-  }
-}
-@media screen and (max-width: 375px) {
-  .grid {
-    grid-template-columns: repeat(1, minmax(100px, 1fr));
-  }
 }
 </style>

@@ -2,10 +2,7 @@
   <router-link :to="{ name: 'actor', params: { id: actor.id } }">
     <div class="actors-info" v-if="actor">
       <div class="img-style">
-        <img
-          v-bind:src="'https://image.tmdb.org/t/p/w500/' + actor.profile_path"
-          v-if="actor.profile_path"
-        />
+        <img v-bind:src="actor_img" v-if="actor.profile_path" />
         <img src="../assets/no-image.jpg" v-else />
       </div>
       <div>
@@ -17,10 +14,21 @@
 </template>
 
 <script>
+import { IMG_W500 } from '@/config';
 export default {
   name: 'ActorCard',
 
-  props: ['actor', 'image_url']
+  props: ['actor', 'image_url'],
+  data() {
+    return {
+      IMG_W500: IMG_W500
+    };
+  },
+  computed: {
+    actor_img: function() {
+      return this.IMG_W500 + this.actor.profile_path;
+    }
+  }
 };
 </script>
 

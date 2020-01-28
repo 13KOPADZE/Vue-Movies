@@ -9,7 +9,6 @@
       :playSpeed="3500"
       :infiniteScroll="true"
       :centerMode="true"
-      :class="{ 'display-none': isHiding }"
     >
       <slide v-for="result in results" :key="result.id">
         <SliderCardComponent
@@ -21,31 +20,8 @@
     </hooper>
     <div></div>
     <div class="search-background">
-      <div class="container control">
-        <p class="control has-icons-left relative">
-          <input
-            class="input"
-            type="text"
-            placeholder="Search Movie"
-            v-model.trim="query"
-            @keyup="searchResult(query)"
-          />
-          <svg
-            class="absolute"
-            xmlns="http://www.w3.org/2000/svg"
-            width="25px"
-            viewBox="0 0 512 512"
-          >
-            <path
-              fill="#fff"
-              d="M495 466.2L377.2 348.4c29.2-35.6 46.8-81.2 46.8-130.9C424 103.5 331.5 11 217.5 11 103.4 11 11 103.5 11 217.5S103.4 424 217.5 424c49.7 0 95.2-17.5 130.8-46.7L466.1 495c8 8 20.9 8 28.9 0 8-7.9 8-20.9 0-28.8zm-277.5-83.3C126.2 382.9 52 308.7 52 217.5S126.2 52 217.5 52C308.7 52 383 126.3 383 217.5s-74.3 165.4-165.5 165.4z"
-            />
-          </svg>
-        </p>
-      </div>
-
-      <div class="genres" :class="{ 'display-none': isHiding }">
-        <ul class="container d-flex wrapped genres">
+      <div class="genres">
+        <ul class="container d-flex wrapped genres ">
           <li
             @click="filterGeners(genres.id)"
             v-for="genres in genres"
@@ -56,18 +32,8 @@
         </ul>
       </div>
     </div>
-
-    <div
-      class="container tabs is-large"
-      :class="{ 'display-none': searchText }"
-    >
-      <ul>
-        <li class="searchText">Searched Movies</li>
-      </ul>
-    </div>
-
     <div class="container padding-around">
-      <div class="tabs is-large" :class="{ 'display-none': isHiding }">
+      <div class="tabs is-large">
         <ul>
           <li class="is-active">
             <router-link to="/popular-movies">Popular Movies</router-link>
@@ -77,9 +43,7 @@
           </li>
         </ul>
       </div>
-      <!-- Grid -->
       <GridCardComponent />
-      <!--  -->
     </div>
   </div>
 </template>
@@ -95,8 +59,8 @@ import {
   MOVIE_IMDB_URL,
   YOUTUBE_URL
 } from '@/config';
-import SliderCardComponent from './SliderCardComponent.vue';
-import GridCardComponent from './GridCardComponent';
+import SliderCardComponent from '../components/SliderCardComponent.vue';
+import GridCardComponent from '../components/GridCardComponent';
 
 import { Hooper, Slide } from 'hooper';
 
@@ -194,21 +158,6 @@ export default {
       axios.get(query).then(response => {
         this.results = response.data.results;
       });
-    },
-
-    searchResult(query) {
-      let url =
-        API_URL + '/3/search/movie?api_key=' + API_KEY + '&query=' + query;
-      query == ''
-        ? (url = API_URL + '/3/movie/popular?api_key=' + API_KEY)
-        : true;
-      this.fetch(url);
-
-      if (query == '') {
-        this.isActive = false;
-      } else {
-        this.isActive = true;
-      }
     }
 
     /**
@@ -264,13 +213,6 @@ export default {
 .hooper {
   display: flex;
   outline: none;
-}
-.wrapped {
-  flex-wrap: wrap;
-}
-.wrapped li {
-  padding: 15px;
-  cursor: pointer;
 }
 .active {
   color: aqua;

@@ -148,7 +148,7 @@ import {
   ACTOR_IMDB_URL,
   MOVIE_IMDB_URL
 } from '@/config';
-import MovieCardComponent from './MovieCardComponent.vue';
+import MovieCardComponent from '../components/MovieCardComponent';
 
 Vue.use(require('vue-moment'));
 

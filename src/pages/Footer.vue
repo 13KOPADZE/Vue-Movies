@@ -6,7 +6,9 @@
       </p>
       <p>
         Author:
-        <a href="https://github.com/13KOPADZE/Vue-Movies">Giorgi Kopadze</a>
+        <a href="https://github.com/13KOPADZE/Vue-Movies" target="_blank">
+          Giorgi Kopadze
+        </a>
       </p>
     </div>
   </footer>
