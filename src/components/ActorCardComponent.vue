@@ -8,6 +8,7 @@
       <div>
         <div class="actor-name">Name: {{ actor.name }}</div>
         <div class="actor-character">Character: {{ actor.character }}</div>
+        <div class="clear"></div>
       </div>
     </div>
   </router-link>
@@ -28,6 +29,9 @@ export default {
 </script>
 
 <style scoped>
+.clear {
+  clear: both;
+}
 .actor-name {
   display: block;
   font-size: 18px;

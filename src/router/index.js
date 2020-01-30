@@ -3,8 +3,8 @@ import Router from 'vue-router';
 import HomePage from '@/pages/HomePage.vue';
 import MovieDetailsPage from '@/pages/MovieDetailsPage';
 import ActorDetailsPage from '@/pages/ActorsDetailsPage';
-import NotFound from '@/pages/NotFound';
-import UpcomingMovies from '@/pages/UpcomingMovies';
+import NotFound from '@/pages/NotFoundPage';
+import UpcomingMovies from '@/pages/UpcomingMoviesPage';
 import Search from '@/components/SearchComponent';
 
 Vue.use(Router);

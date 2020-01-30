@@ -160,6 +160,34 @@ export default {
     imdb_id(id) {
       return imdb_id(id);
     },
+
+    // Request for DATA of actor
+
+    actorData() {
+      axios
+        .get(
+          API_URL + '/3/person/' + this.$route.params.id + '?api_key=' + API_KEY
+        )
+        .then(response => {
+          this.results = response.data;
+        });
+    },
+
+    // Request for DATA About Movies
+
+    generateMovies() {
+      axios
+        .get(
+          API_URL +
+            '/3/person/' +
+            this.$route.params.id +
+            '/movie_credits?api_key=' +
+            API_KEY
+        )
+        .then(response => {
+          this.movies = response.data.cast.slice(0, 10);
+        });
+    },
     showAll() {
       axios
         .get(
@@ -173,29 +201,13 @@ export default {
           this.movies = response.data.cast;
         });
     }
+    // Request for DATA About Movies
   },
 
   mounted() {
-    // Request for DATA of actor
-    axios
-      .get(
-        API_URL + '/3/person/' + this.$route.params.id + '?api_key=' + API_KEY
-      )
-      .then(response => {
-        this.results = response.data;
-      });
-    // Request for DATA About Movies
-    axios
-      .get(
-        API_URL +
-          '/3/person/' +
-          this.$route.params.id +
-          '/movie_credits?api_key=' +
-          API_KEY
-      )
-      .then(response => {
-        this.movies = response.data.cast.slice(0, 10);
-      });
+    this.actorData();
+
+    this.generateMovies();
   }
 };
 </script>
