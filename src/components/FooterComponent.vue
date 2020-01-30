@@ -16,7 +16,7 @@
 
 <style scoped>
 footer {
-  display: flex !important;
+  display: flex;
   background: #353535;
   color: #fff;
   align-items: center;

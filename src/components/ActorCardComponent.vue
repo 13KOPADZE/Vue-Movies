@@ -19,14 +19,9 @@ export default {
   name: 'ActorCard',
 
   props: ['actor', 'image_url'],
-  data() {
-    return {
-      IMG_W500: IMG_W500
-    };
-  },
   computed: {
     actor_img: function() {
-      return this.IMG_W500 + this.actor.profile_path;
+      return IMG_W500 + this.actor.profile_path;
     }
   }
 };

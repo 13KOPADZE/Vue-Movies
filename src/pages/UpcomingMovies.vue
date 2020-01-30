@@ -11,17 +11,13 @@
       :centerMode="true"
     >
       <slide v-for="result in results" :key="result.id">
-        <SliderCardComponent
-          :movie="result"
-          :background_url="IMG_W1280"
-          :imdb_id="imdb_id"
-        />
+        <SliderCardComponent :movie="result" :imdb_id="imdb_id" />
       </slide>
     </hooper>
     <div class="search-background">
       <div class="search-background">
         <div class="genres">
-          <ul class="container d-flex wrapped genres ">
+          <ul class="container d-flex wrapped genres">
             <li
               @click="filterGeners(genres.id)"
               v-for="genres in genres"
@@ -52,7 +48,6 @@
         ></button>
       </div>
     </div>
-    <!-- Modal for Trailer -->
 
     <div class="container padding-around">
       <div class="tabs is-large">
@@ -68,44 +63,28 @@
 
       <div class="grid">
         <div
-          class="gridElement movie-info"
+          class="grid-element movie-info"
           v-for="result in results"
           :key="result.id"
         >
           <MovieCardComponent
             :movie="result"
             :image_url="IMG_W500"
-            :launchModal="launchModal"
             :imdb_id="imdb_id"
           />
         </div>
       </div>
-
-      <button
-        class="loadMore"
-        @click="loadMoreMovies"
-        @keydown="SearchResult(query)"
-      >
-        Load More
-      </button>
     </div>
   </div>
 </template>
 
 <script>
 import axios from 'axios';
-import {
-  API_KEY,
-  API_URL,
-  IMG_W500,
-  IMG_W1280,
-  MOVIE_IMDB_URL,
-  YOUTUBE_URL
-} from '@/config';
+import { API_KEY, API_URL, IMG_W500, YOUTUBE_URL } from '@/config';
 import MovieCardComponent from '../components/MovieCardComponent';
 import SliderCardComponent from '../components/SliderCardComponent';
 import { Hooper, Slide } from 'hooper';
-// import VueRouter from 'vue-router'
+import { imdb_id } from '../helper';
 
 export default {
   name: 'MoviesList',
@@ -119,57 +98,24 @@ export default {
 
   data() {
     return {
-      nextPage: 2,
-      IMG_W500: IMG_W500,
-      IMG_W1280: IMG_W1280,
       query: [],
       results: [],
       upcoming: [],
-      loadMore: [],
-      isHiding: false,
-      searchText: true,
       showModal: false,
       genres: [],
       trailers: [],
-      YOUTUBE_URL: YOUTUBE_URL
+      IMG_W500: IMG_W500
     };
   },
   computed: {
     movie_trailer: function() {
-      return this.YOUTUBE_URL + this.trailers;
+      return YOUTUBE_URL + this.trailers;
     }
   },
 
   methods: {
-    launchModal(id) {
-      axios
-        .get(API_URL + '/3/movie/' + id + '/videos?api_key=' + API_KEY)
-        .then(response => {
-          this.trailers = response.data.results[0].key;
-        });
-    },
     imdb_id(id) {
-      axios
-        .get(API_URL + '/3/movie/' + id + '?api_key=' + API_KEY)
-        .then(response => {
-          let imdbId = response.data.imdb_id;
-          window.open(MOVIE_IMDB_URL + imdbId, '_blank');
-        });
-    },
-
-    loadMoreMovies() {
-      axios
-        .get(
-          API_URL +
-            '/3/movie/upcoming?api_key=' +
-            API_KEY +
-            '&page=' +
-            this.nextPage
-        )
-        .then(response => {
-          this.results = this.results.concat(response.data.results);
-        });
-      this.nextPage++;
+      return imdb_id(id);
     },
 
     filterGeners(id) {

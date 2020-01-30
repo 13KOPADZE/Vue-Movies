@@ -18,9 +18,9 @@
 import axios from 'axios';
 import 'bulma/css/bulma.css';
 import 'nprogress/nprogress.css';
-import Header from './pages/Header.vue';
+import Header from './components/HeaderComponent.vue';
 import NProgress from 'nprogress';
-import Footer from './pages/Footer.vue';
+import Footer from './components/FooterComponent.vue';
 
 export default {
   name: 'app',
@@ -30,15 +30,27 @@ export default {
   },
   mounted() {
     // Add a request interceptor
-    axios.interceptors.request.use(function(config) {
-      NProgress.start();
-      return config;
-    });
+    axios.interceptors.request.use(
+      function(config) {
+        NProgress.start();
+        return config;
+      },
+      function(error) {
+        alert(error);
+        return Promise.reject(error);
+      }
+    );
     // Add a response interceptor
-    axios.interceptors.response.use(function(config) {
-      NProgress.done();
-      return config;
-    });
+    axios.interceptors.response.use(
+      function(config) {
+        NProgress.done();
+        return config;
+      },
+      function(error) {
+        alert(error);
+        return Promise.reject(error);
+      }
+    );
   }
 };
 </script>

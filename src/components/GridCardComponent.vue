@@ -2,14 +2,13 @@
   <div>
     <div class="grid">
       <div
-        class="gridElement movie-info"
+        class="grid-element movie-info"
         v-for="result in results"
         :key="result.id"
       >
         <MovieCardComponent
           :movie="result"
           :image_url="IMG_W500"
-          :launchModal="launchModal"
           :imdb_id="imdb_id"
         />
       </div>
@@ -24,14 +23,8 @@
 <script>
 import axios from 'axios';
 import MovieCardComponent from './MovieCardComponent.vue';
-import {
-  API_KEY,
-  API_URL,
-  IMG_W500,
-  IMG_W1280,
-  MOVIE_IMDB_URL
-} from '@/config';
-// import Events from '../Events';
+import { API_KEY, API_URL, IMG_W500 } from '@/config';
+import { imdb_id } from '../helper';
 
 export default {
   name: 'GridCardComponent',
@@ -44,20 +37,14 @@ export default {
 
   data() {
     return {
-      nextPage: 2,
+      currentPage: 1,
       IMG_W500: IMG_W500,
-      IMG_W1280: IMG_W1280,
       query: [],
-      results: [],
-      loadMore: []
+      results: []
     };
   },
 
   methods: {
-    /**
-     *
-     */
-
     loadMoreMovies() {
       axios
         .get(
@@ -65,51 +52,21 @@ export default {
             '/3/movie/popular?api_key=' +
             API_KEY +
             '&page=' +
-            this.nextPage
+            this.currentPage
         )
         .then(response => {
           this.results = this.results.concat(response.data.results);
         });
-      this.nextPage++;
-    },
-    /**
-     *
-     */
-
-    launchModal(id) {
-      axios
-        .get(API_URL + '/3/movie/' + id + '/videos?api_key=' + API_KEY)
-        .then(response => {
-          this.trailers = response.data.results[0].key;
-        });
+      this.currentPage++;
     },
 
-    /**
-     *
-     */
-
+    // Taking IMDB_ID for all movies
     imdb_id(id) {
-      axios
-        .get(API_URL + '/3/movie/' + id + '?api_key=' + API_KEY)
-        .then(response => {
-          let imdbId = response.data.imdb_id;
-          window.open(MOVIE_IMDB_URL + imdbId, '_blank');
-        });
-    },
-
-    /**
-     *
-     */
-
-    fetch(query) {
-      axios.get(query).then(response => {
-        this.results = response.data.results;
-      });
+      return imdb_id(id);
     }
   },
   mounted() {
-    this.fetch(API_URL + '/3/movie/popular?api_key=' + API_KEY);
+    this.loadMoreMovies(API_URL + '/3/movie/popular?api_key=' + API_KEY);
   }
 };
 </script>
-<style scoped></style>

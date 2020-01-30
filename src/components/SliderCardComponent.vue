@@ -7,12 +7,12 @@
     v-if="movie.backdrop_path"
   >
     <div class="container information-text d-flex align-items-center">
-      <div class="flex-direction-column">
+      <div class="information-board">
         <div>
           <div class="rating-release justify-content-between d-flex">
             <h1>{{ movie.original_title }}</h1>
 
-            <div class="imdbScore">
+            <div class="imdb-score">
               <h3>Imdb Rating</h3>
               <div @click="imdb_id(movie.id)">
                 <div class="score">
@@ -29,7 +29,7 @@
 
         <div class="about-movie">
           <router-link :to="{ name: 'show', params: { id: movie.id } }">
-            <button class="movieDetailsButton">
+            <button class="movie-details-button">
               Movie Details
             </button>
           </router-link>
@@ -46,44 +46,30 @@ export default {
 
   props: ['movie', 'background_url', 'imdb_id'],
 
-  data() {
-    return {
-      IMG_W1280: IMG_W1280
-    };
-  },
   computed: {
     slider_background: function() {
-      return this.IMG_W1280 + this.movie.backdrop_path;
+      return IMG_W1280 + this.movie.backdrop_path;
     }
   }
 };
 </script>
 
 <style scoped>
-.background {
-  width: 100%;
-  min-height: 800px;
-  height: 100%;
-  position: relative;
-  padding: 60px 20px;
-  background-size: cover;
-  background-position: center center, center center !important;
-}
 .information-text {
   height: 100%;
   color: rgb(255, 255, 255);
   background: rgba(0, 0, 0, 0);
   margin-bottom: 0px;
 }
-.flex-direction-column {
+.information-board {
   padding: 20px;
   background: rgba(0, 0, 0, 0.8);
   border-radius: 20px;
 }
-.imdbScore h3 {
+.imdb-score h3 {
   padding: 0px 0 10px 0;
 }
-.movieDetailsButton {
+.movie-details-button {
   cursor: pointer;
   width: 125px;
   height: 35px;
@@ -94,7 +80,7 @@ export default {
   background: mintcream;
   transition: 0.5s;
 }
-.movieDetailsButton:hover {
+.movie-details-button:hover {
   transform: scale(1.05);
   transition: 0.5s;
 }

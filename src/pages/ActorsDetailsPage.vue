@@ -1,10 +1,8 @@
 <template>
   <div>
-    <div class="navigation-bar">
+    <div class="navigation-bar padding-around">
       <div class="container navigation-content">
-        <router-link to="/">
-          <p>Home</p>
-        </router-link>
+        <Home />
         <p>|</p>
         <p>{{ results.name }}</p>
       </div>
@@ -48,46 +46,21 @@
               </p>
               <p v-else>No Info</p>
             </div>
-            <div class="birthday">
-              <!-- <p>{{result.birthday}}</p> -->
-            </div>
           </div>
         </section>
       </div>
     </div>
     <div class="navigation-bar">
       <div class="container justify-content-between d-flex">
-        <div class="actor-info paddinga-around">
+        <div class="actor-info padding-around">
           <div>
             <h3>Gender</h3>
             <div>
               <div class="gender" v-if="results.gender == 1">
-                <svg
-                  height="15px"
-                  width="15px"
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 349.54 349.54"
-                >
-                  <path
-                    fill="#fff"
-                    d="M284.17 89.848a110.29 110.29 0 00-6.32-20.84 110.857 110.857 0 00-10.32-19.28 112.403 112.403 0 00-30.92-30.96 110.512 110.512 0 00-40-16.64 113.15 113.15 0 00-43.68 0 110.47 110.47 0 00-40 16.64 112.409 112.409 0 00-30.92 30.92 110.53 110.53 0 00-16.64 40 113.112 113.112 0 000 43.68 110.47 110.47 0 0016.64 40 112.243 112.243 0 0043.04 37.96 110.987 110.987 0 0033.6 10.88 4.4 4.4 0 014 4.56v31.6a4.4 4.4 0 01-4.4 4.4h-46.64a11.999 11.999 0 00-8.4 3.48c-4.484 4.545-4.625 11.805-.32 16.52l.24.2a11.99 11.99 0 004 2.56c1.433.596 2.968.909 4.52.92h46.72a4.399 4.399 0 013.12 1.28 4.4 4.4 0 011.16 3.04v46.76a12.015 12.015 0 00.88 4.56 11.753 11.753 0 002.56 4 11.723 11.723 0 004 2.56 12.003 12.003 0 009.08 0 11.753 11.753 0 004-2.56 11.753 11.753 0 002.56-4c.587-1.448.886-2.997.88-4.56v-46.76a4.399 4.399 0 011.28-3.12 4.399 4.399 0 013.12-1.28h46.68a12.015 12.015 0 004.56-.88 11.738 11.738 0 004-2.56 11.753 11.753 0 002.56-4 12.003 12.003 0 000-9.08 12.004 12.004 0 00-1.16-2.16l-1.56-1.56a11.999 11.999 0 00-8.4-3.48h-46.76a4.399 4.399 0 01-3.12-1.28 4.399 4.399 0 01-1.28-3.12v-31.48a4.4 4.4 0 011.08-2.88 4.362 4.362 0 012.68-1.44 110.882 110.882 0 0034.12-10.64 111.999 111.999 0 0053.44-57.4 110.363 110.363 0 006.32-20.88 113.112 113.112 0 000-43.68zm-23.32 39v.16c-9.803 47.805-56.504 78.612-104.309 68.809-47.805-9.803-78.612-56.504-68.809-104.309 9.803-47.805 56.504-78.612 104.309-68.809 41.276 8.464 70.833 44.895 70.609 87.029a87.851 87.851 0 01-1.8 17.12z"
-                  />
-                </svg>
-                Female
+                <IconComponent name="female_icon" />
               </div>
               <div class="gender" v-else>
-                <svg
-                  height="15px"
-                  width="15px"
-                  viewBox="0 0 384 384"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    fill="#fff"
-                    d="M383.793 13.938c-.176-1.38-.48-2.708-.984-3.954-.016-.03-.016-.074-.024-.113 0-.008-.008-.016-.015-.023-.555-1.313-1.313-2.504-2.168-3.61-.211-.261-.418-.52-.641-.765-.914-1.032-1.906-1.985-3.059-2.762-.03-.024-.07-.031-.101-.055-1.114-.734-2.344-1.289-3.633-1.726-.32-.114-.633-.211-.961-.297C370.855.266 369.465 0 368 0H256c-8.832 0-16 7.168-16 16s7.168 16 16 16h73.367l-95.496 95.496C208.406 107.13 177.055 96 144 96 64.602 96 0 160.602 0 240s64.602 144 144 144 144-64.602 144-144c0-33.04-11.121-64.383-31.504-89.871L352 54.625V128c0 8.832 7.168 16 16 16s16-7.168 16-16V16c0-.336-.078-.656-.098-.984a16.243 16.243 0 00-.109-1.079zM144 352c-61.762 0-112-50.238-112-112s50.238-112 112-112c29.902 0 58.055 11.64 79.223 32.734C244.359 181.945 256 210.098 256 240c0 61.762-50.238 112-112 112zm0 0"
-                  />
-                </svg>
-                Male
+                <IconComponent name="male_icon" />
               </div>
             </div>
           </div>
@@ -109,12 +82,12 @@
       </div>
     </div>
 
-    <div class="container paddinga-around">
+    <div class="container padding-around">
       <h1 class="actors-heading">Movies</h1>
 
       <div class="grid">
         <div
-          class="gridElement movie-info"
+          class="grid-element movie-info"
           v-for="movie in movies"
           :key="movie.id"
         >
@@ -145,10 +118,12 @@ import {
   API_URL,
   IMG_W500,
   IMG_W1280,
-  ACTOR_IMDB_URL,
-  MOVIE_IMDB_URL
+  ACTOR_IMDB_URL
 } from '@/config';
 import MovieCardComponent from '../components/MovieCardComponent';
+import Home from '../components/BackToHomeComponent';
+import IconComponent from '../components/IconComponent';
+import { imdb_id } from '../helper';
 
 Vue.use(require('vue-moment'));
 
@@ -156,39 +131,34 @@ export default {
   name: 'ActorDetailsPage',
 
   components: {
-    MovieCardComponent
+    MovieCardComponent,
+    Home,
+    IconComponent
   },
 
   data() {
     return {
       results: [],
       movies: [],
-      ACTOR_IMDB_URL: ACTOR_IMDB_URL,
       IMG_W500: IMG_W500,
-      IMG_W1280: IMG_W1280,
       isActive: false
     };
   },
   computed: {
     background: function() {
-      return this.IMG_W1280 + this.results.profile_path;
+      return IMG_W1280 + this.results.profile_path;
     },
     actor_img: function() {
       return this.IMG_W500 + this.results.profile_path;
     },
     actor_imdb_link: function() {
-      return this.ACTOR_IMDB_URL + this.results.imdb_id + '/';
+      return ACTOR_IMDB_URL + this.results.imdb_id + '/';
     }
   },
 
   methods: {
     imdb_id(id) {
-      axios
-        .get(API_URL + '/3/movie/' + id + '?api_key=' + API_KEY)
-        .then(response => {
-          let imdbId = response.data.imdb_id;
-          window.open(MOVIE_IMDB_URL + imdbId, '_blank');
-        });
+      return imdb_id(id);
     },
     showAll() {
       axios
@@ -206,6 +176,7 @@ export default {
   },
 
   mounted() {
+    // Request for DATA of actor
     axios
       .get(
         API_URL + '/3/person/' + this.$route.params.id + '?api_key=' + API_KEY
@@ -213,6 +184,7 @@ export default {
       .then(response => {
         this.results = response.data;
       });
+    // Request for DATA About Movies
     axios
       .get(
         API_URL +
@@ -271,60 +243,24 @@ export default {
   font-size: 16px;
   margin: 0px 0px 10px;
 }
-.paddinga-around {
-  padding: 0 20px;
-}
-.navigation-bar {
-  display: flex !important;
-  -webkit-box-align: center;
-  align-items: center;
-  width: 100%;
-  height: 70px;
-  color: rgb(255, 255, 255);
-  background: rgb(53, 53, 53);
-}
-.navigation-content {
-  display: flex;
-  width: 100%;
-  margin: 0px auto;
-  padding: 0px 20px;
-}
-img {
-  width: 100%;
-  height: auto;
-  object-fit: cover;
-  transition: all 0.3s ease 0s;
-  border-radius: 20px;
-}
 p {
   font-family: Abel, sans-serif;
-  font-size: 22px;
+  font-size: 18px;
   float: left;
   color: rgb(255, 255, 255);
   padding-right: 10px;
   text-decoration: none;
 }
-
-@media screen and (max-width: 1024px) {
-  .actor-image {
-    margin: 0 auto;
-    float: none;
-    width: 500px;
-  }
-}
 @media screen and (max-width: 768px) {
   .actor-info p {
-    font-size: 17px;
+    font-size: 18px;
   }
 }
 @media screen and (max-width: 600px) {
   .actor-image {
     margin: 0 auto;
     float: none;
-    width: auto;
-  }
-  .navigation-bar {
-    height: auto;
+    width: 300px;
   }
   .justify-content-between {
     flex-direction: column;

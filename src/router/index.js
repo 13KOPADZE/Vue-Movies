@@ -5,7 +5,7 @@ import MovieDetailsPage from '@/pages/MovieDetailsPage';
 import ActorDetailsPage from '@/pages/ActorsDetailsPage';
 import NotFound from '@/pages/NotFound';
 import UpcomingMovies from '@/pages/UpcomingMovies';
-import Search from '@/components/Search';
+import Search from '@/components/SearchComponent';
 
 Vue.use(Router);
 

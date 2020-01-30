@@ -13,20 +13,24 @@ header {
   width: 3px;
   height: 3px;
 }
-
 ::-webkit-scrollbar-track {
   background: transparent;
 }
 ::-webkit-scrollbar-thumb {
   background: #32a2ec;
 }
-
 #nprogress .bar {
   height: 3px;
 }
 ::placeholder {
   font-size: 20px;
   color: #ccc;
+}
+img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: all 0.3s ease 0s;
 }
 .display-none {
   display: none;
@@ -67,14 +71,17 @@ header {
   max-width: 700px;
   margin-bottom: 50px;
   flex-direction: column;
+  padding: 20px;
 }
 .background {
+  display: flex;
+  align-items: center;
   width: 100%;
-  min-height: 600px;
+  min-height: 900px;
   position: relative;
   padding: 60px 20px;
   background-size: cover;
-  background-position: center center, center center !important;
+  background-position: center center, center center;
 }
 .trailer-button {
   border: 0px;
@@ -91,17 +98,31 @@ header {
   background: #fff;
   border-radius: 25px;
   cursor: pointer;
+  margin: 0 auto;
 }
 iframe {
   width: 640px;
   height: 400px;
   padding: 20px;
 }
+.homeLink {
+  color: #fff;
+  transition: 0.5s;
+  font-family: Abel, sans-serif;
+  font-size: 22px;
+  float: left;
+  color: rgb(255, 255, 255);
+  padding-right: 10px;
+  text-decoration: none;
+}
+.homeLink:hover {
+  transform: scale(1.05);
+  transition: 0.5s;
+}
 .genres p {
   text-align: center;
   color: #3298dc;
 }
-
 .genres {
   padding: 5px;
   color: #fff;
@@ -115,8 +136,25 @@ iframe {
   border-right: 1px solid #32a2ec;
   text-align: center;
 }
-.padding-around {
-  padding: 0 20px;
+.navigation-bar {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 70px;
+  color: rgb(255, 255, 255);
+  background: rgb(53, 53, 53);
+}
+.navigation-bar p {
+  font-size: 22px;
+  color: rgb(255, 255, 255);
+  padding: 5px;
+  text-decoration: none;
+}
+.navigation-content {
+  display: flex;
+  width: 100%;
+  margin: 0px auto;
+  align-items: center;
 }
 .actors-info {
   display: block;
@@ -137,7 +175,7 @@ iframe {
   object-fit: cover;
 }
 .movie-details {
-  max-width: 1280px;
+  max-width: 1350px;
   min-height: 450px;
   position: relative;
   margin: 0px auto;
@@ -153,6 +191,7 @@ iframe {
 .movie-avatar {
   width: 100%;
   position: relative;
+  height: 100%;
 }
 .movie-avatar .trailer_play {
   display: none;
@@ -236,7 +275,7 @@ iframe {
 }
 .delete:active,
 .modal-close:active {
-  background-color: none !important;
+  background-color: none;
 }
 .modal-content {
   justify-content: center;
@@ -247,7 +286,7 @@ iframe {
   margin: 0px 0px 0px 40px;
 }
 .control {
-  font-size: 1.5rem !important;
+  font-size: 1.5rem;
 }
 .grid {
   position: relative;
@@ -256,15 +295,27 @@ iframe {
   gap: 40px;
   margin-top: 40px;
 }
-.gridElement {
-  animation: 0.5s ease 0s 1 normal none running animateGrid;
+.actors-grid {
   position: relative;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(100px, 1fr));
+  gap: 40px;
+  padding: 0px 0px 40px 0px;
+}
+.grid-element {
   overflow: hidden;
 }
 
 @media screen and (max-width: 1024px) {
+  .padding-around {
+    padding: 10px 20px;
+  }
   .grid {
     grid-template-columns: repeat(4, minmax(100px, 1fr));
+    gap: 40px;
+  }
+  .actors-grid {
+    grid-template-columns: repeat(2, minmax(100px, 1fr));
     gap: 40px;
   }
 }
@@ -272,19 +323,31 @@ iframe {
   .grid {
     grid-template-columns: repeat(3, minmax(100px, 1fr));
   }
+  .actors-grid {
+    grid-template-columns: repeat(2, minmax(100px, 1fr));
+  }
 }
 @media screen and (max-width: 600px) {
   .grid {
     grid-template-columns: repeat(2, minmax(100px, 1fr));
   }
+  .actors-grid {
+    grid-template-columns: repeat(2, minmax(100px, 1fr));
+  }
   .information-section h3 {
-    font-size: 9px !important;
+    font-size: 9px;
     line-height: 0;
     margin-top: 30px;
+  }
+  .navigation-bar {
+    height: auto;
   }
 }
 @media screen and (max-width: 375px) {
   .grid {
+    grid-template-columns: repeat(1, minmax(100px, 1fr));
+  }
+  .actors-grid {
     grid-template-columns: repeat(1, minmax(100px, 1fr));
   }
 }

@@ -3,7 +3,7 @@
     <img :src="movie_img" v-if="movie.poster_path" />
     <img src="../assets/no-image.jpg" v-else />
     <div class="trailer_play">
-      <div class="d-flex justify-content-between">
+      <div class="d-flex justify-content-between margin-bottom">
         <div @click="imdb_id(movie.id)">
           <div class="score">
             <div style="color: black;">
@@ -13,20 +13,8 @@
         </div>
 
         <div @click="launchModal(movie.id)">
-          <button class="trailer-button">
-            <svg
-              style="cursor: pointer;"
-              @click="showModal = true"
-              xmlns="http://www.w3.org/2000/svg"
-              width="40px"
-              height="40px"
-              viewBox="0 0 461.001 461.001"
-            >
-              <path
-                d="M365.257 67.393H95.744C42.866 67.393 0 110.259 0 163.137v134.728c0 52.878 42.866 95.744 95.744 95.744h269.513c52.878 0 95.744-42.866 95.744-95.744V163.137c0-52.878-42.866-95.744-95.744-95.744zm-64.751 169.663l-126.06 60.123c-3.359 1.602-7.239-.847-7.239-4.568V168.607c0-3.774 3.982-6.22 7.348-4.514l126.06 63.881c3.748 1.899 3.683 7.274-.109 9.082z"
-                fill="#f61c0d"
-              />
-            </svg>
+          <button class="trailer-button" @click="showModal = true">
+            <IconComponent name="trailer" />
           </button>
         </div>
       </div>
@@ -47,12 +35,12 @@
         ></button>
       </div>
     </div>
-    <!-- Modal for Trailer -->
   </div>
 </template>
 
 <script>
 import axios from 'axios';
+import IconComponent from './IconComponent';
 import { API_URL, API_KEY, YOUTUBE_URL } from '@/config';
 
 export default {
@@ -60,9 +48,12 @@ export default {
 
   props: ['movie', 'image_url', 'imdb_id'],
 
+  components: {
+    IconComponent
+  },
+
   data() {
     return {
-      YOUTUBE_URL: YOUTUBE_URL,
       showModal: false,
       trailers: []
     };
@@ -73,7 +64,7 @@ export default {
       return this.image_url + this.movie.poster_path;
     },
     movie_trailer: function() {
-      return this.YOUTUBE_URL + this.trailers;
+      return YOUTUBE_URL + this.trailers;
     }
   },
 
@@ -90,7 +81,7 @@ export default {
 </script>
 
 <style scoped>
-.justify-content-between {
+.margin-bottom {
   margin-bottom: auto;
 }
 .modal-close {

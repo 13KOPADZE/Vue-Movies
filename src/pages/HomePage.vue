@@ -51,16 +51,10 @@
 <script>
 import axios from 'axios';
 
-import {
-  API_KEY,
-  API_URL,
-  IMG_W500,
-  IMG_W1280,
-  MOVIE_IMDB_URL,
-  YOUTUBE_URL
-} from '@/config';
+import { API_KEY, API_URL, IMG_W500, IMG_W1280, YOUTUBE_URL } from '@/config';
 import SliderCardComponent from '../components/SliderCardComponent.vue';
 import GridCardComponent from '../components/GridCardComponent';
+import { imdb_id } from '../helper';
 
 import { Hooper, Slide } from 'hooper';
 
@@ -83,10 +77,8 @@ export default {
       results: [],
       upcoming: [],
       loadMore: [],
-      isHiding: false,
       searchText: true,
       genres: [],
-      MOVIE_IMDB_URL: MOVIE_IMDB_URL,
       YOUTUBE_URL: YOUTUBE_URL,
       trailers: [],
       movie_id: []
@@ -94,53 +86,10 @@ export default {
   },
 
   methods: {
-    /**
-     *
-     */
-
-    loadMoreMovies() {
-      axios
-        .get(
-          API_URL +
-            '/3/movie/popular?api_key=' +
-            API_KEY +
-            '&page=' +
-            this.nextPage
-        )
-        .then(response => {
-          this.results = this.results.concat(response.data.results);
-        });
-      this.nextPage++;
-    },
-
-    /**
-     *
-     */
-
-    launchModal(id) {
-      axios
-        .get(API_URL + '/3/movie/' + id + '/videos?api_key=' + API_KEY)
-        .then(response => {
-          this.trailers = response.data.results[0].key;
-        });
-    },
-
-    /**
-     *
-     */
-
     imdb_id(id) {
-      axios
-        .get(API_URL + '/3/movie/' + id + '?api_key=' + API_KEY)
-        .then(response => {
-          let imdbId = response.data.imdb_id;
-          window.open(MOVIE_IMDB_URL + imdbId, '_blank');
-        });
+      return imdb_id(id);
     },
 
-    /**
-     *
-     */
     filterGeners(id) {
       let query =
         API_URL +
@@ -151,28 +100,15 @@ export default {
       this.fetch(query);
     },
 
-    /**
-     *
-     */
     fetch(query) {
       axios.get(query).then(response => {
         this.results = response.data.results;
       });
     }
-
-    /**
-     *
-     */
   },
 
   mounted() {
     this.fetch(API_URL + '/3/movie/popular?api_key=' + API_KEY);
-
-    axios
-      .get(API_URL + '/3/movie/upcoming?api_key=' + API_KEY)
-      .then(response => {
-        this.upcoming = response.data.results;
-      });
 
     axios
       .get(API_URL + '/3/genre/movie/list?api_key=' + API_KEY)
@@ -185,31 +121,6 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-.searchText {
-  align-items: center;
-  border-bottom-color: #dbdbdb;
-  border-bottom-style: solid;
-  border-bottom-width: 1px;
-  color: #4a4a4a;
-  display: flex;
-  justify-content: center;
-  margin-bottom: -1px;
-  padding: 0.5em 1em;
-  vertical-align: top;
-}
-
-.informationText {
-  height: 100%;
-  color: rgb(255, 255, 255);
-  background: rgba(0, 0, 0, 0);
-  margin-bottom: 0px;
-}
-.flex-direction-column {
-  max-width: 700px;
-  margin-bottom: 50px;
-  flex-direction: column;
-  padding: 20px;
-}
 .hooper {
   display: flex;
   outline: none;
