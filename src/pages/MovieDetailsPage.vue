@@ -23,7 +23,7 @@
             <div>
               <h3>Imdb Rating</h3>
               <div class="score">
-                <a :href="imdb_score" target="_blank">
+                <a :href="imdbScore" target="_blank">
                   <div style="color: black;">
                     {{ results.vote_average | imdbNumber }}
                   </div>
@@ -38,7 +38,7 @@
           </div>
           <div
             class="d-flex align-items-center youtube-icon"
-            @click="trailerRequest"
+            @click="trailerKeyGenerate"
           >
             <h1>Trailer:</h1>
             <button
@@ -57,10 +57,7 @@
               <div class="modal-background"></div>
 
               <div class="modal-content">
-                <iframe
-                  v-bind:src="movie_trailer"
-                  v-if="this.trailers"
-                ></iframe>
+                <iframe v-bind:src="movieTrailer"></iframe>
 
                 <button
                   class="modal-close is-large"
@@ -123,11 +120,7 @@
             v-for="movie in similarMovie"
             :key="movie.id"
           >
-            <MovieCardComponent
-              :movie="movie"
-              :image_url="IMG_W500"
-              :imdb_id="imdb_id"
-            />
+            <MovieCardComponent :movie="movie" :image_url="IMG_W500" />
           </div>
         </div>
       </div>
@@ -138,7 +131,6 @@
 <script>
 import axios from 'axios';
 import { API_KEY, API_URL, YOUTUBE_URL, IMG_W1280, IMG_W500 } from '@/config';
-import { imdb_id } from '../helper';
 import Vue from 'vue';
 import ActorCardComponent from '../components/ActorCardComponent.vue';
 import MovieCardComponent from '../components/MovieCardComponent';
@@ -195,7 +187,6 @@ export default {
 
   data() {
     return {
-      nextPage: 2,
       results: [],
       casts: [],
       similarMovie: [],
@@ -218,10 +209,10 @@ export default {
     posterIMG: function() {
       return this.IMG_W500 + this.results.poster_path;
     },
-    imdb_score: function() {
+    imdbScore: function() {
       return this.MOVIE_IMDB_URL + this.results.imdb_id;
     },
-    movie_trailer: function() {
+    movieTrailer: function() {
       return YOUTUBE_URL + this.trailers;
     }
   },
@@ -282,7 +273,7 @@ export default {
         });
     },
 
-    trailerRequest() {
+    trailerKeyGenerate() {
       axios
         .get(
           API_URL +
@@ -294,10 +285,6 @@ export default {
         .then(response => {
           this.trailers = response.data.results[0].key;
         });
-    },
-
-    imdb_id(id) {
-      return imdb_id(id);
     }
   },
 
@@ -316,6 +303,13 @@ export default {
 .movie-image {
   width: 300px;
   float: left;
+}
+.movie-image img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  transition: all 0.3s ease 0s;
+  border-radius: 20px;
 }
 
 .rating-release {

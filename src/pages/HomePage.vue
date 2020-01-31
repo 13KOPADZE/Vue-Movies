@@ -11,11 +11,7 @@
       :centerMode="true"
     >
       <slide v-for="result in results" :key="result.id">
-        <SliderCardComponent
-          :movie="result"
-          :background_url="IMG_W1280"
-          :imdb_id="imdb_id"
-        />
+        <SliderCardComponent :movie="result" />
       </slide>
     </hooper>
     <div></div>
@@ -51,10 +47,9 @@
 <script>
 import axios from 'axios';
 
-import { API_KEY, API_URL, IMG_W500, IMG_W1280, YOUTUBE_URL } from '@/config';
+import { API_KEY, API_URL } from '@/config';
 import SliderCardComponent from '../components/SliderCardComponent.vue';
 import GridCardComponent from '../components/GridCardComponent';
-import { imdb_id } from '../helper';
 
 import { Hooper, Slide } from 'hooper';
 
@@ -70,26 +65,13 @@ export default {
 
   data() {
     return {
-      nextPage: 2,
-      IMG_W500: IMG_W500,
-      IMG_W1280: IMG_W1280,
       query: [],
       results: [],
-      upcoming: [],
-      loadMore: [],
-      searchText: true,
-      genres: [],
-      YOUTUBE_URL: YOUTUBE_URL,
-      trailers: [],
-      movie_id: []
+      genres: []
     };
   },
 
   methods: {
-    imdb_id(id) {
-      return imdb_id(id);
-    },
-
     filterGeners(id) {
       let query =
         API_URL +

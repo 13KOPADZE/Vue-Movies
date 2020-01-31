@@ -2,7 +2,7 @@
   <router-link :to="{ name: 'actor', params: { id: actor.id } }">
     <div class="actors-info" v-if="actor">
       <div class="img-style">
-        <img v-bind:src="actor_img" v-if="actor.profile_path" />
+        <img v-bind:src="actorImg" v-if="actor.profile_path" />
         <img src="../assets/no-image.jpg" v-else />
       </div>
       <div>
@@ -21,7 +21,7 @@ export default {
 
   props: ['actor', 'image_url'],
   computed: {
-    actor_img: function() {
+    actorImg: function() {
       return IMG_W500 + this.actor.profile_path;
     }
   }

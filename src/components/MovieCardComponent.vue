@@ -1,5 +1,5 @@
 <template>
-  <div class="movie-avatar" @keydown.esc="showModal = false" tabindex="0">
+  <div class="movie-avatar">
     <img :src="movie_img" v-if="movie.poster_path" />
     <img src="../assets/no-image.jpg" v-else />
     <div class="trailer_play">
@@ -11,70 +11,38 @@
             </div>
           </div>
         </div>
-
-        <div @click="launchModal(movie.id)">
-          <button class="trailer-button" @click="showModal = true">
-            <IconComponent name="trailer" />
-          </button>
-        </div>
+        <TrailerComponent :movie="movie" />
       </div>
       <router-link :to="{ name: 'show', params: { id: movie.id } }">
         <span class="movie-name">{{ movie.original_title }}</span>
       </router-link>
     </div>
-    <div v-if="showModal" @click="showModal = false" class="modal is-active">
-      <div class="modal-background"></div>
-
-      <div class="modal-content">
-        <iframe v-bind:src="movie_trailer"></iframe>
-
-        <button
-          class="modal-close is-large"
-          aria-label="close"
-          @click="$emit('close')"
-        ></button>
-      </div>
-    </div>
   </div>
 </template>
 
 <script>
-import axios from 'axios';
-import IconComponent from './IconComponent';
-import { API_URL, API_KEY, YOUTUBE_URL } from '@/config';
+import TrailerComponent from './TrailerComponent';
+import { IMG_W500 } from '@/config';
+import { imdb_id } from '../helper';
 
 export default {
   name: 'MovieCard',
 
-  props: ['movie', 'image_url', 'imdb_id'],
+  props: ['movie'],
 
   components: {
-    IconComponent
-  },
-
-  data() {
-    return {
-      showModal: false,
-      trailers: []
-    };
+    TrailerComponent
   },
 
   computed: {
     movie_img: function() {
-      return this.image_url + this.movie.poster_path;
-    },
-    movie_trailer: function() {
-      return YOUTUBE_URL + this.trailers;
+      return IMG_W500 + this.movie.poster_path;
     }
   },
 
   methods: {
-    launchModal(id) {
-      axios
-        .get(API_URL + '/3/movie/' + id + '/videos?api_key=' + API_KEY)
-        .then(response => {
-          this.trailers = response.data.results[0].key;
-        });
+    imdb_id(id) {
+      return imdb_id(id);
     }
   }
 };

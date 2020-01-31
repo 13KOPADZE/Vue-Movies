@@ -13,11 +13,7 @@
             v-for="result in results"
             :key="result.id"
           >
-            <MovieCardComponent
-              :movie="result"
-              :image_url="IMG_W500"
-              :imdb_id="imdb_id"
-            />
+            <MovieCardComponent :movie="result" />
           </div>
         </div>
       </div>
@@ -38,10 +34,8 @@
 
 <script>
 import MovieCardComponent from './MovieCardComponent';
-import { IMG_W500 } from '@/config';
 import Events from '../Events';
 import IconComponent from './IconComponent';
-import { imdb_id } from '../helper';
 
 export default {
   name: 'search',
@@ -53,8 +47,6 @@ export default {
 
   data() {
     return {
-      nextPage: 2,
-      IMG_W500: IMG_W500,
       query: [],
       results: []
     };
@@ -63,9 +55,6 @@ export default {
   methods: {
     setResults(results) {
       this.results = results;
-    },
-    imdb_id(id) {
-      return imdb_id(id);
     }
   },
   created() {
@@ -93,14 +82,5 @@ ul li {
   color: #3273dc;
   border-bottom: 1px solid #3273dc;
   font-size: 30px;
-}
-.input {
-  border: none;
-  border-radius: 30px;
-  background: #353535;
-  color: aliceblue;
-  font-size: 20px;
-  outline: none;
-  height: 60px;
 }
 </style>

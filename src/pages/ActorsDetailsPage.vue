@@ -91,11 +91,7 @@
           v-for="movie in movies"
           :key="movie.id"
         >
-          <MovieCardComponent
-            :movie="movie"
-            :image_url="IMG_W500"
-            :imdb_id="imdb_id"
-          />
+          <MovieCardComponent :movie="movie" />
         </div>
       </div>
       <button
@@ -123,7 +119,6 @@ import {
 import MovieCardComponent from '../components/MovieCardComponent';
 import Home from '../components/BackToHomeComponent';
 import IconComponent from '../components/IconComponent';
-import { imdb_id } from '../helper';
 
 Vue.use(require('vue-moment'));
 
@@ -140,7 +135,6 @@ export default {
     return {
       results: [],
       movies: [],
-      IMG_W500: IMG_W500,
       isActive: false
     };
   },
@@ -149,7 +143,7 @@ export default {
       return IMG_W1280 + this.results.profile_path;
     },
     actor_img: function() {
-      return this.IMG_W500 + this.results.profile_path;
+      return IMG_W500 + this.results.profile_path;
     },
     actor_imdb_link: function() {
       return ACTOR_IMDB_URL + this.results.imdb_id + '/';
@@ -157,10 +151,6 @@ export default {
   },
 
   methods: {
-    imdb_id(id) {
-      return imdb_id(id);
-    },
-
     // Request for DATA of actor
 
     actorData() {

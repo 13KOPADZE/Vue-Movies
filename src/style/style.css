@@ -105,7 +105,7 @@ iframe {
   height: 400px;
   padding: 20px;
 }
-.homeLink {
+.home-link {
   color: #fff;
   transition: 0.5s;
   font-family: Abel, sans-serif;
@@ -115,7 +115,7 @@ iframe {
   padding-right: 10px;
   text-decoration: none;
 }
-.homeLink:hover {
+.home-link:hover {
   transform: scale(1.05);
   transition: 0.5s;
 }

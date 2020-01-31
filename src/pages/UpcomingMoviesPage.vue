@@ -11,7 +11,7 @@
       :centerMode="true"
     >
       <slide v-for="result in results" :key="result.id">
-        <SliderCardComponent :movie="result" :imdb_id="imdb_id" />
+        <SliderCardComponent :movie="result" />
       </slide>
     </hooper>
     <div class="search-background">
@@ -29,26 +29,6 @@
         </div>
       </div>
     </div>
-    <div
-      @keydown.esc="showModal = false"
-      tabindex="0"
-      v-if="showModal"
-      @click="showModal = false"
-      class="modal is-active"
-    >
-      <div class="modal-background"></div>
-
-      <div class="modal-content">
-        <iframe v-bind:src="movie_trailer"></iframe>
-
-        <button
-          class="modal-close is-large"
-          aria-label="close"
-          @click="$emit('close')"
-        ></button>
-      </div>
-    </div>
-
     <div class="container padding-around">
       <div class="tabs is-large">
         <ul>
@@ -67,11 +47,7 @@
           v-for="result in results"
           :key="result.id"
         >
-          <MovieCardComponent
-            :movie="result"
-            :image_url="IMG_W500"
-            :imdb_id="imdb_id"
-          />
+          <MovieCardComponent :movie="result" :image_url="IMG_W500" />
         </div>
       </div>
     </div>
@@ -84,7 +60,6 @@ import { API_KEY, API_URL, IMG_W500, YOUTUBE_URL } from '@/config';
 import MovieCardComponent from '../components/MovieCardComponent';
 import SliderCardComponent from '../components/SliderCardComponent';
 import { Hooper, Slide } from 'hooper';
-import { imdb_id } from '../helper';
 
 export default {
   name: 'MoviesList',
@@ -114,10 +89,6 @@ export default {
   },
 
   methods: {
-    imdb_id(id) {
-      return imdb_id(id);
-    },
-
     filterGeners(id) {
       let query =
         API_URL +

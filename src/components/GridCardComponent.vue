@@ -6,15 +6,11 @@
         v-for="result in results"
         :key="result.id"
       >
-        <MovieCardComponent
-          :movie="result"
-          :image_url="IMG_W500"
-          :imdb_id="imdb_id"
-        />
+        <MovieCardComponent :movie="result" />
       </div>
     </div>
 
-    <button class="loadMore" @click="loadMoreMovies">
+    <button class="loadMore" @click="MovieList">
       Load More
     </button>
   </div>
@@ -23,13 +19,10 @@
 <script>
 import axios from 'axios';
 import MovieCardComponent from './MovieCardComponent.vue';
-import { API_KEY, API_URL, IMG_W500 } from '@/config';
-import { imdb_id } from '../helper';
+import { API_KEY, API_URL } from '@/config';
 
 export default {
   name: 'GridCardComponent',
-
-  props: ['SearchResult'],
 
   components: {
     MovieCardComponent
@@ -38,14 +31,13 @@ export default {
   data() {
     return {
       currentPage: 1,
-      IMG_W500: IMG_W500,
       query: [],
       results: []
     };
   },
 
   methods: {
-    loadMoreMovies() {
+    MovieList() {
       axios
         .get(
           API_URL +
@@ -58,15 +50,10 @@ export default {
           this.results = this.results.concat(response.data.results);
         });
       this.currentPage++;
-    },
-
-    // Taking IMDB_ID for all movies
-    imdb_id(id) {
-      return imdb_id(id);
     }
   },
   mounted() {
-    this.loadMoreMovies(API_URL + '/3/movie/popular?api_key=' + API_KEY);
+    this.MovieList();
   }
 };
 </script>

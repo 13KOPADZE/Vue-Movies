@@ -2,7 +2,7 @@
   <div
     class="background"
     :style="{
-      backgroundImage: `url(${slider_background})`
+      backgroundImage: `url(${sliderBackground})`
     }"
     v-if="movie.backdrop_path"
   >
@@ -14,7 +14,7 @@
 
             <div class="imdb-score">
               <h3>Imdb Rating</h3>
-              <div @click="imdb_id(movie.id)">
+              <div @click="imdbId(movie.id)">
                 <div class="score">
                   <div style="color: black;">
                     {{ movie.vote_average | imdbNumber }}
@@ -41,14 +41,20 @@
 
 <script>
 import { IMG_W1280 } from '@/config';
+import { imdb_id } from '../helper';
 export default {
   name: 'SliderCard',
 
-  props: ['movie', 'background_url', 'imdb_id'],
+  props: ['movie', 'background_url'],
 
   computed: {
-    slider_background: function() {
+    sliderBackground: function() {
       return IMG_W1280 + this.movie.backdrop_path;
+    }
+  },
+  methods: {
+    imdbId(id) {
+      return imdb_id(id);
     }
   }
 };
