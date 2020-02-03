@@ -130,11 +130,13 @@ iframe {
   overflow: auto;
 }
 .genres li {
-  padding: 0px 20px;
+  display: flex;
+  align-items: center;
   cursor: pointer;
+  height: 45px;
+  padding: 0px 20px;
   transition: 0.5s;
   border-right: 1px solid #32a2ec;
-  text-align: center;
 }
 .navigation-bar {
   display: flex;

@@ -130,7 +130,14 @@
 
 <script>
 import axios from 'axios';
-import { API_KEY, API_URL, YOUTUBE_URL, IMG_W1280, IMG_W500 } from '@/config';
+import {
+  API_KEY,
+  API_URL,
+  YOUTUBE_URL,
+  MOVIE_IMDB_URL,
+  IMG_W1280,
+  IMG_W500
+} from '@/config';
 import Vue from 'vue';
 import ActorCardComponent from '../components/ActorCardComponent.vue';
 import MovieCardComponent from '../components/MovieCardComponent';
@@ -210,7 +217,7 @@ export default {
       return this.IMG_W500 + this.results.poster_path;
     },
     imdbScore: function() {
-      return this.MOVIE_IMDB_URL + this.results.imdb_id;
+      return MOVIE_IMDB_URL + this.results.imdb_id;
     },
     movieTrailer: function() {
       return YOUTUBE_URL + this.trailers;
