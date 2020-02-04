@@ -307,10 +307,6 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-.movie-image {
-  width: 300px;
-  float: left;
-}
 .movie-image img {
   width: 100%;
   height: auto;
@@ -318,18 +314,17 @@ export default {
   transition: all 0.3s ease 0s;
   border-radius: 20px;
 }
-
 .rating-release {
   display: flex;
   justify-content: flex-start;
 }
 .svg-style p {
   margin-right: 10px;
+  font-size: 17px;
 }
 .svg-style {
   align-items: center;
 }
-
 .actors-heading {
   margin-top: 20px;
   font-family: Abel, sans-serif;
@@ -342,15 +337,13 @@ export default {
 .actors-grid-element:nth-child(4n + 3) {
   background: #eaeaea;
 }
-
 .score {
-  margin-top: 15px;
+  margin-top: 20px;
 }
 .youtube-icon h1 {
   font-size: 25px;
   padding-right: 20px;
 }
-
 .youtube-icon {
   margin-top: 15px;
 }

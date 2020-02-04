@@ -72,6 +72,9 @@ export default {
   background: rgba(0, 0, 0, 0.8);
   border-radius: 20px;
 }
+.score {
+  margin: 0 auto;
+}
 .imdb-score h3 {
   padding: 0px 0 10px 0;
 }

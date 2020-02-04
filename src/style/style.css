@@ -98,7 +98,6 @@ img {
   background: #fff;
   border-radius: 25px;
   cursor: pointer;
-  margin: 0 auto;
 }
 iframe {
   width: 640px;
@@ -190,6 +189,10 @@ iframe {
   display: block;
   color: #fff;
 }
+.movie-image {
+  width: 300px;
+  float: left;
+}
 .movie-avatar {
   width: 100%;
   position: relative;
@@ -253,7 +256,7 @@ iframe {
 }
 .information-section p {
   font-family: Abel, sans-serif;
-  font-size: 18px;
+  font-size: 17px;
   line-height: 26px;
   margin-top: 20px;
 }
@@ -328,6 +331,13 @@ iframe {
   .actors-grid {
     grid-template-columns: repeat(2, minmax(100px, 1fr));
   }
+  .movie-image {
+    margin: 0 auto;
+    float: none;
+  }
+  p {
+    font-size: 15px;
+  }
 }
 @media screen and (max-width: 600px) {
   .grid {
@@ -337,7 +347,6 @@ iframe {
     grid-template-columns: repeat(2, minmax(100px, 1fr));
   }
   .information-section h3 {
-    font-size: 9px;
     line-height: 0;
     margin-top: 30px;
   }

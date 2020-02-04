@@ -57,7 +57,7 @@ export default {
       this.results = results;
     }
   },
-  created() {
+  mounted: function mounted() {
     Events.$on('search', this.setResults);
   }
 };

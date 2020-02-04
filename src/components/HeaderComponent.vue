@@ -55,7 +55,6 @@ export default {
       query == ''
         ? (url = API_URL + '/3/movie/popular?api_key=' + API_KEY)
         : true;
-
       this.fetch(url);
       this.$router.push({ name: 'search', query: { query } });
     }
