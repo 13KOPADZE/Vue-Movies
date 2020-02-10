@@ -47,7 +47,7 @@
           v-for="result in results"
           :key="result.id"
         >
-          <MovieCardComponent :movie="result" :image_url="IMG_W500" />
+          <MovieCardComponent :movie="result" />
         </div>
       </div>
     </div>
@@ -56,7 +56,7 @@
 
 <script>
 import axios from 'axios';
-import { API_KEY, API_URL, IMG_W500, YOUTUBE_URL } from '@/config';
+import { API_KEY, API_URL, YOUTUBE_URL } from '@/config';
 import MovieCardComponent from '../components/MovieCardComponent';
 import SliderCardComponent from '../components/SliderCardComponent';
 import { Hooper, Slide } from 'hooper';
@@ -78,8 +78,7 @@ export default {
       upcoming: [],
       showModal: false,
       genres: [],
-      trailers: [],
-      IMG_W500: IMG_W500
+      trailers: []
     };
   },
   computed: {

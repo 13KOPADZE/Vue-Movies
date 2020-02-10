@@ -96,7 +96,7 @@
           v-for="cast in casts"
           :key="cast.id"
         >
-          <ActorCardComponent :actor="cast" :image_url="IMG_W500" />
+          <ActorCardComponent :actor="cast" />
         </div>
       </div>
 
@@ -120,7 +120,7 @@
             v-for="movie in similarMovie"
             :key="movie.id"
           >
-            <MovieCardComponent :movie="movie" :image_url="IMG_W500" />
+            <MovieCardComponent :movie="movie" />
           </div>
         </div>
       </div>
@@ -201,7 +201,6 @@ export default {
       params: [],
       showModal: false,
       isActive: false,
-      IMG_W500: IMG_W500,
       DurationForma: DurationForma
     };
   },
@@ -214,7 +213,7 @@ export default {
       }
     },
     posterIMG: function() {
-      return this.IMG_W500 + this.results.poster_path;
+      return IMG_W500 + this.results.poster_path;
     },
     imdbScore: function() {
       return MOVIE_IMDB_URL + this.results.imdb_id;

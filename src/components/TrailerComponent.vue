@@ -54,7 +54,6 @@ export default {
           this.trailers = response.data.results[0].key;
         });
       this.showModal = true;
-      console.log(this.trailerKeyGenerate);
     }
   }
 };

@@ -9,3 +9,11 @@ export function imdb_id(id) {
       window.open(MOVIE_IMDB_URL + imdb_id, '_blank');
     });
 }
+
+export function geners() {
+  axios
+    .get(API_URL + '/3/genre/movie/list?api_key=' + API_KEY)
+    .then(response => {
+      this.geners = response.data.genres;
+    });
+}

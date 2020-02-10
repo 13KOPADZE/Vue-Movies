@@ -5,7 +5,7 @@ import MovieDetailsPage from '@/pages/MovieDetailsPage';
 import ActorDetailsPage from '@/pages/ActorsDetailsPage';
 import NotFound from '@/pages/NotFoundPage';
 import UpcomingMovies from '@/pages/UpcomingMoviesPage';
-import Search from '@/components/SearchComponent';
+import SearchComponent from '@/components/SearchComponent';
 
 Vue.use(Router);
 
@@ -19,7 +19,7 @@ export default new Router({
     {
       path: '/search',
       name: 'search',
-      component: Search
+      component: SearchComponent
     },
     {
       path: '/popular-movies',

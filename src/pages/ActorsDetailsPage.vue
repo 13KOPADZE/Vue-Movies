@@ -51,7 +51,7 @@
       </div>
     </div>
     <div class="navigation-bar">
-      <div class="container justify-content-between d-flex">
+      <div class="container justify-content-between flex-column d-flex">
         <div class="actor-info padding-around">
           <div>
             <h3>Gender</h3>
@@ -215,7 +215,6 @@ export default {
   transition: all 0.3s ease 0s;
   border-radius: 20px;
 }
-
 .actor-info {
   display: flex;
   justify-content: space-between;
@@ -227,14 +226,12 @@ export default {
 .imdb_id {
   margin-top: 15px;
 }
-
 .actors-heading {
   margin-top: 20px;
   font-family: Abel, sans-serif;
   font-size: 48px;
   color: rgb(0, 0, 0);
 }
-
 .actor-name {
   display: block;
   font-size: 18px;
@@ -264,7 +261,7 @@ p {
     float: none;
     width: 300px;
   }
-  .justify-content-between {
+  .flex-column {
     flex-direction: column;
     padding: 20px;
   }

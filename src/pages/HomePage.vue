@@ -46,7 +46,6 @@
 
 <script>
 import axios from 'axios';
-
 import { API_KEY, API_URL } from '@/config';
 import SliderCardComponent from '../components/SliderCardComponent.vue';
 import GridCardComponent from '../components/GridCardComponent';
